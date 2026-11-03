@@ -6,7 +6,8 @@
         {
           "nom": "Préparation des vols ACBT",
           "description": "L'outil de préparation des vols du club.",
-          "lien": "https://prepa-vols-acbt.pages.dev/"
+          "lien": "https://prepa-vols-acbt.pages.dev/",
+          "logo": "/uploads/outils/prepa-vols-acbt.png"
         },
         {
           "nom": "SOFIA Briefing",
