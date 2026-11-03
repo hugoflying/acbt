@@ -55,7 +55,7 @@ const sommaire = [
             {c.outils.map((o) => (
               <a class="card outil" href={o.lien} target="_blank" rel="noopener" data-q={`${o.nom} ${o.description}`.toLowerCase()}><div class="card-body">
                 <div class="outil-tete">
-                  <span class="logo-site" data-init={o.nom.replace(/[^A-Za-zÀ-ÿ0-9]/g, '').slice(0, 2).toUpperCase()}>
+                  <span class:list={['logo-site', { perso: (o as { logo?: string }).logo }]} data-init={o.nom.replace(/[^A-Za-zÀ-ÿ0-9]/g, '').slice(0, 2).toUpperCase()}>
                     <img src={(o as { logo?: string }).logo ? asset((o as { logo?: string }).logo!) : `https://www.google.com/s2/favicons?domain=${host(o.lien)}&sz=128`} alt="" width="40" height="40" loading="lazy" onerror="this.remove()" />
                   </span>
                   <h4>{o.nom} ↗</h4>
@@ -183,6 +183,8 @@ const sommaire = [
   .outil-tete { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
   .logo-site { position: relative; flex: none; width: 48px; height: 48px; border-radius: 12px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
   .logo-site::before { content: attr(data-init); font-family: var(--font-title); font-weight: 700; font-size: .95rem; color: var(--accent); }
+  .logo-site.perso { width: 96px; padding: 6px 8px; }
+  .logo-site.perso img { width: calc(100% - 16px); height: 34px; }
   .logo-site img { position: absolute; inset: 0; margin: auto; width: 32px; height: 32px; object-fit: contain; background: #fff; }
   .outil:hover h4 { color: var(--accent); }
   .outil p { font-size: .92rem; color: var(--muted); }

@@ -6,7 +6,8 @@
         {
           "nom": "SOFIA Briefing",
           "description": "Dossier de vol, NOTAM, météo et dépôt de plan de vol (DGAC).",
-          "lien": "https://sofia-briefing.aviation-civile.gouv.fr/sofia/pages/homepage.html"
+          "lien": "https://sofia-briefing.aviation-civile.gouv.fr/sofia/pages/homepage.html",
+          "logo": "https://sofia-briefing.aviation-civile.gouv.fr/content/sofia/img/logo-sofia.svg"
         },
         {
           "nom": "Fiches ICARUS (FFA)",
