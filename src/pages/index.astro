@@ -1,66 +1,76 @@
 ---
 import Base from '../layouts/Base.astro';
-import NewsCard from '../components/NewsCard.astro';
+import UniversCard from '../components/UniversCard.astro';
 import { getCollection } from 'astro:content';
 import club from '../data/club.json';
-import { url, asset } from '../lib/utils';
+import { univers } from '../data/univers';
+import { url, asset, dateFr } from '../lib/utils';
 
-const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const img = (a: (typeof actus)[number]) => a.data.image ?? a.data.galerie[0];
+// À la une : la dernière actualité qui a une photo
+const une = actus.find((a) => img(a));
+const suite = actus.filter((a) => a !== une);
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const annees = new Date().getFullYear() - 1979;
-const hero = '/uploads/avions/dr400-120-01.jpg';
+const slides = [
+  { img: '/uploads/avions/dr400-120-01.jpg', legende: 'Aux commandes du DR400' },
+  { img: '/uploads/avions/dr400-120-02.jpg', legende: 'Robin DR400 120 ch' },
+  { img: '/uploads/avions/dr300-f-btbs-01.jpg', legende: 'Le DR300 F-BTBS devant le hangar' },
+  { img: '/uploads/avions/jodel-d120-01.jpg', legende: 'Jodel D120 Paris-Nice' },
+];
 ---
 <Base title="Accueil">
-  <section class="hero" style={`--hero: url('${hero}')`}>
+  <section class="hero" aria-label="Présentation">
+    <div class="slides">
+      {slides.map((s, i) => <img src={asset(s.img)} alt={s.legende} class:list={{ on: i === 0 }} loading={i ? 'lazy' : 'eager'} />)}
+    </div>
+    <div class="voile"></div>
     <div class="container hero-inner">
-      <span class="eyebrow">Aéroport de Beauvais-Tillé · Oise</span>
-      <h1>Prenez les commandes du ciel picard</h1>
-      <p class="lead">Depuis {annees} ans, nos instructeurs bénévoles forment des pilotes à Beauvais-Tillé. Baptême de l'air, BIA, LAPL ou PPL : votre premier vol commence ici.</p>
-      <div class="btns">
-        <a class="btn btn-primary" href={url('/decouvrir-le-vol')}>Offrir ou faire un baptême</a>
-        <a class="btn btn-ghost" href={url('/formations')}>Devenir pilote</a>
+      <div class="texte">
+        <span class="eyebrow">Aéroport de Beauvais-Tillé · Oise · depuis 1979</span>
+        <h1>Prenez les commandes du ciel picard</h1>
+        <p class="lead">Depuis {annees} ans, nos instructeurs bénévoles font voler et forment des pilotes à Beauvais-Tillé.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href={url('/decouvrir-le-vol')}>Faire un baptême</a>
+          <a class="btn btn-ghost" href={url('/formations')}>Devenir pilote</a>
+        </div>
+      </div>
+      <div class="hero-bas">
+        <div class="compteur"><b id="slide-n">01</b> / {String(slides.length).padStart(2, '0')} <span id="slide-l">{slides[0].legende}</span></div>
+        {une && (
+          <a class="une" href={url(`/actualites/${une.id}`)}>
+            <span class="une-label">À la une · {dateFr(une.data.date, { month: 'long', year: 'numeric' })}</span>
+            <strong>{une.data.titre}</strong>
+          </a>
+        )}
       </div>
     </div>
   </section>
 
-  <section class="section dark stats-band">
-    <div class="container grid grid-4">
-      <div class="stat"><strong>1979</strong>année de création</div>
-      <div class="stat"><strong>{avions.length}</strong>avions au club</div>
-      <div class="stat"><strong>100 %</strong>instructeurs bénévoles</div>
-      <div class="stat"><strong>3</strong>formations : BIA, LAPL, PPL</div>
-    </div>
-  </section>
-
-  <section class="section">
+  <section class="section" id="univers">
     <div class="container">
-      <span class="eyebrow">Par où commencer ?</span>
-      <h2>Trois façons de voler avec nous</h2>
-      <div class="grid grid-3 parcours">
-        <a class="card" href={url('/decouvrir-le-vol')}>
-          <div class="card-body"><span class="ico">🎟️</span><h3>Découvrir</h3><p>Baptême de l'air, vol découverte ou vol d'initiation aux commandes, pour vous ou à offrir.</p><span class="more">Voir les formules →</span></div>
-        </a>
-        <a class="card" href={url('/formations')}>
-          <div class="card-body"><span class="ico">🎓</span><h3>Apprendre</h3><p>Du BIA dès 13 ans à la licence PPL, avec des aides pour les jeunes pilotes.</p><span class="more">Les formations →</span></div>
-        </a>
-        <a class="card" href={url('/club/flotte')}>
-          <div class="card-body"><span class="ico">🛩️</span><h3>Voler au club</h3><p>Déjà breveté ? Louez nos Robin et notre Jodel pour vos navigations.</p><span class="more">La flotte et les tarifs →</span></div>
-        </a>
+      <div class="section-head">
+        <div><span class="label"><b>01</b> Nos univers</span><h2>Choisissez votre façon de voler</h2></div>
+        <p class="lead" style="max-width:40ch;margin:0">Première fois en avion, futur pilote ou membre du club : chaque univers a son entrée.</p>
+      </div>
+      <div class="univers-grid">
+        {univers.map((u, i) => <UniversCard u={u} big={i === 0} />)}
       </div>
     </div>
   </section>
 
-  <section class="section soft">
+  <section class="section white">
     <div class="container">
-      <div class="head-row">
-        <div><span class="eyebrow">La flotte</span><h2>Nos avions</h2></div>
-        <a class="btn btn-outline" href={url('/club/flotte')}>Toute la flotte</a>
+      <div class="section-head">
+        <div><span class="label"><b>02</b> La flotte</span><h2>{avions.length} avions au hangar</h2></div>
+        <a class="btn btn-outline" href={url('/club/flotte')}>Toute la flotte et les tarifs</a>
       </div>
-      <div class="grid grid-4">
+      <div class="flotte">
         {avions.map((a) => (
-          <a class="card" href={url(`/club/flotte#${a.id}`)}>
-            {a.data.photos[0] && <img class="cover" src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}
-            <div class="card-body"><h3>{a.data.nom}</h3><p class="meta">{a.data.usage}{a.data.puissance && ` · ${a.data.puissance} ch`}</p></div>
+          <a class="avion" href={url(`/club/flotte#${a.id}`)}>
+            {a.data.photos[0] && <img src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}
+            <div><strong>{a.data.nom}</strong><span>{[a.data.immatriculation, a.data.puissance && `${a.data.puissance} ch`, a.data.usage].filter(Boolean).join(' · ')}</span></div>
           </a>
         ))}
       </div>
@@ -69,30 +79,51 @@ const hero = '/uploads/avions/dr400-120-01.jpg';
 
   <section class="section">
     <div class="container">
-      <div class="head-row">
-        <div><span class="eyebrow">Actualités</span><h2>La vie du club</h2></div>
-        <a class="btn btn-outline" href={url('/actualites')}>Toutes les actualités</a>
+      <div class="section-head">
+        <div><span class="label"><b>03</b> Actualités</span><h2>La vie du club</h2></div>
+        <a class="btn btn-outline" href={url('/actualites')}>{actus.length} actualités depuis 2006</a>
       </div>
-      <div class="grid grid-3">{actus.map((a) => <NewsCard actu={a} />)}</div>
+      {une && (
+        <div class="actus">
+          <a class="actu-une" href={url(`/actualites/${une.id}`)}>
+            {img(une) && <img src={asset(img(une)!)} alt="" loading="lazy" />}
+            <div><span class="meta">{dateFr(une.data.date)}</span><h3>{une.data.titre}</h3><span class="lire">Lire l'article →</span></div>
+          </a>
+          <ul class="actu-liste">
+            {suite.slice(0, 4).map((a) => (
+              <li><a href={url(`/actualites/${a.id}`)}>
+                {img(a) ? <img src={asset(img(a)!)} alt="" loading="lazy" /> : <span class="vide">✈</span>}
+                <div><span class="meta">{dateFr(a.data.date, { month: 'long', year: 'numeric' })}</span><strong>{a.data.titre}</strong></div>
+              </a></li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </section>
 
-  <section class="section dark">
-    <div class="container grid grid-2 histoire">
+  <section class="section dark histoire">
+    <div class="container grid grid-2">
       <div>
-        <span class="eyebrow">Depuis 1979</span>
-        <h2>Plus de quarante ans d'histoire</h2>
+        <span class="label"><b>04</b> Depuis 1979</span>
+        <h2>Plus de quarante ans d'histoire au bord des pistes</h2>
         <p>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
+        <div class="chiffres">
+          <div><strong>1979</strong><span>fondation</span></div>
+          <div><strong>{avions.length}</strong><span>avions</span></div>
+          <div><strong>100 %</strong><span>bénévoles</span></div>
+        </div>
         <a class="btn btn-ghost" href={url('/club/historique')}>Notre histoire</a>
       </div>
-      <img src="/uploads/historique/wix-04.jpg" alt="Les débuts de l'aéroclub" loading="lazy" />
+      <img src={asset('/uploads/historique/1979-debuts-du-club.jpg')} alt="Les débuts de l'aéroclub" loading="lazy" />
     </div>
   </section>
 
   <section class="section">
     <div class="container contact-band">
       <div>
-        <h2>Une question ? Passez nous voir</h2>
+        <span class="label"><b>05</b> Nous trouver</span>
+        <h2>Passez nous voir au club</h2>
         <p class="lead">{club.adresse}</p>
       </div>
       <div class="btns">
@@ -102,20 +133,74 @@ const hero = '/uploads/avions/dr400-120-01.jpg';
     </div>
   </section>
 </Base>
+
+<script>
+  const imgs = [...document.querySelectorAll<HTMLImageElement>('.slides img')];
+  const n = document.getElementById('slide-n');
+  const l = document.getElementById('slide-l');
+  let i = 0;
+  if (imgs.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setInterval(() => {
+      imgs[i].classList.remove('on');
+      i = (i + 1) % imgs.length;
+      imgs[i].loading = 'eager';
+      imgs[i].classList.add('on');
+      if (n) n.textContent = String(i + 1).padStart(2, '0');
+      if (l) l.textContent = imgs[i].alt;
+    }, 6000);
+  }
+</script>
+
 <style>
-  .hero { position: relative; min-height: min(86vh, 720px); display: flex; align-items: flex-end; color: #fff;
-    background: linear-gradient(180deg, rgba(7,26,51,.25) 0%, rgba(7,26,51,.85) 100%), var(--hero) center / cover no-repeat, var(--navy-2); }
-  .hero-inner { padding-bottom: clamp(48px, 8vw, 96px); }
-  .hero h1 { color: #fff; max-width: 16ch; }
-  .hero .lead { color: #e2ebf5; }
-  .stats-band { padding: 40px 0; }
-  .parcours .card { text-decoration: none; color: inherit; transition: transform .2s; }
-  .parcours .card:hover { transform: translateY(-4px); }
-  .ico { font-size: 2rem; margin-bottom: 10px; }
-  .more { margin-top: auto; color: var(--sky); font-weight: 600; }
-  .head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
-  .grid-4 .card { text-decoration: none; color: inherit; }
-  .histoire { align-items: center; }
-  .histoire img { border-radius: var(--radius); }
-  .contact-band { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .hero { position: relative; min-height: min(92vh, 860px); display: flex; color: #fff; background: var(--ink); overflow: hidden; }
+  .slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 1.4s ease, transform 7s ease-out; }
+  .slides img.on { opacity: 1; transform: scale(1); }
+  .voile { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,18,31,.78) 0%, rgba(10,18,31,.35) 55%, rgba(10,18,31,.1) 100%), linear-gradient(0deg, rgba(10,18,31,.7) 0%, transparent 40%); }
+  @media (max-width: 700px) { .voile { background: linear-gradient(180deg, rgba(10,18,31,.55) 0%, rgba(10,18,31,.8) 100%); } }
+  .hero-inner { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(72px, 14vh, 160px) 0 32px; gap: 48px; }
+  .hero h1 { color: #fff; max-width: 13ch; }
+  .hero .lead { color: rgba(255,255,255,.88); max-width: 46ch; }
+  .hero-bas { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.25); padding-top: 20px; }
+  .compteur { font-size: .85rem; letter-spacing: .1em; color: rgba(255,255,255,.75); }
+  .compteur b { font-family: var(--font-title); font-size: 1.6rem; color: #fff; letter-spacing: 0; }
+  .compteur span { margin-left: 14px; text-transform: none; letter-spacing: 0; }
+  .une { display: block; max-width: 380px; padding: 16px 20px; border-radius: 16px; background: rgba(255,255,255,.12); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.22); color: #fff; text-decoration: none; transition: background .2s; }
+  .une:hover { background: rgba(255,255,255,.22); color: #fff; }
+  .une-label { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: #ffc59e; margin-bottom: 4px; }
+  .une strong { font-family: var(--font-title); font-size: 1.1rem; font-weight: 600; }
+
+  .univers-grid { display: grid; gap: 18px; grid-template-columns: 1.3fr 1fr 1fr; grid-auto-rows: minmax(300px, auto); }
+  .univers-grid :global(.big) { grid-row: span 2; }
+  @media (max-width: 900px) { .univers-grid { grid-template-columns: 1fr 1fr; } .univers-grid :global(.big) { grid-column: span 2; grid-row: auto; min-height: 380px; } }
+  @media (max-width: 600px) { .univers-grid { grid-template-columns: 1fr; } .univers-grid :global(.big) { grid-column: auto; } }
+
+  .flotte { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .avion { text-decoration: none; color: inherit; }
+  .avion img { aspect-ratio: 4 / 5; object-fit: cover; width: 100%; border-radius: 18px; transition: transform .4s; }
+  .avion:hover img { transform: translateY(-4px); }
+  .avion div { padding: 14px 4px 0; display: flex; flex-direction: column; }
+  .avion strong { font-family: var(--font-title); font-size: 1.2rem; font-weight: 600; }
+  .avion span { color: var(--muted); font-size: .88rem; }
+
+  .actus { display: grid; gap: 28px; grid-template-columns: 1.4fr 1fr; }
+  @media (max-width: 860px) { .actus { grid-template-columns: 1fr; } }
+  .actu-une { text-decoration: none; color: inherit; }
+  .actu-une img { aspect-ratio: 16 / 10; object-fit: cover; width: 100%; border-radius: 20px; margin-bottom: 18px; }
+  .actu-une h3 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); margin: 6px 0 10px; }
+  .actu-une:hover h3 { color: #c2414b; }
+  .lire { font-weight: 600; }
+  .actu-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .actu-liste li + li { border-top: 1px solid var(--line); }
+  .actu-liste a { display: grid; grid-template-columns: 110px 1fr; gap: 16px; align-items: center; padding: 14px 0; text-decoration: none; color: inherit; }
+  .actu-liste img, .vide { width: 110px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
+  .vide { display: grid; place-items: center; background: var(--ink); color: #fff; font-size: 1.6rem; }
+  .actu-liste strong { display: block; font-family: var(--font-title); font-weight: 600; font-size: 1.05rem; line-height: 1.25; }
+  .actu-liste a:hover strong { color: #c2414b; }
+
+  .histoire .grid { align-items: center; }
+  .histoire img { border-radius: 20px; filter: sepia(.15); }
+  .chiffres { display: flex; gap: 36px; margin: 28px 0 32px; flex-wrap: wrap; }
+  .chiffres strong { display: block; font-family: var(--font-title); font-size: 2.4rem; color: #fff; line-height: 1; }
+  .chiffres span { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: #9fb0c6; }
+  .contact-band { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
 </style>

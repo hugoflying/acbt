@@ -9,8 +9,8 @@ const docs = (await getCollection('documents')).sort((a, b) => a.data.titre.loca
 const cats = [...new Set(docs.map((d) => d.data.categorie))];
 const host = (l: string) => new URL(l).hostname.replace(/^www\./, '');
 ---
-<Base title="Espace membre" noindex>
-  <PageHead eyebrow="Espace membre" title="Préparer son vol" lead="Météo, NOTAM, cartes et documents du club, réunis au même endroit.">
+<Base univers="membres" title="Espace membre" noindex>
+  <PageHead eyebrow="05 · Espace membre" image="/uploads/avions/dr400-120-01.jpg" title="Préparer son vol" lead="Météo, NOTAM, cartes et documents du club, réunis au même endroit.">
     <div class="btns" style="margin-top:20px">
       <a class="btn btn-primary" href={club.aerogest} rel="noopener">Réserver un avion sur Aerogest</a>
       <a class="btn btn-ghost" href="#documents">Documents du club</a>

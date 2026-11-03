@@ -1,0 +1,40 @@
+---
+import { url, asset } from '../lib/utils';
+interface Props { u: { id: string; num: string; titre: string; sousTitre: string; href: string; image: string; badges: readonly string[] }; big?: boolean }
+const { u, big = false } = Astro.props;
+---
+<a class:list={['univers', `u-${u.id}`, { big }]} href={url(u.href)}>
+  <img src={asset(u.image)} alt="" loading="lazy" />
+  <div class="voile"></div>
+  <div class="contenu">
+    <span class="num">{u.num}</span>
+    <div>
+      <div class="badges">{u.badges.map((b) => <span>{b}</span>)}</div>
+      <h3>{u.titre}</h3>
+      <p>{u.sousTitre}</p>
+      <span class="go">Entrer <span aria-hidden="true">→</span></span>
+    </div>
+  </div>
+</a>
+<style>
+  .univers { position: relative; display: block; border-radius: 22px; overflow: hidden; min-height: 320px; color: #fff; text-decoration: none; isolation: isolate; }
+  .univers.big { min-height: 100%; }
+  .u-decouvrir { --c: #e8703a; } .u-apprendre { --c: #2f6fd6; } .u-voler { --c: #1f8a70; } .u-club { --c: #b0873a; } .u-membres { --c: #6b4fbb; }
+  img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); z-index: -2; }
+  .voile { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,18,31,.05) 20%, rgba(10,18,31,.82) 100%), linear-gradient(0deg, color-mix(in srgb, var(--c) 35%, transparent), transparent 55%); }
+  .univers::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--c); transform: scaleX(.18); transform-origin: left; transition: transform .5s; }
+  .univers:hover img { transform: scale(1.06); }
+  .univers:hover::after { transform: scaleX(1); }
+  .contenu { position: relative; height: 100%; min-height: inherit; display: flex; flex-direction: column; justify-content: space-between; padding: 26px; }
+  .num { font-family: var(--font-title); font-size: 1rem; opacity: .85; }
+  .num::after { content: ' — univers'; font-family: var(--font-body); font-size: .7rem; text-transform: uppercase; letter-spacing: .16em; }
+  h3 { color: #fff; font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 10px 0 6px; }
+  .big h3 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); }
+  p { margin: 0 0 14px; color: rgba(255,255,255,.88); max-width: 34ch; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badges span { font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.16); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.25); }
+  .badges span:first-child { background: var(--c); border-color: var(--c); }
+  .go { font-weight: 600; font-size: .95rem; }
+  .go span { display: inline-block; transition: transform .25s; }
+  .univers:hover .go span { transform: translateX(5px); }
+</style>

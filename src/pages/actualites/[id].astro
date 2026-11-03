@@ -11,7 +11,7 @@ const { Content } = await render(actu);
 const cover = actu.data.image ?? actu.data.galerie[0];
 const galerie = actu.data.galerie.filter((g) => g !== cover);
 ---
-<Base title={actu.data.titre}>
+<Base univers="actus" title={actu.data.titre}>
   <article class="section">
     <div class="container prose">
       <p><a href={url('/actualites')}>← Toutes les actualités</a></p>
