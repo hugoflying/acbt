@@ -73,7 +73,7 @@ content:
         type: select
         required: true
         options:
-          values: ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires']
+          values: ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Examen pratique', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires']
       - name: avions
         label: Avion(s) concerné(s) (seulement pour « Documentation avion »)
         type: select
@@ -116,7 +116,7 @@ content:
             label: Documents à afficher
             type: select
             options:
-              values: ['', 'Pour les élèves', 'Examens']
+              values: ['', 'Pour les élèves', 'Examens', 'Examen pratique']
           - name: liens
             label: Liens
             type: object

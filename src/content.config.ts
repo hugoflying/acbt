@@ -39,7 +39,7 @@ const avions = defineCollection({
   }),
 });
 
-export const CATEGORIES_DOCS = ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires'] as const;
+export const CATEGORIES_DOCS = ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Examen pratique', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires'] as const;
 export const RUBRIQUES_AVION = ['Manuel de vol', 'Paramètres', 'Check-list', 'Centrage', 'Guide radio rapide', 'Radio VFR', 'Transpondeur', 'DME', 'Balise de détresse', 'Autre'] as const;
 
 const documents = defineCollection({

@@ -1,4 +1,7 @@
-titre: "Transpondeur Garmin GTX 335 (résumé en français)"
+titre: Transpondeur Garmin GTX 335 (résumé en français)
 categorie: Documentation avion
-avions: [F-BTBS]
+avions:
+- F-BTBS
 rubrique: Transpondeur
+fichier: /uploads/membre/transpondeur-garmin-gtx-335-resume-en-francais.pdf
+ordre: 10

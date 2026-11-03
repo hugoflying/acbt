@@ -3,11 +3,11 @@
   "liens_club": [
     {
       "libelle": "Aerogest : aide en ligne",
-      "lien": ""
+      "lien": "https://aerogest.notion.site/Pilotes-03a6227b85e743189bd0e5a8a28a53de"
     },
     {
       "libelle": "Drive ACBT",
-      "lien": ""
+      "lien": "https://drive.google.com/drive/folders/1Zr2akxOYwH7x-14fm3fAi6V9eH8fU4vW?usp=drive_link"
     }
   ],
   "parcours": [
@@ -18,11 +18,11 @@
       "liens": [
         {
           "libelle": "Good Pilot",
-          "lien": ""
+          "lien": "https://www.goodpilot.fr/"
         },
         {
-          "libelle": "Chaîne YouTube Good Pilot",
-          "lien": ""
+          "libelle": "Good Pilot sur YouTube",
+          "lien": "https://www.youtube.com/@goodpilot"
         }
       ]
     },
@@ -33,30 +33,35 @@
       "liens": [
         {
           "libelle": "S'inscrire sur Aerogligli",
-          "lien": "https://www.aerogligli.fr"
+          "lien": "https://www.aerogligli.fr/"
         }
       ]
     },
     {
-      "titre": "S'inscrire aux examens",
+      "titre": "Passer l'examen théorique",
       "texte": "L'inscription à l'examen théorique se fait sur SMILE Examens. Les documents ci-dessous expliquent comment se passe l'examen, avant et après.",
       "categorie_docs": "Examens",
       "liens": [
         {
           "libelle": "SMILE Examens",
-          "lien": ""
+          "lien": "https://examens.ffa-aero.fr/"
         },
         {
           "libelle": "FAQ et tutos SMILE Examens",
-          "lien": ""
+          "lien": "https://faq.ffa-aero.fr/smileexamens/docs/"
         }
       ]
     },
     {
       "titre": "Passer l'examen pratique",
       "texte": "L'inscription à l'examen pratique LAPL ou PPL(A), puis la demande de licence, sont faites uniquement par le responsable pédagogique du club dans SMILE Formation. Voyez ces démarches avec lui. Ne faites aucune démarche vous-même, et surtout pas sur le portail PN de la DGAC.",
-      "categorie_docs": "",
-      "liens": []
+      "categorie_docs": "Examen pratique",
+      "liens": [
+        {
+          "libelle": "SMILE Formation",
+          "lien": "https://smileformation.ffa-aero.fr/"
+        }
+      ]
     }
   ]
 }
