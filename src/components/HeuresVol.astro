@@ -29,7 +29,7 @@ const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.rep
           <div class="immats">{g.map((l) => <a href={url(`/club/flotte#${l.a.id}`)}>{l.a.data.immatriculation}</a>)}</div>
           <div class="prix2">
             <div><span>Solo</span><b>{n(g[0].t?.prix_heure)}</b><small>€ / heure</small></div>
-            <div class="inst"><span>Avec instructeur</span><b>{n(g[0].t?.prix_instruction)}</b><small>€ / heure</small></div>
+            <div class="inst"><span>DC</span><b>{n(g[0].t?.prix_instruction)}</b><small>€ / heure</small></div>
           </div>
         </div>
       </article>
