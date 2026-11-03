@@ -20,7 +20,7 @@ const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) 
         </div>
         <div>
           <span class="eyebrow">{a.data.usage}</span>
-          <h2>{a.data.immatriculation || a.data.nom}</h2>
+          <h2 class="immat">{a.data.immatriculation || a.data.nom}</h2>
           <dl>
             <dt>Type</dt><dd>{a.data.type}</dd>
             {a.data.puissance && <><dt>Moteur</dt><dd>{a.data.puissance} ch</dd></>}
@@ -45,4 +45,5 @@ const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) 
   dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 0 0 1em; }
   dt { color: var(--muted); }
   dd { margin: 0; font-weight: 600; }
+  .immat { display: table; margin-top: 10px; background: var(--ink); color: #fff; padding: 6px 18px 4px; border-radius: 10px; letter-spacing: .04em; box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
 </style>
