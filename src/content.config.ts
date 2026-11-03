@@ -39,14 +39,21 @@ const avions = defineCollection({
   }),
 });
 
+export const CATEGORIES_DOCS = ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires'] as const;
+export const RUBRIQUES_AVION = ['Manuel de vol', 'Paramètres', 'Check-list', 'Centrage', 'Guide radio rapide', 'Radio VFR', 'Transpondeur', 'DME', 'Balise de détresse', 'Autre'] as const;
+
 const documents = defineCollection({
   loader: glob({ pattern: '**/*.{yml,yaml}', base: './src/content/documents' }),
   schema: z.object({
     titre: z.string(),
-    categorie: z.enum(['Sécurité', 'Préparation des vols', 'Météo', 'Formulaires', 'Vie du club']),
-    fichier: z.string(),
+    categorie: z.enum(CATEGORIES_DOCS),
+    avions: z.array(z.string()).default([]),
+    rubrique: z.enum(RUBRIQUES_AVION).optional(),
+    fichier: z.string().optional(),
+    lien: z.string().optional(),
     description: z.string().optional(),
     mis_a_jour: z.coerce.date().optional(),
+    ordre: z.number().default(10),
   }),
 });
 

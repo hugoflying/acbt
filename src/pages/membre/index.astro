@@ -1,63 +1,205 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import DocLien from '../../components/DocLien.astro';
 import { getCollection } from 'astro:content';
+import { RUBRIQUES_AVION } from '../../content.config';
 import outils from '../../data/outils.json';
+import membre from '../../data/membre.json';
 import club from '../../data/club.json';
-import { asset, dateFr } from '../../lib/utils';
-const docs = (await getCollection('documents')).sort((a, b) => a.data.titre.localeCompare(b.data.titre, 'fr'));
-const cats = [...new Set(docs.map((d) => d.data.categorie))];
+import { asset } from '../../lib/utils';
+
+const docs = (await getCollection('documents')).map((d) => d.data)
+  .sort((a, b) => a.ordre - b.ordre || a.titre.localeCompare(b.titre, 'fr'));
+const parCat = (c: string) => docs.filter((d) => d.categorie === c);
+const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+const docsAvion = docs.filter((d) => d.categorie === 'Documentation avion');
+const fiches = avions.map((a) => {
+  const im = a.data.immatriculation ?? a.data.nom;
+  const siens = docsAvion.filter((d) => d.avions.includes(im));
+  const rubriques = RUBRIQUES_AVION.map((r) => ({ r, docs: siens.filter((d) => (d.rubrique ?? 'Autre') === r) })).filter((x) => x.docs.length);
+  return { id: a.id, im, type: a.data.type, photo: a.data.photos[0], rubriques };
+});
+const autres = ['Sécurité', 'Préparation des vols', 'Météo', 'Formulaires'].map((c) => ({ c, docs: parCat(c) })).filter((x) => x.docs.length);
 const host = (l: string) => new URL(l).hostname.replace(/^www\./, '');
+const sommaire = [
+  ['outils', 'Préparer son vol'], ['avions', 'Nos avions'], ['club', 'Vie du club'], ['pilote', 'Documentation pilote'], ['eleves', 'Parcours élève'],
+];
 ---
 <Base univers="membres" title="Espace membre" noindex>
-  <PageHead eyebrow="06 · Espace membre" image="/uploads/avions/dr400-120-01.jpg" title="Préparer son vol" lead="Météo, NOTAM, cartes et documents du club, réunis au même endroit.">
+  <PageHead eyebrow="06 · Espace membre" image="/uploads/avions/dr400-120-01.jpg" title="Espace membre" lead="Préparation des vols, documentation des avions, vie du club et parcours de formation.">
     <div class="btns" style="margin-top:20px">
-      <a class="btn btn-primary" href={club.aerogest} rel="noopener">Réserver un avion sur Aerogest</a>
-      <a class="btn btn-ghost" href="#documents">Documents du club</a>
+      <a class="btn btn-primary" href={club.aerogest} rel="noopener">Réserver sur Aerogest</a>
     </div>
   </PageHead>
-  <section class="section">
+
+  <div class="outilbar">
+    <div class="container outilbar-in">
+      <nav aria-label="Sommaire">{sommaire.map(([id, l]) => <a href={`#${id}`}>{l}</a>)}</nav>
+      <label class="cherche"><span class="sr">Rechercher un document</span>
+        <input type="search" id="q" placeholder="Rechercher un document…" autocomplete="off" />
+      </label>
+    </div>
+  </div>
+  <p class="container aucun" id="aucun" hidden>Aucun document ne correspond à votre recherche.</p>
+
+  <section class="section" id="outils" data-bloc>
     <div class="container">
       <p class="notice" style="margin-bottom:32px">Maquette : cette page est encore publique. La connexion des membres sera activée lors du passage sur Cloudflare (accès par code reçu par e-mail).</p>
+      <div class="section-head"><div><span class="label"><b>01</b> Préparer son vol</span><h2>Météo, NOTAM et cartes</h2></div></div>
       {outils.categories.map((c) => (
-        <div class="bloc">
-          <h2>{c.titre}</h2>
+        <div class="bloc" data-bloc>
+          <h3>{c.titre}</h3>
           <div class="grid grid-3">
             {c.outils.map((o) => (
-              <a class="card outil" href={o.lien} target="_blank" rel="noopener"><div class="card-body">
-                <h3>{o.nom} ↗</h3><p>{o.description}</p><span class="meta">{host(o.lien)}</span>
+              <a class="card outil" href={o.lien} target="_blank" rel="noopener" data-q={`${o.nom} ${o.description}`.toLowerCase()}><div class="card-body">
+                <h4>{o.nom} ↗</h4><p>{o.description}</p><span class="meta">{host(o.lien)}</span>
               </div></a>
             ))}
           </div>
         </div>
       ))}
-    </div>
-  </section>
-  <section class="section soft" id="documents">
-    <div class="container">
-      <h2>Documents du club</h2>
-      {cats.map((c) => (
-        <div class="bloc">
-          <h3>{c}</h3>
-          <ul class="docs">
-            {docs.filter((d) => d.data.categorie === c).map((d) => (
-              <li><a href={asset(d.data.fichier)} target="_blank" rel="noopener"><span class="pdf">PDF</span><span><strong>{d.data.titre}</strong>{d.data.description && <span class="meta">{d.data.description}</span>}{d.data.mis_a_jour && <span class="meta">Mis à jour le {dateFr(d.data.mis_a_jour)}</span>}</span></a></li>
-            ))}
-          </ul>
+      {autres.map((x) => (
+        <div class="bloc" data-bloc>
+          <h3>{x.c}</h3>
+          <div class="docs">{x.docs.map((d) => <DocLien doc={d} />)}</div>
         </div>
       ))}
     </div>
   </section>
+
+  <section class="section soft" id="avions" data-bloc>
+    <div class="container">
+      <div class="section-head"><div><span class="label"><b>02</b> Nos avions</span><h2>Documentation avion</h2></div></div>
+      <p class="alerte"><b>!</b><span>{membre.avertissement_avion}</span></p>
+      <div class="fiches">
+        {fiches.map((f) => (
+          <article class="fiche" id={`doc-${f.id}`} data-bloc>
+            <header>
+              {f.photo && <img src={asset(f.photo)} alt="" loading="lazy" />}
+              <div><h3>{f.im}</h3><span class="meta">{f.type}</span></div>
+            </header>
+            {f.rubriques.length ? (
+              <dl>
+                {f.rubriques.map((x) => (
+                  <div class="rub" data-bloc>
+                    <dt>{x.r}</dt>
+                    <dd>{x.docs.map((d) => <DocLien doc={d} court={d.titre.replace(` ${f.im}`, '')} />)}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : <p class="meta">Pas encore de document pour cet avion.</p>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="club" data-bloc>
+    <div class="container cols2">
+      <div><span class="label"><b>03</b> Vie du club</span><h2>Les documents de l'association</h2>
+        <p class="lead">Livret d'accueil, règlement, statuts et lettres d'information.</p>
+        <div class="liens">
+          <a class="btn btn-outline" href={club.aerogest} rel="noopener">Aerogest</a>
+          {membre.liens_club.filter((l) => l.lien).map((l) => <a class="btn btn-outline" href={l.lien} rel="noopener">{l.libelle}</a>)}
+        </div>
+      </div>
+      <div class="docs" data-bloc>{parCat('Vie du club').map((d) => <DocLien doc={d} />)}</div>
+    </div>
+  </section>
+
+  <section class="section soft" id="pilote" data-bloc>
+    <div class="container">
+      <div class="section-head"><div><span class="label"><b>04</b> Documentation pilote</span><h2>Terrain, espace aérien et réglementation</h2></div></div>
+      <div class="docs docs-2" data-bloc>{parCat('Documentation pilote').map((d) => <DocLien doc={d} />)}</div>
+    </div>
+  </section>
+
+  <section class="section" id="eleves" data-bloc>
+    <div class="container">
+      <div class="section-head"><div><span class="label"><b>05</b> Parcours élève</span><h2>De la première leçon à la licence</h2></div></div>
+      <ol class="parcours">
+        {membre.parcours.map((e, i) => {
+          const liste = e.categorie_docs ? parCat(e.categorie_docs) : [];
+          const liens = e.liens.filter((l) => l.lien);
+          return (
+            <li class="etape" data-bloc>
+              <span class="num">{i + 1}</span>
+              <div>
+                <h3>{e.titre}</h3>
+                <p>{e.texte}</p>
+                {liste.length > 0 && <div class="docs">{liste.map((d) => <DocLien doc={d} />)}</div>}
+                {liens.length > 0 && <div class="liens">{liens.map((l) => <a class="btn btn-outline" href={l.lien} target="_blank" rel="noopener">{l.libelle} ↗</a>)}</div>}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  </section>
 </Base>
+
+<script>
+  const q = document.getElementById('q') as HTMLInputElement | null;
+  const aucun = document.getElementById('aucun');
+  const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  q?.addEventListener('input', () => {
+    const v = norm(q.value.trim());
+    document.querySelectorAll<HTMLElement>('[data-q]').forEach((el) => { el.hidden = !!v && !norm(el.dataset.q || '').includes(v); });
+    [...document.querySelectorAll<HTMLElement>('[data-bloc]')].reverse().forEach((b) => {
+      b.hidden = !!v && !b.querySelector('[data-q]:not([hidden])');
+    });
+    if (aucun) aucun.hidden = !v || !!document.querySelector('[data-q]:not([hidden])');
+  });
+</script>
+
 <style>
-  .bloc { margin-bottom: 40px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .outilbar { position: sticky; top: 76px; z-index: 20; background: rgba(246,242,234,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .outilbar-in { display: flex; gap: 16px; align-items: center; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; }
+  .outilbar nav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .outilbar nav a { white-space: nowrap; padding: 7px 14px; border-radius: 999px; font-size: .88rem; font-weight: 500; text-decoration: none; color: var(--ink); border: 1px solid var(--line); background: #fff; }
+  .outilbar nav a:hover { border-color: var(--accent); color: var(--accent); }
+  .cherche input { width: 260px; max-width: 100%; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: inherit; font-size: .92rem; }
+  .cherche input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  @media (max-width: 860px) { .outilbar-in { flex-direction: column; align-items: stretch; gap: 8px; } .cherche input { width: 100%; } }
+  .aucun { padding-top: 32px; color: var(--muted); }
+  [hidden] { display: none !important; }
+
+  .bloc { margin-bottom: 36px; }
+  .bloc h3 { font-size: 1.15rem; margin-bottom: 14px; }
   .outil { text-decoration: none; color: inherit; }
-  .outil:hover h3 { color: var(--sky); }
-  .outil h3 { font-size: 1.05rem; }
-  .outil p { font-size: .93rem; color: var(--muted); }
-  .docs { list-style: none; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
-  .docs a { display: flex; gap: 14px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; text-decoration: none; color: inherit; }
-  .docs a:hover { border-color: var(--sky); }
-  .docs .meta { display: block; }
-  .pdf { background: #d64545; color: #fff; font-weight: 700; font-size: .75rem; padding: 6px 8px; border-radius: 6px; }
+  .outil h4 { font-size: 1.02rem; margin: 0 0 6px; }
+  .outil:hover h4 { color: var(--accent); }
+  .outil p { font-size: .92rem; color: var(--muted); }
+  .docs { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .docs-2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  @media (max-width: 420px) { .docs, .docs-2 { grid-template-columns: 1fr; } }
+
+  .alerte { display: flex; gap: 14px; align-items: flex-start; background: #fff4e5; border: 1px solid #f2c98a; color: #6b4200; border-radius: 14px; padding: 14px 18px; margin-bottom: 28px; font-size: .95rem; }
+  .alerte b { flex: none; width: 26px; height: 26px; border-radius: 50%; background: #d9480f; color: #fff; display: grid; place-items: center; font-size: .9rem; }
+  .fiches { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); align-items: start; }
+  .fiche { background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; scroll-margin-top: 150px; }
+  .fiche header { display: flex; gap: 14px; align-items: center; padding: 14px; border-bottom: 1px solid var(--line); }
+  .fiche header img { width: 92px; height: 64px; object-fit: cover; border-radius: 10px; }
+  .fiche h3 { font-size: 1.35rem; margin: 0; letter-spacing: .03em; }
+  .fiche dl { margin: 0; padding: 6px 14px 14px; }
+  .rub { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .rub:last-child { border-bottom: 0; }
+  .rub dt { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .rub dd { margin: 0; display: grid; gap: 6px; }
+  .rub dd :global(.doc) { padding: 7px 10px; border-radius: 10px; }
+  .rub dd :global(.doc .meta) { display: none; }
+  .fiche > .meta { padding: 14px; }
+
+  .cols2 { display: grid; gap: 40px; grid-template-columns: 1fr 1.4fr; align-items: start; }
+  @media (max-width: 860px) { .cols2 { grid-template-columns: 1fr; } }
+  .liens { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+  .parcours { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; counter-reset: e; }
+  .etape { display: grid; grid-template-columns: 56px 1fr; gap: 20px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .etape .num { width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-family: var(--font-title); font-size: 1.4rem; }
+  .etape h3 { font-size: 1.3rem; margin: 6px 0 8px; }
+  .etape p { color: var(--muted); max-width: 70ch; }
+  .etape .docs { margin-top: 14px; }
 </style>

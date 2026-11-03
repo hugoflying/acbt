@@ -64,19 +64,66 @@ content:
     format: yaml
     filename: '{primary}.yml'
     view:
-      fields: [titre, categorie, mis_a_jour]
+      fields: [titre, categorie, avions]
       primary: titre
     fields:
       - { name: titre, label: Titre, type: string, required: true }
       - name: categorie
-        label: Catégorie
+        label: Rubrique de l'espace membre
         type: select
         required: true
         options:
-          values: ['Sécurité', 'Préparation des vols', 'Météo', 'Formulaires', 'Vie du club']
-      - { name: fichier, label: Fichier (PDF), type: file, required: true }
+          values: ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires']
+      - name: avions
+        label: Avion(s) concerné(s) (seulement pour « Documentation avion »)
+        type: select
+        options:
+          multiple: true
+          values: ['F-GCAL', 'F-BXEK', 'F-BTBS', 'F-BIXA']
+      - name: rubrique
+        label: Type de document avion
+        type: select
+        options:
+          values: ['Manuel de vol', 'Paramètres', 'Check-list', 'Centrage', 'Guide radio rapide', 'Radio VFR', 'Transpondeur', 'DME', 'Balise de détresse', 'Autre']
+      - { name: fichier, label: Fichier (PDF, Excel…), type: file, description: "Déposez le fichier ici, ou remplissez plutôt le lien ci-dessous." }
+      - { name: lien, label: Ou lien vers un site / une vidéo, type: string }
       - { name: description, label: Description, type: string }
       - { name: mis_a_jour, label: Date de mise à jour, type: date }
+      - { name: ordre, label: Ordre d'affichage (petit = en premier), type: number, default: 10 }
+
+  - name: membre
+    label: Espace membre (textes et parcours élève)
+    type: file
+    path: src/data/membre.json
+    format: json
+    fields:
+      - { name: avertissement_avion, label: Avertissement documentation avion, type: text }
+      - name: liens_club
+        label: Liens « Vie du club »
+        type: object
+        list: true
+        fields:
+          - { name: libelle, label: Libellé, type: string }
+          - { name: lien, label: Lien, type: string }
+      - name: parcours
+        label: Étapes du parcours élève
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+          - name: categorie_docs
+            label: Documents à afficher
+            type: select
+            options:
+              values: ['', 'Pour les élèves', 'Examens']
+          - name: liens
+            label: Liens
+            type: object
+            list: true
+            fields:
+              - { name: libelle, label: Libellé, type: string }
+              - { name: lien, label: Lien, type: string }
 
   - name: club
     label: Infos du club (contact, aides)
