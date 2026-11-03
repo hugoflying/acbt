@@ -60,19 +60,26 @@ const sommaire = [
                   </span>
                   <h4>{o.nom} ↗</h4>
                 </div>
-                <p>{o.description}</p><span class="meta">{host(o.lien)}</span>
+                <p>{o.description}</p>
               </div></a>
             ))}
           </div>
         </div>
       ))}
       </div>
-      {autres.map((x) => (
+      {autres.length > 0 && (
         <div class="bloc" data-bloc>
-          <h3>{x.c}</h3>
-          <div class="docs">{x.docs.map((d) => <DocLien doc={d} />)}</div>
+          <h3 class="sous-titre">Mémos et formulaires</h3>
+          <div class="cats-outils cats-docs">
+            {autres.map((x) => (
+              <div data-bloc>
+                <h4 class="cat-doc">{x.c}</h4>
+                <div class="pile">{x.docs.map((d) => <DocLien doc={d} />)}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
+      )}
     </div>
   </section>
 
@@ -178,12 +185,19 @@ const sommaire = [
   .bloc h3 { font-size: 1.15rem; margin-bottom: 14px; }
   .cats-outils { display: grid; gap: 0 20px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-bottom: 12px; }
   .grille-outils { grid-template-columns: 1fr; gap: 14px; }
+  .outil { min-height: 170px; }
+  .sous-titre { font-size: 1.3rem; margin: 20px 0 18px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .cat-doc { font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-family: var(--font-body); }
+  .pile { display: grid; gap: 10px; }
+  .pile :global(.doc) { min-height: 102px; }
+  .cats-docs { gap: 20px; }
+  .outil .card-body { height: 100%; box-sizing: border-box; }
+  .outil p { margin: 0; }
   .outil { text-decoration: none; color: inherit; }
   .outil h4 { font-size: 1.05rem; margin: 0; }
-  .outil-tete { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .logo-site { position: relative; flex: none; width: 48px; height: 48px; border-radius: 12px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+  .outil-tete { display: flex; align-items: center; gap: 14px; min-height: 52px; margin-bottom: 14px; }
+  .logo-site { position: relative; flex: none; width: 96px; height: 48px; border-radius: 12px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
   .logo-site::before { content: attr(data-init); font-family: var(--font-title); font-weight: 700; font-size: .95rem; color: var(--accent); }
-  .logo-site.perso { width: 96px; padding: 6px 8px; }
   .logo-site.perso img { width: calc(100% - 16px); height: 34px; }
   .logo-site img { position: absolute; inset: 0; margin: auto; width: 32px; height: 32px; object-fit: contain; background: #fff; }
   .outil:hover h4 { color: var(--accent); }
