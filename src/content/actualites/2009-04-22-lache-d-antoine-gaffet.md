@@ -1,7 +1,6 @@
 ---
 titre: "Lâché d'Antoine Gaffet"
 date: 2009-04-22
-categorie: Lâchés et brevets
 image: /uploads/actualites/2009/lache-d-antoine-gaffet/01.jpg
 galerie:
   - /uploads/actualites/2009/lache-d-antoine-gaffet/01.jpg

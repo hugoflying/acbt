@@ -1,7 +1,6 @@
 ---
 titre: "Charly Alexandre lâché le jour de ses 15 ans"
 date: 2013-02-20
-categorie: Lâchés et brevets
 image: /uploads/actualites/2013/charly-alexandre-lache-le-jour-de-ses-15/01.jpg
 galerie:
   - /uploads/actualites/2013/charly-alexandre-lache-le-jour-de-ses-15/01.jpg

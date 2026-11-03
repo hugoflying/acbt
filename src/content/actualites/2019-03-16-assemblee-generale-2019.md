@@ -1,7 +1,6 @@
 ---
 titre: "Assemblée générale 2019"
 date: 2019-03-16
-categorie: Vie du club
 image: /uploads/actualites/2019/assemblee-generale-2019/01.jpg
 galerie:
   - /uploads/actualites/2019/assemblee-generale-2019/01.jpg

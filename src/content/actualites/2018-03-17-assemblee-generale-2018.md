@@ -1,7 +1,6 @@
 ---
 titre: "Assemblée générale 2018"
 date: 2018-03-17
-categorie: Vie du club
 image: /uploads/actualites/2018/assemblee-generale-2018/01.jpg
 galerie:
   - /uploads/actualites/2018/assemblee-generale-2018/01.jpg

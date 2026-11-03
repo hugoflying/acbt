@@ -1,7 +1,6 @@
 ---
 titre: "Navigation vers Le Havre avec Vincent Tapsoba"
 date: 2019-11-17
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/navigation-vers-le-havre-avec-vincent-tapsoba/01.jpg
 galerie:
   - /uploads/actualites/2019/navigation-vers-le-havre-avec-vincent-tapsoba/01.jpg

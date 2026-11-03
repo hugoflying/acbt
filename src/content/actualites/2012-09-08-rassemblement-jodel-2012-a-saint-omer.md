@@ -1,7 +1,6 @@
 ---
 titre: "Rassemblement Jodel 2012 à Saint-Omer"
 date: 2012-09-08
-categorie: Sorties et voyages
 image: /uploads/actualites/2012/rassemblement-jodel-2012-a-saint-omer/01.jpg
 galerie:
   - /uploads/actualites/2012/rassemblement-jodel-2012-a-saint-omer/01.jpg

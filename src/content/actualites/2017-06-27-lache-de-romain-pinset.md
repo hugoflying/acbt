@@ -1,7 +1,6 @@
 ---
 titre: "Lâché de Romain Pinset"
 date: 2017-06-27
-categorie: Lâchés et brevets
 image: /uploads/actualites/2017/lache-de-romain-pinset/01.jpg
 galerie:
   - /uploads/actualites/2017/lache-de-romain-pinset/01.jpg

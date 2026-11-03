@@ -1,7 +1,6 @@
 ---
 titre: "Dieppe vu du ciel par Bertrand Duporge"
 date: 2019-08-15
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/dieppe-vu-du-ciel-par-bertrand-duporge/01.jpg
 galerie:
   - /uploads/actualites/2019/dieppe-vu-du-ciel-par-bertrand-duporge/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "Un nouvel avion : le Cessna 150 F-BXQM"
 date: 2008-12-27
-categorie: Flotte
 image: /uploads/actualites/2008/un-nouvel-avion-le-cessna-150-f-bxqm/01.jpg
 galerie:
   - /uploads/actualites/2008/un-nouvel-avion-le-cessna-150-f-bxqm/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "Un nouvel avion au club : le Robin DR300-120 F-BTBS"
 date: 2022-06-01
-categorie: Flotte
 image: /uploads/actualites/2022/nouvel-avion-f-btbs/01.jpg
 galerie:
   - /uploads/actualites/2022/nouvel-avion-f-btbs/01.jpg

@@ -15,7 +15,7 @@ const galerie = actu.data.galerie.filter((g) => g !== cover);
   <article class="section">
     <div class="container prose">
       <p><a href={url('/actualites')}>← Toutes les actualités</a></p>
-      <p class="meta"><span class="tag">{actu.data.categorie}</span> · {dateFr(actu.data.date)}</p>
+      <p class="meta">{dateFr(actu.data.date)}</p>
       <h1>{actu.data.titre}</h1>
       {cover && <img src={asset(cover)} alt="" />}
       <Content />

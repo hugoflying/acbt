@@ -1,7 +1,6 @@
 ---
 titre: "Les élèves du BIA au musée de l'aviation"
 date: 2015-04-25
-categorie: BIA et jeunes
 image: /uploads/actualites/2015/les-eleves-du-bia-au-musee-de-l/01.jpg
 galerie:
   - /uploads/actualites/2015/les-eleves-du-bia-au-musee-de-l/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "Lâché d'Evan Laurent"
 date: 2013-02-16
-categorie: Lâchés et brevets
 image: /uploads/actualites/2013/lache-d-evan-laurent/01.jpg
 galerie:
   - /uploads/actualites/2013/lache-d-evan-laurent/01.jpg

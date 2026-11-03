@@ -1,7 +1,6 @@
 ---
 titre: "Bernard Gaubert obtient son PPL"
 date: 2013-03-25
-categorie: Lâchés et brevets
 image: /uploads/actualites/2013/bernard-gaubert-obtient-son-ppl/01.jpg
 galerie:
   - /uploads/actualites/2013/bernard-gaubert-obtient-son-ppl/01.jpg

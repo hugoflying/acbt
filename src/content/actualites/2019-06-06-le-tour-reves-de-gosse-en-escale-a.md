@@ -1,7 +1,6 @@
 ---
 titre: "Le tour « Rêves de gosse » en escale à l'ACBT"
 date: 2019-06-06
-categorie: Événements
 image: /uploads/actualites/2019/le-tour-reves-de-gosse-en-escale-a/01.jpg
 galerie:
   - /uploads/actualites/2019/le-tour-reves-de-gosse-en-escale-a/01.jpg

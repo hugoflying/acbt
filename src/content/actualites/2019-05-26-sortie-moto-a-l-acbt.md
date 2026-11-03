@@ -1,7 +1,6 @@
 ---
 titre: "Sortie moto à l'ACBT"
 date: 2019-05-26
-categorie: Événements
 image: /uploads/actualites/2019/sortie-moto-a-l-acbt/01.jpg
 galerie:
   - /uploads/actualites/2019/sortie-moto-a-l-acbt/01.jpg

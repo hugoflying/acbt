@@ -5,11 +5,11 @@ interface Props { actu: CollectionEntry<'actualites'> }
 const { actu } = Astro.props;
 const img = actu.data.image ?? actu.data.galerie[0];
 ---
-<article class="card news" data-annee={actu.data.date.getFullYear()} data-cat={actu.data.categorie}>
+<article class="card news" data-annee={actu.data.date.getFullYear()}>
   <a class="stretched" href={url(`/actualites/${actu.id}`)}>
     {img ? <img class="cover" src={asset(img)} alt="" loading="lazy" /> : <div class="cover placeholder" aria-hidden="true">✈</div>}
     <div class="card-body">
-      <p class="meta"><span class="tag">{actu.data.categorie}</span> · {dateFr(actu.data.date, { month: 'long', year: 'numeric' })}</p>
+      <p class="meta">{dateFr(actu.data.date, { month: 'long', year: 'numeric' })}</p>
       <h3>{actu.data.titre}</h3>
     </div>
   </a>

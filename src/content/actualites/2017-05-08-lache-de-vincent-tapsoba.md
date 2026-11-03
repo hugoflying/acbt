@@ -1,7 +1,6 @@
 ---
 titre: "Lâché de Vincent Tapsoba"
 date: 2017-05-08
-categorie: Lâchés et brevets
 image: /uploads/actualites/2017/lache-de-vincent-tapsoba/01.jpg
 galerie:
   - /uploads/actualites/2017/lache-de-vincent-tapsoba/01.jpg

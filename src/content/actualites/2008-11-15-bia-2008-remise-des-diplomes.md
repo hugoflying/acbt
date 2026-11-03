@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2008 : remise des diplômes"
 date: 2008-11-15
-categorie: BIA et jeunes
 image: /uploads/actualites/2008/bia-2008-remise-des-diplomes/01.jpg
 galerie:
   - /uploads/actualites/2008/bia-2008-remise-des-diplomes/01.jpg

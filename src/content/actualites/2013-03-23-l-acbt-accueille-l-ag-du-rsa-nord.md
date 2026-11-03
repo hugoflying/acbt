@@ -1,7 +1,6 @@
 ---
 titre: "L'ACBT accueille l'AG du RSA Nord-Picardie"
 date: 2013-03-23
-categorie: Événements
 image: /uploads/actualites/2013/l-acbt-accueille-l-ag-du-rsa-nord/01.jpg
 galerie:
   - /uploads/actualites/2013/l-acbt-accueille-l-ag-du-rsa-nord/01.jpg

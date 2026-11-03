@@ -1,7 +1,6 @@
 ---
 titre: "Les actualités de juin 2017 à l'aéroclub"
 date: 2017-06-20
-categorie: Vie du club
 image: /uploads/actualites/2017/les-actualites-de-juin-2017-a-l-aeroclub/01.jpg
 galerie:
   - /uploads/actualites/2017/les-actualites-de-juin-2017-a-l-aeroclub/01.jpg

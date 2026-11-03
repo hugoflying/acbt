@@ -1,7 +1,6 @@
 ---
 titre: "Soirée d'information du 19 mai 2018"
 date: 2018-05-19
-categorie: Vie du club
 image: /uploads/actualites/2018/soiree-d-information-du-19-mai-2018/01.jpg
 galerie:
   - /uploads/actualites/2018/soiree-d-information-du-19-mai-2018/01.jpg

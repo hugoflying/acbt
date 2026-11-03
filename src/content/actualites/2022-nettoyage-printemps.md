@@ -1,7 +1,6 @@
 ---
 titre: "Journée nettoyage de printemps"
 date: 2022-04-09
-categorie: Vie du club
 image: /uploads/actualites/2022/nettoyage-printemps/01.jpg
 galerie:
   - /uploads/actualites/2022/nettoyage-printemps/01.jpg

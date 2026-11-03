@@ -1,7 +1,6 @@
 ---
 titre: "Assemblée générale 2013"
 date: 2013-03-16
-categorie: Vie du club
 image: /uploads/actualites/2013/assemblee-generale-2013/01.jpg
 galerie:
   - /uploads/actualites/2013/assemblee-generale-2013/01.jpg

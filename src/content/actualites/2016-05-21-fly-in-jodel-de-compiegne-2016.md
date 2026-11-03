@@ -1,7 +1,6 @@
 ---
 titre: "Fly-in Jodel de Compiègne 2016"
 date: 2016-05-21
-categorie: Sorties et voyages
 image: /uploads/actualites/2016/fly-in-jodel-de-compiegne-2016/01.jpg
 galerie:
   - /uploads/actualites/2016/fly-in-jodel-de-compiegne-2016/01.jpg

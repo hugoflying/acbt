@@ -1,7 +1,6 @@
 ---
 titre: "Le diplôme de l'engagement citoyen pour Josiane Rolland Gambu"
 date: 2012-12-05
-categorie: Vie du club
 image: /uploads/actualites/2012/le-diplome-de-l-engagement-citoyen-pour-josiane/01.jpg
 galerie:
   - /uploads/actualites/2012/le-diplome-de-l-engagement-citoyen-pour-josiane/01.jpg

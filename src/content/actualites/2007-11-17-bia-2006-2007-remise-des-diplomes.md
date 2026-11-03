@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2006-2007 : remise des diplômes"
 date: 2007-11-17
-categorie: BIA et jeunes
 image: /uploads/actualites/2007/bia-2006-2007-remise-des-diplomes/01.jpg
 galerie:
   - /uploads/actualites/2007/bia-2006-2007-remise-des-diplomes/01.jpg

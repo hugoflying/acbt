@@ -1,7 +1,6 @@
 ---
 titre: "Antoine Gaffet fête son ATPL"
 date: 2014-09-27
-categorie: Lâchés et brevets
 image: /uploads/actualites/2014/antoine-gaffet-fete-son-atpl/01.jpg
 galerie:
   - /uploads/actualites/2014/antoine-gaffet-fete-son-atpl/01.jpg

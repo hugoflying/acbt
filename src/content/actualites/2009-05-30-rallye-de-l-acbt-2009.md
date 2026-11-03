@@ -1,7 +1,6 @@
 ---
 titre: "Rallye de l'ACBT 2009"
 date: 2009-05-30
-categorie: Événements
 image: /uploads/actualites/2009/rallye-de-l-acbt-2009/01.jpg
 galerie:
   - /uploads/actualites/2009/rallye-de-l-acbt-2009/01.jpg

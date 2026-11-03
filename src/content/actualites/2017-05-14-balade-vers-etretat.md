@@ -1,7 +1,6 @@
 ---
 titre: "Balade vers Étretat"
 date: 2017-05-14
-categorie: Sorties et voyages
 image: /uploads/actualites/2017/balade-vers-etretat/01.jpg
 galerie:
   - /uploads/actualites/2017/balade-vers-etretat/01.jpg

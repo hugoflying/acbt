@@ -1,7 +1,6 @@
 ---
 titre: "Les 30 ans de l'ACBT"
 date: 2009-07-04
-categorie: Vie du club
 image: /uploads/actualites/2009/les-30-ans-de-l-acbt/01.jpg
 galerie:
   - /uploads/actualites/2009/les-30-ans-de-l-acbt/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "François Guyot obtient son PPL"
 date: 2007-05-12
-categorie: Lâchés et brevets
 image: /uploads/actualites/2007/francois-guyot-obtient-son-ppl/01.jpg
 galerie:
   - /uploads/actualites/2007/francois-guyot-obtient-son-ppl/01.jpg

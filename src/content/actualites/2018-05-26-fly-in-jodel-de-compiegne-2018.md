@@ -1,7 +1,6 @@
 ---
 titre: "Fly-in Jodel de Compiègne 2018"
 date: 2018-05-26
-categorie: Sorties et voyages
 image: /uploads/actualites/2018/fly-in-jodel-de-compiegne-2018/01.jpg
 galerie:
   - /uploads/actualites/2018/fly-in-jodel-de-compiegne-2018/01.jpg

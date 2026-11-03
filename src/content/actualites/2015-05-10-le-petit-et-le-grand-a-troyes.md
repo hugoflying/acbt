@@ -1,7 +1,6 @@
 ---
 titre: "Le petit et le grand à Troyes"
 date: 2015-05-10
-categorie: Sorties et voyages
 image: /uploads/actualites/2015/le-petit-et-le-grand-a-troyes/01.jpg
 galerie:
   - /uploads/actualites/2015/le-petit-et-le-grand-a-troyes/01.jpg

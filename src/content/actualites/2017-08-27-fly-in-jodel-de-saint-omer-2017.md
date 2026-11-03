@@ -1,7 +1,6 @@
 ---
 titre: "Fly-in Jodel de Saint-Omer 2017"
 date: 2017-08-27
-categorie: Sorties et voyages
 image: /uploads/actualites/2017/fly-in-jodel-de-saint-omer-2017/01.jpg
 galerie:
   - /uploads/actualites/2017/fly-in-jodel-de-saint-omer-2017/01.jpg

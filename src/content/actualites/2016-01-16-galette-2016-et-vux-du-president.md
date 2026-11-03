@@ -1,7 +1,6 @@
 ---
 titre: "Galette 2016 et vœux du président"
 date: 2016-01-16
-categorie: Vie du club
 image: /uploads/actualites/2016/galette-2016-et-vux-du-president/01.jpg
 galerie:
   - /uploads/actualites/2016/galette-2016-et-vux-du-president/01.jpg

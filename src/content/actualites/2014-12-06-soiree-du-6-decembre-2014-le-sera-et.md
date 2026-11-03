@@ -1,7 +1,6 @@
 ---
 titre: "Soirée du 6 décembre 2014 : le SERA et le rallye de précision"
 date: 2014-12-06
-categorie: Vie du club
 image: /uploads/actualites/2014/soiree-du-6-decembre-2014-le-sera-et/01.jpg
 galerie:
   - /uploads/actualites/2014/soiree-du-6-decembre-2014-le-sera-et/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "Rallye de Picardie 2009 à l'ACBT"
 date: 2009-09-05
-categorie: Événements
 image: /uploads/actualites/2009/rallye-de-picardie-2009-a-l-acbt/01.jpg
 galerie:
   - /uploads/actualites/2009/rallye-de-picardie-2009-a-l-acbt/01.jpg

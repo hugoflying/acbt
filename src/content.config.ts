@@ -6,7 +6,6 @@ const actualites = defineCollection({
   schema: z.object({
     titre: z.string(),
     date: z.coerce.date(),
-    categorie: z.enum(['Vie du club', 'Lâchés et brevets', 'Événements', 'Flotte', 'Sorties et voyages', 'BIA et jeunes']),
     image: z.string().optional(),
     galerie: z.array(z.string()).default([]),
     publie: z.boolean().default(true),

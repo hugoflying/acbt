@@ -1,7 +1,6 @@
 ---
 titre: "Journées portes ouvertes 2016"
 date: 2016-09-25
-categorie: Événements
 image: /uploads/actualites/2016/journees-portes-ouvertes-2016/01.jpg
 galerie:
   - /uploads/actualites/2016/journees-portes-ouvertes-2016/01.jpg

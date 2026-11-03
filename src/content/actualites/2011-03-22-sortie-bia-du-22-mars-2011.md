@@ -1,7 +1,6 @@
 ---
 titre: "Sortie BIA du 22 mars 2011"
 date: 2011-03-22
-categorie: BIA et jeunes
 image: /uploads/actualites/2011/sortie-bia-du-22-mars-2011/01.jpg
 galerie:
   - /uploads/actualites/2011/sortie-bia-du-22-mars-2011/01.jpg

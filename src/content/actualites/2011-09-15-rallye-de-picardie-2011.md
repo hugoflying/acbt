@@ -1,7 +1,6 @@
 ---
 titre: "Rallye de Picardie 2011"
 date: 2011-09-15
-categorie: Événements
 image: /uploads/actualites/2011/rallye-de-picardie-2011/01.jpg
 galerie:
   - /uploads/actualites/2011/rallye-de-picardie-2011/01.jpg

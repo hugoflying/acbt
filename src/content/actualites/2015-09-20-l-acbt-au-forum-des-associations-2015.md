@@ -1,7 +1,6 @@
 ---
 titre: "L'ACBT au forum des associations 2015"
 date: 2015-09-20
-categorie: Événements
 image: /uploads/actualites/2015/l-acbt-au-forum-des-associations-2015/01.jpg
 galerie:
   - /uploads/actualites/2015/l-acbt-au-forum-des-associations-2015/01.jpg

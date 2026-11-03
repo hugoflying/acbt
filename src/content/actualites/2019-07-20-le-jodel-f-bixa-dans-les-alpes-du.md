@@ -1,7 +1,6 @@
 ---
 titre: "Le Jodel F-BIXA dans les Alpes du Sud"
 date: 2019-07-20
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/le-jodel-f-bixa-dans-les-alpes-du/01.jpg
 galerie:
   - /uploads/actualites/2019/le-jodel-f-bixa-dans-les-alpes-du/01.jpg

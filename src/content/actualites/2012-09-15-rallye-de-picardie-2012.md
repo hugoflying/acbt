@@ -1,7 +1,6 @@
 ---
 titre: "Rallye de Picardie 2012"
 date: 2012-09-15
-categorie: Événements
 image: /uploads/actualites/2012/rallye-de-picardie-2012/01.jpg
 galerie:
   - /uploads/actualites/2012/rallye-de-picardie-2012/01.jpg

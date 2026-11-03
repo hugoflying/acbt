@@ -1,7 +1,6 @@
 ---
 titre: "Le BIA 2016 avec le collège George-Sand"
 date: 2016-07-02
-categorie: BIA et jeunes
 image: /uploads/actualites/2016/le-bia-2016-avec-le-college-george-sand/01.jpg
 galerie:
   - /uploads/actualites/2016/le-bia-2016-avec-le-college-george-sand/01.jpg

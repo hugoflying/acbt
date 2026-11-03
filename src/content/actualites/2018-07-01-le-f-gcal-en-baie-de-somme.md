@@ -1,7 +1,6 @@
 ---
 titre: "Le F-GCAL en baie de Somme"
 date: 2018-07-01
-categorie: Sorties et voyages
 image: /uploads/actualites/2018/le-f-gcal-en-baie-de-somme/01.jpg
 galerie:
   - /uploads/actualites/2018/le-f-gcal-en-baie-de-somme/01.jpg

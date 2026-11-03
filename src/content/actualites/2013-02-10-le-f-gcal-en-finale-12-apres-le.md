@@ -1,7 +1,6 @@
 ---
 titre: "Le F-GCAL en finale 12 après le coucher du soleil"
 date: 2013-02-10
-categorie: Sorties et voyages
 image: /uploads/actualites/2013/le-f-gcal-en-finale-12-apres-le/01.jpg
 galerie:
   - /uploads/actualites/2013/le-f-gcal-en-finale-12-apres-le/01.jpg

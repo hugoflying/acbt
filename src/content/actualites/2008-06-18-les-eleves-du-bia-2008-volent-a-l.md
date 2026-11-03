@@ -1,7 +1,6 @@
 ---
 titre: "Les élèves du BIA 2008 volent à l'ACBT"
 date: 2008-06-18
-categorie: BIA et jeunes
 image: /uploads/actualites/2008/les-eleves-du-bia-2008-volent-a-l/01.jpg
 galerie:
   - /uploads/actualites/2008/les-eleves-du-bia-2008-volent-a-l/01.jpg

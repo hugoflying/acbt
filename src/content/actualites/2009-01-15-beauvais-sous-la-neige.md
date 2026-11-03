@@ -1,7 +1,6 @@
 ---
 titre: "Beauvais sous la neige"
 date: 2009-01-15
-categorie: Vie du club
 image: /uploads/actualites/2009/beauvais-sous-la-neige/01.jpg
 galerie:
   - /uploads/actualites/2009/beauvais-sous-la-neige/01.jpg
