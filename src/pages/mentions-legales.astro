@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import club from '../data/club.json';
+---
+<Base title="Mentions légales">
+  <PageHead title="Mentions légales et données personnelles" />
+  <section class="section"><div class="container prose">
+    <h2>Éditeur</h2>
+    <p>{club.nom}, association loi 1901. {club.adresse}. Téléphone : {club.telephone}. E-mail : {club.email}.</p>
+    <p class="notice">À compléter : numéro RNA ou SIRET, directeur de la publication, hébergeur définitif.</p>
+    <h2>Hébergement</h2>
+    <p>Maquette hébergée par GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis).</p>
+    <h2>Données personnelles</h2>
+    <p>Le formulaire de contact ouvre votre messagerie : aucune donnée n'est enregistrée par le site. Le site n'utilise ni cookie publicitaire ni outil de mesure d'audience.</p>
+    <h2>Photos</h2>
+    <p>Les photos appartiennent à l'aéroclub et à ses membres. Toute réutilisation nécessite leur accord.</p>
+  </div></section>
+</Base>

@@ -1,0 +1,42 @@
+---
+// Le tarif affiché est calculé au moment de la construction du site, puis recalculé
+// dans le navigateur : un tarif planifié s'affiche donc dès sa date, même sans republier.
+import { tarifEnVigueur, euros, dateFr } from '../lib/utils';
+type Tarif = { a_partir_du: Date; prix_heure: number; prix_heure_jeune?: number; note?: string };
+interface Props { tarifs: Tarif[]; compact?: boolean }
+const { tarifs, compact = false } = Astro.props;
+const { actuel, prochain } = tarifEnVigueur(tarifs);
+const data = JSON.stringify(tarifs.map((t) => ({ d: t.a_partir_du.toISOString().slice(0, 10), p: t.prix_heure, j: t.prix_heure_jeune ?? null })));
+---
+<div class="prix" data-tarifs={data} data-compact={compact ? '1' : ''}>
+  {actuel ? (
+    <>
+      <span class="montant"><strong>{euros(actuel.prix_heure)}</strong> / heure</span>
+      {actuel.prix_heure_jeune && <span class="jeune">{euros(actuel.prix_heure_jeune)} / h pour les moins de 25 ans</span>}
+      {!compact && prochain && <span class="prochain">À partir du {dateFr(prochain.a_partir_du)} : {euros(prochain.prix_heure)} / h</span>}
+    </>
+  ) : (
+    <span class="montant">Tarif sur demande</span>
+  )}
+</div>
+<script>
+  const eur = (n: number) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
+  const fr = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).replace(/^1 /, '1er ');
+  document.querySelectorAll<HTMLElement>('.prix[data-tarifs]').forEach((el) => {
+    const t: { d: string; p: number; j: number | null }[] = JSON.parse(el.dataset.tarifs!).sort((a: any, b: any) => a.d.localeCompare(b.d));
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Paris' });
+    const actuel = [...t].reverse().find((x) => x.d <= today);
+    const prochain = t.find((x) => x.d > today);
+    if (!actuel) return;
+    let html = `<span class="montant"><strong>${eur(actuel.p)}</strong> / heure</span>`;
+    if (actuel.j) html += `<span class="jeune">${eur(actuel.j)} / h pour les moins de 25 ans</span>`;
+    if (!el.dataset.compact && prochain) html += `<span class="prochain">À partir du ${fr(prochain.d)} : ${eur(prochain.p)} / h</span>`;
+    el.innerHTML = html;
+  });
+</script>
+<style>
+  .prix { display: flex; flex-direction: column; gap: 2px; }
+  .prix :global(.montant strong) { font-family: var(--font-title); font-size: 1.5rem; color: var(--navy); }
+  .prix :global(.jeune) { font-size: .9rem; color: var(--muted); }
+  .prix :global(.prochain) { font-size: .85rem; color: #8a5410; background: #fff3e3; border-radius: 6px; padding: 2px 8px; margin-top: 6px; align-self: flex-start; }
+</style>

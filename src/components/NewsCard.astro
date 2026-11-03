@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url, asset, dateFr } from '../lib/utils';
+interface Props { actu: CollectionEntry<'actualites'> }
+const { actu } = Astro.props;
+const img = actu.data.image ?? actu.data.galerie[0];
+---
+<article class="card news" data-annee={actu.data.date.getFullYear()} data-cat={actu.data.categorie}>
+  <a class="stretched" href={url(`/actualites/${actu.id}`)}>
+    {img ? <img class="cover" src={asset(img)} alt="" loading="lazy" /> : <div class="cover placeholder" aria-hidden="true">✈</div>}
+    <div class="card-body">
+      <p class="meta"><span class="tag">{actu.data.categorie}</span> · {dateFr(actu.data.date, { month: 'long', year: 'numeric' })}</p>
+      <h3>{actu.data.titre}</h3>
+    </div>
+  </a>
+</article>
+<style>
+  .placeholder { aspect-ratio: 3 / 2; display: grid; place-items: center; font-size: 3rem; color: #fff; background: linear-gradient(135deg, var(--sky), var(--navy)); }
+  .news h3 { font-size: 1.1rem; margin-top: 6px; }
+  .news a:hover h3 { color: var(--sky); }
+</style>

@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PrixAvion from '../../components/PrixAvion.astro';
+import { getCollection } from 'astro:content';
+import { asset } from '../../lib/utils';
+const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+---
+<Base title="La flotte" description="Les avions de l'aéroclub de Beauvais-Tillé : Robin DR400, DR300 et Jodel D120.">
+  <PageHead eyebrow="La flotte" title={`${avions.length} avions pour apprendre et voyager`} lead="Des Robin robustes pour l'école et le voyage, et un Jodel à train classique pour se perfectionner." />
+  {avions.map((a, i) => (
+    <section class={`section ${i % 2 ? 'soft' : ''}`} id={a.id}>
+      <div class="container grid grid-2 avion">
+        <div>
+          {a.data.photos[0] && <img class="main" src={asset(a.data.photos[0])} alt={a.data.nom} loading={i ? 'lazy' : 'eager'} />}
+          {a.data.photos.length > 1 && (
+            <div class="gallery" style="margin-top:10px">
+              {a.data.photos.slice(1).map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt="" loading="lazy" /></a>)}
+            </div>
+          )}
+        </div>
+        <div>
+          <span class="eyebrow">{a.data.usage}</span>
+          <h2>{a.data.nom}</h2>
+          <dl>
+            {a.data.immatriculation && <><dt>Immatriculation</dt><dd>{a.data.immatriculation}</dd></>}
+            <dt>Type</dt><dd>{a.data.type}</dd>
+            {a.data.puissance && <><dt>Moteur</dt><dd>{a.data.puissance} ch</dd></>}
+            {a.data.places && <><dt>Places</dt><dd>{a.data.places}</dd></>}
+          </dl>
+          {a.data.description && <p>{a.data.description}</p>}
+          <PrixAvion tarifs={a.data.tarifs} />
+        </div>
+      </div>
+    </section>
+  ))}
+</Base>
+<style>
+  .avion { align-items: start; }
+  .main { border-radius: var(--radius); aspect-ratio: 3 / 2; object-fit: cover; width: 100%; }
+  .gallery { grid-template-columns: repeat(3, 1fr); }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 0 0 1em; }
+  dt { color: var(--muted); }
+  dd { margin: 0; font-weight: 600; }
+</style>

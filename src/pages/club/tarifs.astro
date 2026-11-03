@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PrixAvion from '../../components/PrixAvion.astro';
+import { getCollection } from 'astro:content';
+import club from '../../data/club.json';
+import { url } from '../../lib/utils';
+const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+---
+<Base title="Tarifs" description="Tarifs des heures de vol et cotisations de l'aéroclub de Beauvais-Tillé.">
+  <PageHead eyebrow="Tarifs" title="Les tarifs du club" lead="Prix de l'heure de vol, cotisations et aides pour les jeunes. Les tarifs à venir sont affichés dès qu'ils sont votés." />
+  <section class="section">
+    <div class="container">
+      <p class="notice" style="margin-bottom:24px">Maquette : les montants sont des exemples. Les vrais tarifs sont à saisir dans le back-office.</p>
+      <h2>Heures de vol</h2>
+      <table class="tarifs">
+        <thead><tr><th>Avion</th><th>Usage</th><th>Prix</th></tr></thead>
+        <tbody>
+          {avions.map((a) => (
+            <tr>
+              <td><a href={url(`/club/flotte#${a.id}`)}>{a.data.nom}</a>{a.data.immatriculation && <div class="meta">{a.data.immatriculation}</div>}</td>
+              <td>{a.data.usage}</td>
+              <td><PrixAvion tarifs={a.data.tarifs} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <h2 style="margin-top:48px">Cotisations</h2>
+      <table class="tarifs">
+        <thead><tr><th>Cotisation</th><th>Prix</th></tr></thead>
+        <tbody>{club.cotisations.map((c) => <tr><td>{c.libelle}</td><td class="prix">{c.prix}</td></tr>)}</tbody>
+      </table>
+      <h2 style="margin-top:48px">Aides</h2>
+      <ul>{club.aides.map((a) => <li><strong>{a.titre}</strong> : {a.texte}</li>)}</ul>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { url, asset, dateFr } from '../../lib/utils';
+export async function getStaticPaths() {
+  const actus = await getCollection('actualites', (a) => a.data.publie);
+  return actus.map((a) => ({ params: { id: a.id }, props: { actu: a } }));
+}
+const { actu } = Astro.props;
+const { Content } = await render(actu);
+const cover = actu.data.image ?? actu.data.galerie[0];
+const galerie = actu.data.galerie.filter((g) => g !== cover);
+---
+<Base title={actu.data.titre}>
+  <article class="section">
+    <div class="container prose">
+      <p><a href={url('/actualites')}>← Toutes les actualités</a></p>
+      <p class="meta"><span class="tag">{actu.data.categorie}</span> · {dateFr(actu.data.date)}</p>
+      <h1>{actu.data.titre}</h1>
+      {cover && <img src={asset(cover)} alt="" />}
+      <Content />
+    </div>
+    {galerie.length > 0 && (
+      <div class="container" style="margin-top:32px">
+        <h2>Photos</h2>
+        <div class="gallery">{galerie.map((g) => <a href={asset(g)} target="_blank"><img src={asset(g)} alt="" loading="lazy" /></a>)}</div>
+      </div>
+    )}
+  </article>
+</Base>

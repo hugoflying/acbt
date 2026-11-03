@@ -1,0 +1,181 @@
+# Back-office du site, utilisable sans connaissance technique : https://app.pagescms.org
+# Chaque enregistrement crée un commit sur GitHub et le site se republie tout seul en 1 à 2 minutes.
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: actualites
+    label: Actualités
+    type: collection
+    path: src/content/actualites
+    filename: '{year}-{month}-{day}-{primary}.md'
+    view:
+      fields: [titre, date, categorie, publie]
+      primary: titre
+      sort: [date, titre]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - { name: titre, label: Titre, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - name: categorie
+        label: Thème
+        type: select
+        required: true
+        options:
+          values: ['Vie du club', 'Lâchés et brevets', 'Événements', 'Flotte', 'Sorties et voyages']
+      - { name: image, label: Photo principale, type: image }
+      - { name: galerie, label: Galerie photos, type: image, list: true }
+      - { name: publie, label: Publiée sur le site, type: boolean, default: true }
+      - { name: body, label: Texte, type: rich-text }
+
+  - name: avions
+    label: Flotte et tarifs avions
+    type: collection
+    path: src/content/avions
+    format: yaml
+    filename: '{primary}.yml'
+    view:
+      fields: [nom, immatriculation, actif]
+      primary: nom
+      sort: [ordre, nom]
+    fields:
+      - { name: nom, label: Nom affiché, type: string, required: true }
+      - { name: immatriculation, label: Immatriculation, type: string }
+      - { name: type, label: Type exact, type: string, required: true, description: 'Exemple : Robin DR400-120' }
+      - { name: puissance, label: Puissance (ch), type: number }
+      - { name: places, label: Nombre de places, type: number }
+      - { name: usage, label: Usage, type: string, description: 'Exemple : École et voyage' }
+      - { name: description, label: Description, type: text }
+      - { name: photos, label: Photos (la première est la photo principale), type: image, list: true }
+      - name: tarifs
+        label: Tarifs horaires
+        description: Ajoutez une ligne avec une date future pour planifier un changement de tarif. Le site affiche automatiquement le bon tarif à chaque date.
+        type: object
+        list: true
+        fields:
+          - { name: a_partir_du, label: 'Applicable à partir du', type: date, required: true }
+          - { name: prix_heure, label: Prix de l'heure (€), type: number, required: true }
+          - { name: prix_heure_jeune, label: Prix moins de 25 ans (€), type: number }
+          - { name: note, label: Note interne, type: string }
+      - { name: ordre, label: Ordre d'affichage, type: number, default: 10 }
+      - { name: actif, label: Avion affiché sur le site, type: boolean, default: true, description: 'Décochez pour retirer un avion sans le supprimer.' }
+
+  - name: documents
+    label: Documents de l'espace membre
+    type: collection
+    path: src/content/documents
+    format: yaml
+    filename: '{primary}.yml'
+    view:
+      fields: [titre, categorie, mis_a_jour]
+      primary: titre
+    fields:
+      - { name: titre, label: Titre, type: string, required: true }
+      - name: categorie
+        label: Catégorie
+        type: select
+        required: true
+        options:
+          values: ['Sécurité', 'Préparation des vols', 'Météo', 'Formulaires', 'Vie du club']
+      - { name: fichier, label: Fichier (PDF), type: file, required: true }
+      - { name: description, label: Description, type: string }
+      - { name: mis_a_jour, label: Date de mise à jour, type: date }
+
+  - name: club
+    label: Infos du club (contact, cotisations, aides)
+    type: file
+    path: src/data/club.json
+    format: json
+    fields:
+      - { name: nom, label: Nom du club, type: string }
+      - { name: sigle, label: Sigle, type: string }
+      - { name: fondation, label: Date de fondation, type: string }
+      - { name: slogan, label: Slogan, type: string }
+      - { name: adresse, label: Adresse, type: string }
+      - { name: telephone, label: Téléphone, type: string }
+      - { name: email, label: E-mail, type: string }
+      - { name: facebook, label: Page Facebook, type: string }
+      - { name: aerogest, label: Lien Aerogest, type: string }
+      - { name: horaires, label: Horaires, type: string }
+      - { name: latitude, label: Latitude (plan), type: number }
+      - { name: longitude, label: Longitude (plan), type: number }
+      - name: cotisations
+        label: Cotisations
+        type: object
+        list: true
+        fields:
+          - { name: libelle, label: Libellé, type: string }
+          - { name: prix, label: Prix, type: string }
+      - name: aides
+        label: Aides au financement
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+      - name: partenaires
+        label: Partenaires
+        type: object
+        list: true
+        fields:
+          - { name: nom, label: Nom, type: string }
+          - { name: lien, label: Lien, type: string }
+
+  - name: decouvrir
+    label: Baptêmes et vols découverte
+    type: file
+    path: src/data/decouvrir.json
+    format: json
+    fields:
+      - { name: intro, label: Introduction, type: text }
+      - name: formules
+        label: Formules
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: duree, label: Durée, type: string }
+          - { name: prix, label: Prix, type: string }
+          - { name: texte, label: Description, type: text }
+      - { name: bon_cadeau, label: Texte bon cadeau, type: text }
+
+  - name: outils
+    label: Outils de préparation des vols (espace membre)
+    type: file
+    path: src/data/outils.json
+    format: json
+    fields:
+      - name: categories
+        label: Catégories
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre de la catégorie, type: string }
+          - name: outils
+            label: Outils
+            type: object
+            list: true
+            fields:
+              - { name: nom, label: Nom, type: string }
+              - { name: description, label: Description, type: string }
+              - { name: lien, label: Lien, type: string }
+
+  - name: historique
+    label: Historique
+    type: file
+    path: src/data/historique.json
+    format: json
+    fields:
+      - { name: intro, label: Introduction, type: text }
+      - name: etapes
+        label: Étapes
+        type: object
+        list: true
+        fields:
+          - { name: annee, label: Année ou période, type: string }
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+          - { name: photos, label: Photos, type: image, list: true }

@@ -1,0 +1,42 @@
+---
+import club from '../data/club.json';
+import { url } from '../lib/utils';
+---
+<footer class="site-footer">
+  <div class="container cols">
+    <div>
+      <h3>{club.nom}</h3>
+      <p>{club.adresse}</p>
+      <p><a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br /><a href={`mailto:${club.email}`}>{club.email}</a></p>
+    </div>
+    <div>
+      <h3>Le site</h3>
+      <ul>
+        <li><a href={url('/decouvrir-le-vol')}>Baptêmes et vols découverte</a></li>
+        <li><a href={url('/formations')}>Formations BIA, LAPL, PPL</a></li>
+        <li><a href={url('/club/historique')}>Notre histoire</a></li>
+        <li><a href={url('/actualites')}>Actualités</a></li>
+        <li><a href={url('/membre')}>Espace membre</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Nos partenaires</h3>
+      <ul>{club.partenaires.map((p) => <li><a href={p.lien} rel="noopener">{p.nom}</a></li>)}</ul>
+      <p><a href={club.facebook} rel="noopener">Suivez-nous sur Facebook</a></p>
+    </div>
+  </div>
+  <div class="container legal">
+    <span>© {new Date().getFullYear()} {club.nom}, association loi 1901 fondée en 1979</span>
+    <a href={url('/mentions-legales')}>Mentions légales et données personnelles</a>
+  </div>
+</footer>
+<style>
+  .site-footer { background: #071a33; color: #b8c6d8; padding: 56px 0 24px; font-size: .95rem; }
+  .cols { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  h3 { color: #fff; font-size: 1.05rem; }
+  ul { list-style: none; padding: 0; margin: 0 0 1em; }
+  li { margin-bottom: 6px; }
+  a { color: #dce6f2; text-decoration: none; }
+  a:hover { color: var(--sun); }
+  .legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid #1d3354; margin-top: 32px; padding-top: 20px; font-size: .85rem; }
+</style>

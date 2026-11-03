@@ -1,0 +1,52 @@
+---
+import { url } from '../lib/utils';
+const nav = [
+  { label: 'Découvrir le vol', href: '/decouvrir-le-vol' },
+  { label: 'Se former', href: '/formations' },
+  { label: 'La flotte', href: '/club/flotte' },
+  { label: 'Tarifs', href: '/club/tarifs' },
+  { label: 'Le club', href: '/club' },
+  { label: 'Actualités', href: '/actualites' },
+  { label: 'Contact', href: '/contact' },
+];
+const path = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="logo" href={url('/')}>
+      <svg viewBox="0 0 64 64" width="38" height="38" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0b2545"/><path d="M10 36l44-14-12 22-8-6-6 8-2-10z" fill="#f29e4c"/></svg>
+      <span><strong>ACBT</strong><small>Aéroclub de Beauvais-Tillé</small></span>
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Ouvrir le menu" />
+    <label for="nav-toggle" class="burger" aria-hidden="true"><span></span><span></span><span></span></label>
+    <nav aria-label="Navigation principale">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={url(n.href)} aria-current={(n.href === '/club' ? path.replace(/\/$/, '') === url(n.href) : path.startsWith(url(n.href))) ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+        <li><a class="btn btn-primary member" href={url('/membre')}>Espace membre</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--navy); }
+  .logo span { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo strong { font-family: var(--font-title); font-size: 1.3rem; }
+  .logo small { font-size: .72rem; color: var(--muted); }
+  nav ul { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  nav a { display: block; padding: 8px 11px; color: var(--ink); text-decoration: none; font-weight: 500; font-size: .95rem; border-radius: 8px; }
+  nav a:hover, nav a[aria-current] { color: var(--sky); }
+  nav a.member { color: #1b1206; padding: 9px 18px; margin-left: 8px; }
+  .nav-toggle, .burger { display: none; }
+  @media (max-width: 1080px) {
+    .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+    .burger span { width: 24px; height: 2px; background: var(--navy); }
+    nav { position: absolute; top: 72px; left: 0; right: 0; background: #fff; border-bottom: 1px solid var(--line); display: none; }
+    nav ul { flex-direction: column; align-items: stretch; padding: 12px 16px 20px; }
+    nav a.member { margin: 8px 0 0; justify-content: center; }
+    .nav-toggle:checked ~ nav { display: block; }
+  }
+</style>
