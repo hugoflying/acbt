@@ -1,0 +1,35 @@
+---
+import { asset, dateFr } from '../lib/utils';
+interface Props { doc: { titre: string; fichier?: string; lien?: string; description?: string; mis_a_jour?: Date }; court?: string }
+const { doc, court } = Astro.props;
+const cible = doc.fichier ? asset(doc.fichier) : doc.lien || '';
+const ext = (doc.fichier || '').split('?')[0].split('.').pop()?.toLowerCase() || '';
+const type = doc.fichier
+  ? (['xls', 'xlsx', 'ods', 'csv'].includes(ext) ? 'XLS' : ['doc', 'docx', 'odt'].includes(ext) ? 'DOC' : ['mp4', 'mov', 'webm'].includes(ext) ? 'VIDÉO' : 'PDF')
+  : /youtu|vimeo/.test(doc.lien || '') ? 'VIDÉO' : 'LIEN';
+const recherche = `${doc.titre} ${doc.description ?? ''}`.toLowerCase();
+---
+{cible ? (
+  <a class="doc" href={cible} target="_blank" rel="noopener" data-q={recherche}>
+    <span class:list={['type', `t-${type.toLowerCase().replace('é', 'e')}`]}>{type}</span>
+    <span class="txt"><strong>{court ?? doc.titre}</strong>{doc.description && <span class="meta">{doc.description}</span>}{doc.mis_a_jour && <span class="meta">Mis à jour le {dateFr(doc.mis_a_jour)}</span>}</span>
+  </a>
+) : (
+  <span class="doc vide" data-q={recherche} title="Document pas encore déposé">
+    <span class="type">…</span>
+    <span class="txt"><strong>{court ?? doc.titre}</strong><span class="meta">Bientôt disponible</span></span>
+  </span>
+)}
+<style>
+  .doc { display: flex; gap: 12px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+  a.doc:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .doc strong { font-weight: 600; font-size: .95rem; line-height: 1.3; display: block; }
+  .doc .meta { display: block; font-size: .8rem; }
+  .type { flex: none; min-width: 44px; text-align: center; font-weight: 700; font-size: .68rem; letter-spacing: .04em; padding: 6px 6px; border-radius: 6px; background: var(--line); color: var(--muted); }
+  .t-pdf { background: #fbe9e7; color: #c0392b; }
+  .t-xls { background: #e6f4ea; color: #1e7e34; }
+  .t-doc { background: #e8f0fe; color: #2f6fd6; }
+  .t-video { background: #f3e8ff; color: #6b4fbb; }
+  .t-lien { background: color-mix(in srgb, var(--accent) 14%, white); color: var(--accent); }
+  .vide { opacity: .55; border-style: dashed; }
+</style>

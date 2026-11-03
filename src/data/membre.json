@@ -1,0 +1,62 @@
+{
+  "avertissement_avion": "Pour les check-lists et récapitulatifs, seul le manuel de vol fait foi : il est dans la sacoche de l'avion. Pour le centrage, se référer à la dernière fiche de pesée, dans le carnet de route.",
+  "liens_club": [
+    {
+      "libelle": "Aerogest : aide en ligne",
+      "lien": ""
+    },
+    {
+      "libelle": "Drive ACBT",
+      "lien": ""
+    }
+  ],
+  "parcours": [
+    {
+      "titre": "Suivre sa progression",
+      "texte": "Votre instructeur s'appuie sur le livret de progression et le livret de briefing. Les extraits sont ci-dessous.",
+      "categorie_docs": "Pour les élèves",
+      "liens": [
+        {
+          "libelle": "Good Pilot",
+          "lien": ""
+        },
+        {
+          "libelle": "Chaîne YouTube Good Pilot",
+          "lien": ""
+        }
+      ]
+    },
+    {
+      "titre": "Préparer le théorique en ligne",
+      "texte": "Abonnez-vous à la formule « e-learning autonome » LAPL/PPL d'Aerogligli : créez votre compte, connectez-vous dans « Accès élève », choisissez « Abonnements », puis « LAPL/PPL » et « E-learning autonome ». Indiquez que vous êtes membre de l'aéroclub de Beauvais pour bénéficier de la réduction du club.",
+      "categorie_docs": "",
+      "liens": [
+        {
+          "libelle": "S'inscrire sur Aerogligli",
+          "lien": "https://www.aerogligli.fr"
+        }
+      ]
+    },
+    {
+      "titre": "S'inscrire aux examens",
+      "texte": "L'inscription à l'examen théorique se fait sur SMILE Examens. Les documents ci-dessous expliquent comment se passe l'examen, avant et après.",
+      "categorie_docs": "Examens",
+      "liens": [
+        {
+          "libelle": "SMILE Examens",
+          "lien": ""
+        },
+        {
+          "libelle": "FAQ et tutos SMILE Examens",
+          "lien": ""
+        }
+      ]
+    },
+    {
+      "titre": "Passer l'examen pratique",
+      "texte": "L'inscription à l'examen pratique LAPL ou PPL(A), puis la demande de licence, sont faites uniquement par le responsable pédagogique du club dans SMILE Formation. Voyez ces démarches avec lui. Ne faites aucune démarche vous-même, et surtout pas sur le portail PN de la DGAC.",
+      "categorie_docs": "",
+      "liens": []
+    }
+  ]
+}
