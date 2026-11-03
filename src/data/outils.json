@@ -43,7 +43,8 @@
         {
           "nom": "SUPAIP.fr",
           "description": "Les SUP AIP et zones actives sur une carte, en un coup d'œil.",
-          "lien": "https://www.supaip.fr/"
+          "lien": "https://www.supaip.fr/",
+          "logo": "https://supaip.fr/img/logo-supaip.svg?v=1777106873"
         }
       ]
     },
