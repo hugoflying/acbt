@@ -1,7 +1,6 @@
 ---
 titre: "Un vol sur F-BXEK avec Kessy Portier"
 date: 2014-06-28
-categorie: Sorties et voyages
 ---
 Superbe vidéo d'un vol de Kessy Portier sur le F-BXEK.
 

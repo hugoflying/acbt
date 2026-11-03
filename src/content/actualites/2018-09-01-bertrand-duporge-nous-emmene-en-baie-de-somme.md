@@ -1,7 +1,6 @@
 ---
 titre: "Bertrand Duporge nous emmène en baie de Somme"
 date: 2018-09-01
-categorie: Sorties et voyages
 image: /uploads/actualites/2018/bertrand-duporge-nous-emmene-en-baie-de-somme/01.jpg
 galerie:
   - /uploads/actualites/2018/bertrand-duporge-nous-emmene-en-baie-de-somme/01.jpg

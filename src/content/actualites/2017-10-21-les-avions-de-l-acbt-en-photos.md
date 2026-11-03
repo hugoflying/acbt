@@ -1,7 +1,6 @@
 ---
 titre: "Les avions de l'ACBT en photos"
 date: 2017-10-21
-categorie: Flotte
 image: /uploads/actualites/2017/les-avions-de-l-acbt-en-photos/01.jpg
 galerie:
   - /uploads/actualites/2017/les-avions-de-l-acbt-en-photos/01.jpg

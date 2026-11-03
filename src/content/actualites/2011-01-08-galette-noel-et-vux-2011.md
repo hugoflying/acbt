@@ -1,7 +1,6 @@
 ---
 titre: "Galette, Noël et vœux 2011"
 date: 2011-01-08
-categorie: Vie du club
 image: /uploads/actualites/2011/galette-noel-et-vux-2011/01.jpg
 galerie:
   - /uploads/actualites/2011/galette-noel-et-vux-2011/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "Assemblée générale 2017"
 date: 2017-03-18
-categorie: Vie du club
 image: /uploads/actualites/2017/assemblee-generale-2017/01.jpg
 galerie:
   - /uploads/actualites/2017/assemblee-generale-2017/01.jpg

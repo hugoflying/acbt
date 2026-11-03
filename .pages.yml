@@ -11,7 +11,7 @@ content:
     path: src/content/actualites
     filename: '{year}-{month}-{day}-{primary}.md'
     view:
-      fields: [titre, date, categorie, publie]
+      fields: [titre, date, publie]
       primary: titre
       sort: [date, titre]
       default:
@@ -20,12 +20,6 @@ content:
     fields:
       - { name: titre, label: Titre, type: string, required: true }
       - { name: date, label: Date, type: date, required: true }
-      - name: categorie
-        label: Thème
-        type: select
-        required: true
-        options:
-          values: ['Vie du club', 'Lâchés et brevets', 'Événements', 'Flotte', 'Sorties et voyages', 'BIA et jeunes']
       - { name: image, label: Photo principale, type: image }
       - { name: galerie, label: Galerie photos, type: image, list: true }
       - { name: publie, label: Publiée sur le site, type: boolean, default: true }

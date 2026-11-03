@@ -1,7 +1,6 @@
 ---
 titre: "Assemblée générale 2012"
 date: 2012-03-17
-categorie: Vie du club
 image: /uploads/actualites/2012/assemblee-generale-2012/01.jpg
 galerie:
   - /uploads/actualites/2012/assemblee-generale-2012/01.jpg

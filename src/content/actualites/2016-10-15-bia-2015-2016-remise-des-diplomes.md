@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2015-2016 : remise des diplômes"
 date: 2016-10-15
-categorie: BIA et jeunes
 image: /uploads/actualites/2016/bia-2015-2016-remise-des-diplomes/01.jpg
 galerie:
   - /uploads/actualites/2016/bia-2015-2016-remise-des-diplomes/01.jpg

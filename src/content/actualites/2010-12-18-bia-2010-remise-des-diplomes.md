@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2010 : remise des diplômes"
 date: 2010-12-18
-categorie: BIA et jeunes
 image: /uploads/actualites/2010/bia-2010-remise-des-diplomes/01.jpg
 galerie:
   - /uploads/actualites/2010/bia-2010-remise-des-diplomes/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2017-2018 : remise des diplômes"
 date: 2018-11-10
-categorie: BIA et jeunes
 image: /uploads/actualites/2018/bia-2017-2018-remise-des-diplomes/01.jpg
 galerie:
   - /uploads/actualites/2018/bia-2017-2018-remise-des-diplomes/01.jpg

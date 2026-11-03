@@ -1,7 +1,6 @@
 ---
 titre: "Le Père Noël arrive en avion"
 date: 2008-12-20
-categorie: Événements
 image: /uploads/actualites/2008/le-pere-noel-arrive-en-avion/01.jpg
 galerie:
   - /uploads/actualites/2008/le-pere-noel-arrive-en-avion/01.jpg

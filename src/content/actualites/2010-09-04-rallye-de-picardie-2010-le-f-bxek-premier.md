@@ -1,7 +1,6 @@
 ---
 titre: "Rallye de Picardie 2010 : le F-BXEK premier"
 date: 2010-09-04
-categorie: Événements
 image: /uploads/actualites/2010/rallye-de-picardie-2010-le-f-bxek-premier/01.jpg
 galerie:
   - /uploads/actualites/2010/rallye-de-picardie-2010-le-f-bxek-premier/01.jpg

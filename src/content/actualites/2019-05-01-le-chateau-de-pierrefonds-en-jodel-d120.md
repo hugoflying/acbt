@@ -1,7 +1,6 @@
 ---
 titre: "Le château de Pierrefonds en Jodel D120"
 date: 2019-05-01
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/le-chateau-de-pierrefonds-en-jodel-d120/01.jpg
 galerie:
   - /uploads/actualites/2019/le-chateau-de-pierrefonds-en-jodel-d120/01.jpg

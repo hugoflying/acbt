@@ -1,7 +1,6 @@
 ---
 titre: "Le F-GCAL en finale de nuit"
 date: 2013-03-04
-categorie: Sorties et voyages
 ---
 Le F-GCAL en finale de nuit, en vidéo.
 

@@ -1,7 +1,6 @@
 ---
 titre: "Sortie club du 15 août 2008"
 date: 2008-08-15
-categorie: Sorties et voyages
 image: /uploads/actualites/2008/sortie-club-du-15-aout-2008/01.jpg
 galerie:
   - /uploads/actualites/2008/sortie-club-du-15-aout-2008/01.jpg

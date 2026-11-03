@@ -1,7 +1,6 @@
 ---
 titre: "Nettoyage des locaux, barbecue des BIA et baptêmes Kiwanis"
 date: 2018-06-02
-categorie: Vie du club
 image: /uploads/actualites/2018/nettoyage-des-locaux-barbecue-des-bia-et-baptemes/01.jpg
 galerie:
   - /uploads/actualites/2018/nettoyage-des-locaux-barbecue-des-bia-et-baptemes/01.jpg

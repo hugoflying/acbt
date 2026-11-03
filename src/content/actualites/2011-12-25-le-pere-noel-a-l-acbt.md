@@ -1,7 +1,6 @@
 ---
 titre: "Le Père Noël à l'ACBT"
 date: 2011-12-25
-categorie: Événements
 image: /uploads/actualites/2011/le-pere-noel-a-l-acbt/01.jpg
 galerie:
   - /uploads/actualites/2011/le-pere-noel-a-l-acbt/01.jpg

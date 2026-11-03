@@ -1,7 +1,6 @@
 ---
 titre: "Assemblée générale 2016"
 date: 2016-03-12
-categorie: Vie du club
 image: /uploads/actualites/2016/assemblee-generale-2016/01.jpg
 galerie:
   - /uploads/actualites/2016/assemblee-generale-2016/01.jpg

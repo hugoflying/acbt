@@ -1,7 +1,6 @@
 ---
 titre: "Baptêmes de l'air avec le Lions Club"
 date: 2018-06-17
-categorie: Événements
 image: /uploads/actualites/2018/baptemes-de-l-air-avec-le-lions-club/01.jpg
 galerie:
   - /uploads/actualites/2018/baptemes-de-l-air-avec-le-lions-club/01.jpg

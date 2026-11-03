@@ -1,7 +1,6 @@
 ---
 titre: "Navigation à Quiberon"
 date: 2010-06-19
-categorie: Sorties et voyages
 image: /uploads/actualites/2010/navigation-a-quiberon/01.jpg
 galerie:
   - /uploads/actualites/2010/navigation-a-quiberon/01.jpg

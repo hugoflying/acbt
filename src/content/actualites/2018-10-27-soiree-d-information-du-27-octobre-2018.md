@@ -1,7 +1,6 @@
 ---
 titre: "Soirée d'information du 27 octobre 2018"
 date: 2018-10-27
-categorie: Vie du club
 image: /uploads/actualites/2018/soiree-d-information-du-27-octobre-2018/01.jpg
 galerie:
   - /uploads/actualites/2018/soiree-d-information-du-27-octobre-2018/01.jpg

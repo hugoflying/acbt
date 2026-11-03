@@ -1,7 +1,6 @@
 ---
 titre: "Navigation sur les châteaux de la Loire"
 date: 2019-04-13
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/navigation-sur-les-chateaux-de-la-loire/01.jpg
 galerie:
   - /uploads/actualites/2019/navigation-sur-les-chateaux-de-la-loire/01.jpg

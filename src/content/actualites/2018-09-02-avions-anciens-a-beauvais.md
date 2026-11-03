@@ -1,7 +1,6 @@
 ---
 titre: "Avions anciens à Beauvais"
 date: 2018-09-02
-categorie: Événements
 image: /uploads/actualites/2018/avions-anciens-a-beauvais/01.jpg
 galerie:
   - /uploads/actualites/2018/avions-anciens-a-beauvais/01.jpg

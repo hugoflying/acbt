@@ -1,7 +1,6 @@
 ---
 titre: "Journée de printemps 2019"
 date: 2019-06-01
-categorie: Vie du club
 image: /uploads/actualites/2019/journee-de-printemps-2019/01.jpg
 galerie:
   - /uploads/actualites/2019/journee-de-printemps-2019/01.jpg

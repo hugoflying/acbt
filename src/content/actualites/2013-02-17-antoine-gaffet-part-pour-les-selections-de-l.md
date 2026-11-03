@@ -1,7 +1,6 @@
 ---
 titre: "Antoine Gaffet part pour les sélections de l'aéronavale"
 date: 2013-02-17
-categorie: Vie du club
 image: /uploads/actualites/2013/antoine-gaffet-part-pour-les-selections-de-l/01.jpg
 galerie:
   - /uploads/actualites/2013/antoine-gaffet-part-pour-les-selections-de-l/01.jpg

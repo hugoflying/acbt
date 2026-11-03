@@ -1,7 +1,6 @@
 ---
 titre: "Forum des associations 2019"
 date: 2019-09-30
-categorie: Événements
 image: /uploads/actualites/2019/forum-des-associations-2019/01.jpg
 galerie:
   - /uploads/actualites/2019/forum-des-associations-2019/01.jpg

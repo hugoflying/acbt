@@ -1,7 +1,6 @@
 ---
 titre: "Le Père Noël arrive en avion à l'ACBT"
 date: 2012-12-22
-categorie: Événements
 image: /uploads/actualites/2012/le-pere-noel-arrive-en-avion-a-l/01.jpg
 galerie:
   - /uploads/actualites/2012/le-pere-noel-arrive-en-avion-a-l/01.jpg

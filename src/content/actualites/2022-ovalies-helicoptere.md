@@ -1,7 +1,6 @@
 ---
 titre: "Baptêmes en hélicoptère avec l'armée de l'Air et l'association Ovalies"
 date: 2022-04-30
-categorie: Événements
 image: /uploads/actualites/2022/ovalies-helicoptere/01.jpg
 galerie:
   - /uploads/actualites/2022/ovalies-helicoptere/01.jpg

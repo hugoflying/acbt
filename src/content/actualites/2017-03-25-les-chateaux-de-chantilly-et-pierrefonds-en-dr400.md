@@ -1,7 +1,6 @@
 ---
 titre: "Les châteaux de Chantilly et Pierrefonds en DR400"
 date: 2017-03-25
-categorie: Sorties et voyages
 image: /uploads/actualites/2017/les-chateaux-de-chantilly-et-pierrefonds-en-dr400/01.jpg
 galerie:
   - /uploads/actualites/2017/les-chateaux-de-chantilly-et-pierrefonds-en-dr400/01.jpg

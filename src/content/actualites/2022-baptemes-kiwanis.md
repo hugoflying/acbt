@@ -1,7 +1,6 @@
 ---
 titre: "Journée baptêmes de l'air Kiwanis 2022"
 date: 2022-06-25
-categorie: Événements
 image: /uploads/actualites/2022/baptemes-kiwanis/01.jpg
 galerie:
   - /uploads/actualites/2022/baptemes-kiwanis/01.jpg

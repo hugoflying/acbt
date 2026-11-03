@@ -1,7 +1,6 @@
 ---
 titre: "Le F-BIXA restauré"
 date: 2012-08-01
-categorie: Flotte
 image: /uploads/actualites/2012/le-f-bixa-restaure/01.jpg
 galerie:
   - /uploads/actualites/2012/le-f-bixa-restaure/01.jpg

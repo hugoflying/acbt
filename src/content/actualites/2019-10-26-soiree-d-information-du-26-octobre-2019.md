@@ -1,7 +1,6 @@
 ---
 titre: "Soirée d'information du 26 octobre 2019"
 date: 2019-10-26
-categorie: Vie du club
 image: /uploads/actualites/2019/soiree-d-information-du-26-octobre-2019/01.jpg
 galerie:
   - /uploads/actualites/2019/soiree-d-information-du-26-octobre-2019/01.jpg

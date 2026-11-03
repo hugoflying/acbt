@@ -1,7 +1,6 @@
 ---
 titre: "Ludo en baie de Somme"
 date: 2012-08-15
-categorie: Sorties et voyages
 image: /uploads/actualites/2012/ludo-en-baie-de-somme/01.jpg
 galerie:
   - /uploads/actualites/2012/ludo-en-baie-de-somme/01.jpg

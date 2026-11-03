@@ -1,7 +1,6 @@
 ---
 titre: "Le vol de nuit à l'ACBT"
 date: 2015-12-15
-categorie: Lâchés et brevets
 image: /uploads/actualites/2015/le-vol-de-nuit-a-l-acbt/01.jpg
 galerie:
   - /uploads/actualites/2015/le-vol-de-nuit-a-l-acbt/01.jpg

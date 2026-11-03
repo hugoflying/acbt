@@ -1,7 +1,6 @@
 ---
 titre: "Galette 2020 et vœux du président"
 date: 2020-01-18
-categorie: Vie du club
 image: /uploads/actualites/2020/galette-2020-et-vux-du-president/01.jpg
 galerie:
   - /uploads/actualites/2020/galette-2020-et-vux-du-president/01.jpg

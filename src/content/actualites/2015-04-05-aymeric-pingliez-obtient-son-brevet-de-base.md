@@ -1,7 +1,6 @@
 ---
 titre: "Aymeric Pingliez obtient son brevet de base"
 date: 2015-04-05
-categorie: Lâchés et brevets
 image: /uploads/actualites/2015/aymeric-pingliez-obtient-son-brevet-de-base/01.jpg
 galerie:
   - /uploads/actualites/2015/aymeric-pingliez-obtient-son-brevet-de-base/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2012 : remise des diplômes"
 date: 2012-11-25
-categorie: BIA et jeunes
 image: /uploads/actualites/2012/bia-2012-remise-des-diplomes/01.jpg
 galerie:
   - /uploads/actualites/2012/bia-2012-remise-des-diplomes/01.jpg

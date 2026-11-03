@@ -1,7 +1,6 @@
 ---
 titre: "Le château de Chantilly sous la neige"
 date: 2018-02-10
-categorie: Sorties et voyages
 image: /uploads/actualites/2018/le-chateau-de-chantilly-sous-la-neige/01.jpg
 galerie:
   - /uploads/actualites/2018/le-chateau-de-chantilly-sous-la-neige/01.jpg

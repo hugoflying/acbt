@@ -1,7 +1,6 @@
 ---
 titre: "L'ACBT au forum des associations de Tillé"
 date: 2022-09-03
-categorie: Événements
 image: /uploads/actualites/2022/forum-associations-tille/01.jpg
 galerie:
   - /uploads/actualites/2022/forum-associations-tille/01.jpg

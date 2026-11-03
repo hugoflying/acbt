@@ -1,7 +1,6 @@
 ---
 titre: "Sortie club 2019 : Châteauroux - La Rochelle"
 date: 2019-06-22
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/sortie-club-2019-chateauroux-la-rochelle/01.jpg
 galerie:
   - /uploads/actualites/2019/sortie-club-2019-chateauroux-la-rochelle/01.jpg

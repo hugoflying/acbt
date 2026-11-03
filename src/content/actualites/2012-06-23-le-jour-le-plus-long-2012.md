@@ -1,7 +1,6 @@
 ---
 titre: "Le jour le plus long 2012"
 date: 2012-06-23
-categorie: Événements
 image: /uploads/actualites/2012/le-jour-le-plus-long-2012/01.jpg
 galerie:
   - /uploads/actualites/2012/le-jour-le-plus-long-2012/01.jpg

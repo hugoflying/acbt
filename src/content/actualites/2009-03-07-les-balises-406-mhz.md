@@ -1,7 +1,6 @@
 ---
 titre: "Les balises 406 MHz"
 date: 2009-03-07
-categorie: Vie du club
 image: /uploads/actualites/2009/les-balises-406-mhz/01.jpg
 galerie:
   - /uploads/actualites/2009/les-balises-406-mhz/01.jpg

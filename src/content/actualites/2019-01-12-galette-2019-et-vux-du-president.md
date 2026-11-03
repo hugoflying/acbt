@@ -1,7 +1,6 @@
 ---
 titre: "Galette 2019 et vœux du président"
 date: 2019-01-12
-categorie: Vie du club
 image: /uploads/actualites/2019/galette-2019-et-vux-du-president/01.jpg
 galerie:
   - /uploads/actualites/2019/galette-2019-et-vux-du-president/01.jpg

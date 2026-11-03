@@ -1,7 +1,6 @@
 ---
 titre: "Patrick Robert en T6"
 date: 2019-08-16
-categorie: Sorties et voyages
 image: /uploads/actualites/2019/patrick-robert-en-t6/01.jpg
 galerie:
   - /uploads/actualites/2019/patrick-robert-en-t6/01.jpg

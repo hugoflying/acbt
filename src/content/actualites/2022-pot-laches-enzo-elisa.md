@@ -1,7 +1,6 @@
 ---
 titre: "Pot de lâché d'Enzo Hayat et d'Elisa Ratayzik"
 date: 2022-10-15
-categorie: Lâchés et brevets
 image: /uploads/actualites/2022/pot-laches-enzo-elisa/01.jpg
 galerie:
   - /uploads/actualites/2022/pot-laches-enzo-elisa/01.jpg

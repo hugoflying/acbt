@@ -1,7 +1,6 @@
 ---
 titre: "Les élèves du BIA au musée Clostermann"
 date: 2008-04-19
-categorie: BIA et jeunes
 image: /uploads/actualites/2008/les-eleves-du-bia-au-musee-clostermann/01.jpg
 galerie:
   - /uploads/actualites/2008/les-eleves-du-bia-au-musee-clostermann/01.jpg

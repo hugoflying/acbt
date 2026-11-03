@@ -1,7 +1,6 @@
 ---
 titre: "Baptêmes de l'air avec le concessionnaire Mercedes-Benz"
 date: 2019-10-01
-categorie: Événements
 image: /uploads/actualites/2019/baptemes-de-l-air-avec-le-concessionnaire-mercedes/01.jpg
 galerie:
   - /uploads/actualites/2019/baptemes-de-l-air-avec-le-concessionnaire-mercedes/01.jpg

@@ -1,7 +1,6 @@
 ---
 titre: "Baptêmes de l'air avec le Lions Club 2019"
 date: 2019-06-16
-categorie: Événements
 image: /uploads/actualites/2019/baptemes-de-l-air-avec-le-lions-club/01.jpg
 galerie:
   - /uploads/actualites/2019/baptemes-de-l-air-avec-le-lions-club/01.jpg

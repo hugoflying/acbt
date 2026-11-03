@@ -1,7 +1,6 @@
 ---
 titre: "Les résultats du BIA 2007"
 date: 2007-06-30
-categorie: BIA et jeunes
 image: /uploads/actualites/2007/les-resultats-du-bia-2007/01.jpg
 galerie:
   - /uploads/actualites/2007/les-resultats-du-bia-2007/01.jpg

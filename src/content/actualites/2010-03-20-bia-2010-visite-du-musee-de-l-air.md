@@ -1,7 +1,6 @@
 ---
 titre: "BIA 2010 : visite du musée de l'Air et de l'Espace"
 date: 2010-03-20
-categorie: BIA et jeunes
 image: /uploads/actualites/2010/bia-2010-visite-du-musee-de-l-air/01.jpg
 galerie:
   - /uploads/actualites/2010/bia-2010-visite-du-musee-de-l-air/01.jpg
