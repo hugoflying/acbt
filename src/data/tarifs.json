@@ -1,0 +1,42 @@
+{
+  "annee": "2025",
+  "adhesion": {
+    "colonnes": [
+      { "titre": "Première adhésion", "public": "Moins de 21 ans", "cotisation_acbt": 65, "mise_en_avant": true },
+      { "titre": "Jeune membre", "public": "Moins de 21 ans", "cotisation_acbt": 130, "mise_en_avant": false },
+      { "titre": "Membre", "public": "21 ans et plus", "cotisation_acbt": 200, "mise_en_avant": false }
+    ],
+    "cotisation_ffa": 92,
+    "infopilote": 49,
+    "note": "La cotisation FFA comprend la licence fédérale et l'assurance. L'abonnement Infopilote, la revue de la FFA, est facultatif."
+  },
+  "blocs": [
+    { "heures": 10, "offert": "1 heure offerte" },
+    { "heures": 5, "offert": "20 minutes offertes" }
+  ],
+  "blocs_note": "Valable en solo comme en double commande.",
+  "temporaire": {
+    "titre": "Membre temporaire",
+    "duree": "2 mois",
+    "prix": 130,
+    "texte": "Cotisation hors FFA. Les heures de vol sont aux mêmes tarifs que pour les membres, en solo ou en double commande."
+  },
+  "formules": [
+    { "titre": "Vol découverte", "texte": "Découvrez votre région vue d'avion, en passager avec un pilote du club.", "prix": [
+      { "libelle": "1 personne", "prix": 55 },
+      { "libelle": "1 adulte + 1 enfant", "prix": 65 },
+      { "libelle": "2 adultes", "prix": 75 },
+      { "libelle": "2 adultes + 1 enfant", "prix": 80 }
+    ] },
+    { "titre": "Vol d'initiation", "texte": "Briefing puis 30 minutes de vol aux commandes d'un avion avec un instructeur.", "prix": [ { "libelle": "1 vol de 30 min", "prix": 100 } ] },
+    { "titre": "Pack initiation", "texte": "4 séances de 30 minutes pour découvrir les joies du pilotage avec un instructeur.", "prix": [ { "libelle": "4 × 30 min", "prix": 350 } ] }
+  ],
+  "divers": [
+    { "libelle": "Livret de briefing", "prix": "49 €" },
+    { "libelle": "Livret de progression", "prix": "15 €" },
+    { "libelle": "Carnet de vol", "prix": "19 €" },
+    { "libelle": "Manuel du pilote (Cépaduès)", "prix": "75 €" },
+    { "libelle": "Abonnement Aerogligli", "prix": "-10 % sur le e-learning" },
+    { "libelle": "Casque, carte, porte-clés", "prix": "Sur demande" }
+  ]
+}

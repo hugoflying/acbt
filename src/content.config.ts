@@ -29,7 +29,7 @@ const avions = defineCollection({
         z.object({
           a_partir_du: z.coerce.date(),
           prix_heure: z.number(),
-          prix_heure_jeune: z.number().optional(),
+          prix_instruction: z.number().optional(),
           note: z.string().optional(),
         }),
       )

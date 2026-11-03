@@ -41,4 +41,4 @@ Décocher « Avion affiché sur le site » pour le masquer en gardant sa fiche, 
 
 - Récupérer et classer les actualités 2006-2020 de l'ancien site.
 - Télécharger les photos hébergées sur Wix dans `public/uploads/` (elles sont liées en direct pour l'instant).
-- Saisir les vrais tarifs, cotisations, prix des baptêmes et immatriculations.
+- Vérifier les tarifs saisis à partir de la grille 2025.

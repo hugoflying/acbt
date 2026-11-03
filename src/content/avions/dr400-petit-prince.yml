@@ -11,8 +11,7 @@ photos:
   - /uploads/avions/dr400-petit-prince-03.jpg
   - /uploads/avions/dr400-petit-prince-04.jpg
 tarifs:
-  - a_partir_du: 2026-01-01
-    prix_heure: 150
-    prix_heure_jeune: 135
-    note: Tarif d'exemple pour la maquette
+  - a_partir_du: 2025-01-01
+    prix_heure: 130
+    prix_instruction: 175
 ordre: 2
