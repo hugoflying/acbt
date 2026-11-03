@@ -1,0 +1,55 @@
+---
+import { metar } from '../lib/metar';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const m = await metar();
+const fr: Record<string, string> = { VFR: 'VFR', MVFR: 'VFR marginal', IFR: 'IFR', LIFR: 'IFR bas' };
+---
+<div class:list={['metar', { compact }]}>
+  <div class="tete">
+    <span class="titre">METAR LFOB <small>Beauvais-Tillé</small></span>
+    {m?.regles && <span class:list={['regle', `r-${m.regles.toLowerCase()}`]}>{fr[m.regles] ?? m.regles}</span>}
+  </div>
+  {m ? (
+    <>
+      <code class="raw">{m.raw}</code>
+      <dl class="decode">
+        <div><dt>Vent</dt><dd>{m.vent}</dd></div>
+        <div><dt>Visibilité</dt><dd>{m.visibilite}</dd></div>
+        <div><dt>Nuages</dt><dd>{m.nuages}</dd></div>
+        {m.temperature != null && <div><dt>Temp. / rosée</dt><dd>{m.temperature}° / {m.rosee}°</dd></div>}
+        {m.qnh != null && <div><dt>QNH</dt><dd>{m.qnh} hPa</dd></div>}
+      </dl>
+      <p class="age" data-heure={m.heure}>Observation reçue lors de la dernière mise à jour du site.</p>
+    </>
+  ) : (
+    <p class="age">METAR momentanément indisponible. Consultez <a href="https://aviation.meteo.fr/login.php" target="_blank" rel="noopener">AEROWEB</a>.</p>
+  )}
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.metar .age[data-heure]').forEach((el) => {
+    const t = new Date(el.dataset.heure!);
+    if (isNaN(t.getTime())) return;
+    const min = Math.round((Date.now() - t.getTime()) / 60000);
+    const h = t.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+    const dur = min < 60 ? `${min} min` : `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, '0')}`;
+    el.textContent = `Observation de ${h} UTC, il y a ${dur}.`;
+    if (min > 90) { el.classList.add('vieux'); el.textContent += ' Donnée ancienne : vérifiez sur AEROWEB avant de voler.'; }
+  });
+</script>
+<style>
+  .metar { background: var(--ink); color: #dbe3ee; border-radius: 18px; padding: 20px 22px; }
+  .tete { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .titre { font-family: var(--font-title); font-weight: 700; font-size: 1.15rem; color: #fff; }
+  .titre small { font-family: var(--font-body); font-weight: 400; font-size: .85rem; color: #9fb0c4; margin-left: 6px; }
+  .regle { font-size: .75rem; font-weight: 700; letter-spacing: .06em; padding: 4px 10px; border-radius: 999px; background: #2a3a52; color: #fff; }
+  .r-vfr { background: #1f8a70; } .r-mvfr { background: #2f6fd6; } .r-ifr { background: #c2414b; } .r-lifr { background: #8e3fb0; }
+  .raw { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; background: rgba(255,255,255,.06); padding: 10px 12px; border-radius: 10px; color: #fff; overflow-wrap: anywhere; }
+  .decode { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px 18px; margin: 14px 0 6px; }
+  .decode dt { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: #9fb0c4; }
+  .decode dd { margin: 2px 0 0; color: #fff; font-weight: 500; }
+  .age { font-size: .8rem; color: #9fb0c4; margin: 8px 0 0; }
+  .age a { color: #fff; }
+  .age.vieux { color: #f2c98a; }
+  .compact .decode { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+</style>

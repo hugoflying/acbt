@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import DocLien from '../../components/DocLien.astro';
+import Metar from '../../components/Metar.astro';
 import { getCollection } from 'astro:content';
 import { RUBRIQUES_AVION } from '../../content.config';
 import outils from '../../data/outils.json';
@@ -57,6 +58,7 @@ const sommaire = [
     <div class="container">
       <p class="notice" style="margin-bottom:32px">Maquette : cette page est encore publique. La connexion des membres sera activée lors du passage sur Cloudflare (accès par code reçu par e-mail).</p>
       <div class="section-head"><div><span class="label"><b>01</b> Préparer son vol</span><h2>Les outils du pilote</h2></div></div>
+      <div style="margin-bottom:28px"><Metar /></div>
       <div class="cats-outils">
       {outils.categories.map((c) => (
         <div class="bloc" data-bloc>

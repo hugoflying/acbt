@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import UniversCard from '../components/UniversCard.astro';
+import Metar from '../components/Metar.astro';
 import { getCollection } from 'astro:content';
 import club from '../data/club.json';
 import { univers } from '../data/univers';
@@ -125,11 +126,12 @@ const slides = [
         <span class="label"><b>05</b> Nous trouver</span>
         <h2>Passez nous voir au club</h2>
         <p class="lead">{club.adresse}</p>
+        <div class="btns">
+          <a class="btn btn-primary" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
+          <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
+        </div>
       </div>
-      <div class="btns">
-        <a class="btn btn-primary" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
-        <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
-      </div>
+      <Metar />
     </div>
   </section>
 </Base>
@@ -198,5 +200,7 @@ const slides = [
   .chiffres { display: flex; gap: 36px; margin: 28px 0 32px; flex-wrap: wrap; }
   .chiffres strong { display: block; font-family: var(--font-title); font-size: 2.4rem; color: #fff; line-height: 1; }
   .chiffres span { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: #9fb0c6; }
-  .contact-band { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .contact-band { display: grid; grid-template-columns: 1fr minmax(0, 520px); align-items: center; gap: 32px; }
+  .contact-band .btns { margin-top: 20px; }
+  @media (max-width: 860px) { .contact-band { grid-template-columns: 1fr; } }
 </style>
