@@ -4,10 +4,15 @@ import { url, asset, dateFr } from '../lib/utils';
 interface Props { actu: CollectionEntry<'actualites'> }
 const { actu } = Astro.props;
 const img = actu.data.image ?? actu.data.galerie[0];
+const annee = actu.data.date.getFullYear();
+const variante = [...actu.id].reduce((n, c) => n + c.charCodeAt(0), 0) % 3;
 ---
 <article class="card news" data-annee={actu.data.date.getFullYear()}>
   <a class="stretched" href={url(`/actualites/${actu.id}`)}>
-    {img ? <img class="cover" src={asset(img)} alt="" loading="lazy" /> : <div class="cover placeholder" aria-hidden="true">✈</div>}
+    {img ? <img class="cover" src={asset(img)} alt="" loading="lazy" /> : <div class={`cover placeholder v${variante}`} aria-hidden="true">
+      <img class="logo" src={asset('/uploads/logo/logo-acbt.png')} alt="" />
+      <span class="an">{annee}</span>
+    </div>}
     <div class="card-body">
       <p class="meta">{dateFr(actu.data.date, { month: 'long', year: 'numeric' })}</p>
       <h3>{actu.data.titre}</h3>
@@ -15,7 +20,12 @@ const img = actu.data.image ?? actu.data.galerie[0];
   </a>
 </article>
 <style>
-  .placeholder { aspect-ratio: 3 / 2; display: grid; place-items: center; font-size: 3rem; color: #fff; background: linear-gradient(135deg, var(--sky), var(--navy)); }
+  .placeholder { aspect-ratio: 3 / 2; position: relative; overflow: hidden; background: var(--ink); }
+  .placeholder.v0 { background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--accent) 55%, transparent), transparent 60%), var(--ink); }
+  .placeholder.v1 { background: radial-gradient(120% 90% at 0% 0%, rgba(47,111,214,.55), transparent 60%), var(--ink); }
+  .placeholder.v2 { background: radial-gradient(120% 100% at 100% 100%, rgba(232,112,58,.5), transparent 60%), var(--ink); }
+  .placeholder .logo { position: absolute; top: 16px; left: 16px; width: 64px; height: auto; background: #fff; border-radius: 10px; padding: 5px 7px; }
+  .placeholder .an { position: absolute; right: 14px; bottom: -0.18em; font-family: var(--font-title); font-weight: 700; font-size: clamp(4rem, 9vw, 6.5rem); line-height: 1; letter-spacing: -.04em; color: rgba(255,255,255,.14); }
   .news h3 { font-size: 1.1rem; margin-top: 6px; }
   .news a:hover h3 { color: var(--sky); }
 </style>

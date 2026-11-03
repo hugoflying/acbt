@@ -17,7 +17,7 @@ const annees = [...new Set(actus.map((a) => a.data.date.getFullYear()))];
       {annees.map((y) => (
         <div class="annee-bloc" data-annee={y}>
           <h2>{y}</h2>
-          <div class="grid grid-3">{actus.filter((a) => a.data.date.getFullYear() === y).map((a) => <NewsCard actu={a} />)}</div>
+          <div class="grid grid-3 grille-actus">{actus.filter((a) => a.data.date.getFullYear() === y).map((a) => <NewsCard actu={a} />)}</div>
         </div>
       ))}
     </div>
@@ -44,4 +44,4 @@ const annees = [...new Set(actus.map((a) => a.data.date.getFullYear()))];
     });
   });
 </script>
-<style>.annee-bloc { margin-bottom: 48px; }</style>
+<style>.annee-bloc { margin-bottom: 48px; } .grille-actus { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }</style>
