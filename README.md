@@ -18,9 +18,8 @@ En ligne sur **https://hugoflying.github.io/acbt/** une fois GitHub Pages activ�
 ### Planifier un changement de tarif
 
 Dans la fiche d'un avion, ajouter une ligne de tarif avec une date future dans
-« Applicable à partir du ». L'ancien tarif reste affiché jusqu'à cette date, avec la mention
-du futur tarif, puis le nouveau prend le relais automatiquement (le site se republie aussi
-chaque nuit).
+« Applicable à partir du ». L'ancien tarif reste affiché jusqu'à cette date, puis le nouveau
+prend le relais automatiquement : le site se republie chaque nuit.
 
 ### Retirer un avion
 

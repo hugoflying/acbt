@@ -1,11 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
-import PrixAvion from '../../components/PrixAvion.astro';
+import HeuresVol from '../../components/HeuresVol.astro';
 import { getCollection } from 'astro:content';
 import club from '../../data/club.json';
 import t from '../../data/tarifs.json';
-import { url, asset } from '../../lib/utils';
+import { url } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const ad = t.adhesion;
 const n = (x: number) => x.toLocaleString('fr-FR');
@@ -20,21 +20,10 @@ const n = (x: number) => x.toLocaleString('fr-FR');
   <section class="section" id="heures">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>01</b> Heures de vol</span><h2>Le prix de l'heure, avion par avion</h2></div>
+        <div><span class="label"><b>01</b> Heures de vol</span><h2>Le prix de l'heure de vol</h2></div>
         <p class="lead" style="max-width:42ch;margin:0">En solo une fois lâché, ou en double commande avec un instructeur pendant la formation.</p>
       </div>
-      <div class="avions">
-        {avions.map((a) => (
-          <article class="avion">
-            <a class="photo" href={url(`/club/flotte#${a.id}`)}>{a.data.photos[0] && <img src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}</a>
-            <div class="corps">
-              <h3>{a.data.immatriculation || a.data.nom}</h3>
-              <p class="meta">{[a.data.type, a.data.puissance && `${a.data.puissance} ch`, a.data.places && `${a.data.places} places`].filter(Boolean).join(' · ')}</p>
-              <PrixAvion tarifs={a.data.tarifs} />
-            </div>
-          </article>
-        ))}
-      </div>
+      <HeuresVol avions={avions} />
       <div class="blocs">
         <div class="blocs-titre"><strong>Achetez vos heures par bloc</strong><span>{t.blocs_note}</span></div>
         {t.blocs.map((b) => <div class="bloc"><span class="h">{b.heures} h achetées</span><span class="o">{b.offert}</span></div>)}
@@ -105,15 +94,6 @@ const n = (x: number) => x.toLocaleString('fr-FR');
   .sommaire { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
   .sommaire a { color: #fff; text-decoration: none; font-size: .9rem; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); }
   .sommaire a:hover { background: #fff; color: var(--ink); }
-
-  .avions { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-  .avion { background: var(--white); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
-  .avion .photo img { aspect-ratio: 16 / 10; object-fit: cover; width: 100%; transition: transform .5s; }
-  .avion .photo { overflow: hidden; display: block; }
-  .avion:hover .photo img { transform: scale(1.04); }
-  .corps { padding: 20px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
-  .corps h3 { margin: 0; font-size: 1.5rem; }
-  .corps .meta { margin-bottom: 14px; }
 
   .blocs { margin-top: 24px; display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 1px; background: var(--ink); border-radius: 20px; overflow: hidden; }
   .blocs > div { background: var(--ink); color: #fff; padding: 22px 26px; display: flex; flex-direction: column; justify-content: center; }
