@@ -1,42 +1,63 @@
 {
   "categories": [
     {
-      "titre": "Briefing et NOTAM",
+      "titre": "Briefing",
       "outils": [
-        { "nom": "SOFIA Briefing", "description": "Dossier de vol, NOTAM, météo et dépôt de plan de vol (DGAC).", "lien": "https://sofia-briefing.aviation-civile.gouv.fr/sofia/pages/homepage.html" },
-        { "nom": "NOTAM (SOFIA prépavol)", "description": "Consultation des NOTAM sur votre trajet.", "lien": "https://sofia-briefing.aviation-civile.gouv.fr/sofia/pages/prepavol.html" },
-        { "nom": "Fiches ICARUS (FFA)", "description": "Fiches de sécurité et retours d'expérience de la FFA.", "lien": "https://www.ffa-aero.fr/WD170AWP/WD170Awp.exe/CONNECT/SITEFFAPROD?_WWREFERER_=https%3A%2F%2Fwww.ffa-aero.fr%2FWD170AWP%2FWD170Awp.exe%2FCONNECT%2FSITEFFAPROD&_WWNATION_=5&_WW1STPAGE_=frm_icarus" }
+        {
+          "nom": "SOFIA Briefing",
+          "description": "Dossier de vol, NOTAM, météo et dépôt de plan de vol (DGAC).",
+          "lien": "https://sofia-briefing.aviation-civile.gouv.fr/sofia/pages/homepage.html"
+        },
+        {
+          "nom": "Fiches ICARUS (FFA)",
+          "description": "Fiches de sécurité et retours d'expérience de la FFA.",
+          "lien": "https://www.ffa-aero.fr/WD170AWP/WD170Awp.exe/CONNECT/SITEFFAPROD?_WWREFERER_=https%3A%2F%2Fwww.ffa-aero.fr%2FWD170AWP%2FWD170Awp.exe%2FCONNECT%2FSITEFFAPROD&_WWNATION_=5&_WW1STPAGE_=frm_icarus"
+        }
       ]
     },
     {
       "titre": "Météo",
       "outils": [
-        { "nom": "AEROWEB", "description": "Météo aéronautique officielle de Météo-France (compte gratuit).", "lien": "https://aviation.meteo.fr/login.php" },
-        { "nom": "Ogimet GRAMET", "description": "Coupe verticale météo le long de la route.", "lien": "http://www.ogimet.com/gramet_aero.phtml.en" },
-        { "nom": "Orbifly METAR", "description": "Carte des METAR et TAF.", "lien": "https://www.orbifly.com/member/metmap.php?region_choose=FRA&mode=metar&icao_choose=&lang=FRA" },
-        { "nom": "Radar Météo 60", "description": "Radar de précipitations centré sur l'Oise.", "lien": "https://www.meteo60.fr/radars-precipitations-pluie-france.php" },
-        { "nom": "Meteox", "description": "Animation radar des 3 dernières heures.", "lien": "https://www.meteox.com/images.aspx?jaar=-3&voor=&soort=loop3uur" },
-        { "nom": "Radar Météo-France", "description": "Images radar officielles.", "lien": "https://meteofrance.com/images-radar" }
+        {
+          "nom": "AEROWEB",
+          "description": "Météo aéronautique officielle de Météo-France (compte gratuit).",
+          "lien": "https://aviation.meteo.fr/login.php"
+        },
+        {
+          "nom": "Windy",
+          "description": "Vent, nuages et précipitations en prévision, par altitude.",
+          "lien": "https://www.windy.com/?49.454,2.113,8"
+        }
       ]
     },
     {
-      "titre": "SIA et réglementation",
+      "titre": "SIA : préparation du vol",
       "outils": [
-        { "nom": "Site du SIA", "description": "Service de l'information aéronautique.", "lien": "https://www.sia.aviation-civile.gouv.fr/" },
-        { "nom": "Cartes VAC", "description": "Cartes d'approche et d'atterrissage à vue.", "lien": "https://www.sia.aviation-civile.gouv.fr/vaip" },
-        { "nom": "eAIP France", "description": "Publication d'information aéronautique, cycle en vigueur.", "lien": "https://www.sia.aviation-civile.gouv.fr/" },
-        { "nom": "AIC", "description": "Circulaires d'information aéronautique.", "lien": "https://www.sia.aviation-civile.gouv.fr/aicmetropole" },
-        { "nom": "Sup AIP", "description": "Suppléments AIP en cours.", "lien": "https://www.sia.aviation-civile.gouv.fr/documents/supaip/aip/id/6" },
-        { "nom": "RTBA", "description": "Horaires d'activité du réseau très basse altitude.", "lien": "https://www.sia.aviation-civile.gouv.fr/schedules" },
-        { "nom": "Réglementation", "description": "Textes réglementaires du SIA.", "lien": "https://www.sia.aviation-civile.gouv.fr/reglementation" },
-        { "nom": "Assistance BRIA", "description": "Coordonnées des bureaux régionaux d'information aéronautique.", "lien": "https://www.sia.aviation-civile.gouv.fr/pub/media/news/file//a/s/assistance_bria_2022.pdf" }
+        {
+          "nom": "Site du SIA",
+          "description": "Service de l'information aéronautique : cartes VAC, eAIP, AIC et préparation du vol.",
+          "lien": "https://www.sia.aviation-civile.gouv.fr/"
+        },
+        {
+          "nom": "SUPAIP.fr",
+          "description": "Les SUP AIP et zones actives sur une carte, en un coup d'œil.",
+          "lien": "https://www.supaip.fr/"
+        }
       ]
     },
     {
       "titre": "Cartes et réservation",
       "outils": [
-        { "nom": "Carte OACI Géoportail", "description": "Carte aéronautique OACI 1/500 000 en ligne.", "lien": "https://www.geoportail.gouv.fr/carte?c=0.8349609375%2C47.83528342275264&z=7&l0=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-OACI%3A%3AGEOPORTAIL%3AOGC%3AWMTS%281%29&permalink=yes" },
-        { "nom": "Aerogest", "description": "Réservation des avions et compte pilote.", "lien": "https://online.aerogest.fr/connection/Logon" }
+        {
+          "nom": "Carte OACI Géoportail",
+          "description": "Carte aéronautique OACI 1/500 000 en ligne.",
+          "lien": "https://www.geoportail.gouv.fr/carte?c=0.8349609375%2C47.83528342275264&z=7&l0=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-OACI%3A%3AGEOPORTAIL%3AOGC%3AWMTS%281%29&permalink=yes"
+        },
+        {
+          "nom": "Aerogest",
+          "description": "Réservation des avions et compte pilote.",
+          "lien": "https://online.aerogest.fr/connection/Logon"
+        }
       ]
     }
   ]

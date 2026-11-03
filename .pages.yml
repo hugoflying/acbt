@@ -262,6 +262,7 @@ content:
               - { name: nom, label: Nom, type: string }
               - { name: description, label: Description, type: string }
               - { name: lien, label: Lien, type: string }
+              - { name: logo, label: Logo (facultatif, sinon celui du site est pris automatiquement), type: image }
 
   - name: historique
     label: Historique
