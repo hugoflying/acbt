@@ -9,6 +9,7 @@ import { url } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const ad = t.adhesion;
 const n = (x: number) => x.toLocaleString('fr-FR');
+const op = t.objectif_pilote;
 ---
 <Base univers="voler" title="Tarifs" description={`Tarifs ${t.annee} de l'aéroclub de Beauvais-Tillé : heures de vol, adhésion, vols découverte.`}>
   <PageHead eyebrow={`03 · Notre flotte — Tarifs ${t.annee}`} image="/uploads/avions/dr400-120-02.jpg" title="Les tarifs du club" lead="Une association, pas une entreprise : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.">
@@ -62,6 +63,20 @@ const n = (x: number) => x.toLocaleString('fr-FR');
       <div class="aides">
         {club.aides.map((a) => <div><strong>{a.titre}</strong><span>{a.texte}</span></div>)}
       </div>
+      {op && (
+        <div class="objectif" id="objectif-pilote">
+          <div class="objectif-intro">
+            <span class="public">Moins de 21 ans</span>
+            <h3>{op.titre}</h3>
+            <p>{op.intro}</p>
+            <p class="meta">{op.note}</p>
+          </div>
+          <table class="objectif-table">
+            <thead><tr><th scope="col">Étape</th><th scope="col">Aide</th></tr></thead>
+            <tbody>{op.lignes.map((l) => <tr><td>{l.etape}</td><td>{n(l.montant)} €</td></tr>)}</tbody>
+          </table>
+        </div>
+      )}
     </div>
   </section>
 
@@ -125,6 +140,15 @@ const n = (x: number) => x.toLocaleString('fr-FR');
   .aides { margin-top: 32px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .aides div { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border-radius: 14px; background: color-mix(in srgb, var(--accent) 8%, white); }
   .aides span { font-size: .9rem; color: var(--muted); }
+
+  .objectif { margin-top: 40px; display: grid; gap: 32px; grid-template-columns: 1fr 1.4fr; align-items: start; padding: 32px; border-radius: 20px; background: #fff; border: 1px solid var(--line); }
+  @media (max-width: 800px) { .objectif { grid-template-columns: 1fr; padding: 22px; } }
+  .objectif .public { font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .objectif h3 { font-size: 1.6rem; margin: 6px 0 12px; }
+  .objectif-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .objectif-table th { text-align: left; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 0 0 10px; border-bottom: 2px solid var(--ink); }
+  .objectif-table td { padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .objectif-table th:last-child, .objectif-table td:last-child { text-align: right; white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; padding-left: 16px; }
 
   .divers { display: grid; gap: 40px; grid-template-columns: 1fr 1.3fr; align-items: start; }
   @media (max-width: 800px) { .divers { grid-template-columns: 1fr; } }
