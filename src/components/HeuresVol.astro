@@ -29,7 +29,7 @@ const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.rep
           <div class="immats">{g.map((l) => <a href={url(`/club/flotte#${l.a.id}`)}>{l.a.data.immatriculation}</a>)}</div>
           <div class="prix2">
             <div><span>Solo</span><b>{n(g[0].t?.prix_heure)}</b><small>€ / heure</small></div>
-            <div class="inst"><span>DC</span><b>{n(g[0].t?.prix_instruction)}</b><small>€ / heure</small></div>
+            <div class="inst"><span><span class="court">DC</span><span class="long">Double commande</span></span><b>{n(g[0].t?.prix_instruction)}</b><small>€ / heure</small></div>
           </div>
         </div>
       </article>
@@ -53,6 +53,9 @@ const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.rep
   .immats a:hover { background: var(--ink); color: #fff; }
   .prix2 { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .prix2 > div { border-radius: 16px; padding: 16px 18px; background: var(--paper); display: flex; flex-direction: column; }
+  .court { display: none; }
+  .prix2 .inst .court, .prix2 .inst .long { opacity: 1; }
+  @media (max-width: 700px) { .court { display: inline; } .long { display: none; } }
   .prix2 .inst { background: var(--ink); color: #fff; }
   .prix2 span { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; opacity: .7; }
   .prix2 b { font-family: var(--font-title); font-size: 2.8rem; font-weight: 600; line-height: 1.1; }
