@@ -28,7 +28,8 @@
         {
           "nom": "Windy",
           "description": "Vent, nuages et précipitations en prévision, par altitude.",
-          "lien": "https://www.windy.com/?49.454,2.113,8"
+          "lien": "https://www.windy.com/?49.454,2.113,8",
+          "logo": "https://img1.oastatic.com/img2/55439377/max/variant.png"
         }
       ]
     },
