@@ -1,8 +1,9 @@
 ---
-interface Props { eyebrow?: string; title: string; lead?: string }
-const { eyebrow, title, lead } = Astro.props;
+import { asset } from '../lib/utils';
+interface Props { eyebrow?: string; title: string; lead?: string; image?: string }
+const { eyebrow, title, lead, image } = Astro.props;
 ---
-<section class="page-head">
+<section class:list={['page-head', { 'has-img': image }]} style={image ? `--img: url('${asset(image)}')` : undefined}>
   <div class="container">
     {eyebrow && <span class="eyebrow">{eyebrow}</span>}
     <h1>{title}</h1>

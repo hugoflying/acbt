@@ -6,8 +6,8 @@ places: 4
 usage: École et voyage
 description: Version Petit Prince du DR400, appréciée pour son confort et sa visibilité. Idéale pour la formation comme pour les balades à plusieurs.
 photos:
-  - /uploads/avions/dr400-petit-prince-01.jpg
   - /uploads/avions/dr400-petit-prince-02.jpg
+  - /uploads/avions/dr400-petit-prince-01.jpg
   - /uploads/avions/dr400-petit-prince-03.jpg
   - /uploads/avions/dr400-petit-prince-04.jpg
 tarifs:
