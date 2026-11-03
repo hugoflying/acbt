@@ -1,0 +1,6 @@
+---
+titre: "Ludovic Missana reçu au théorique PPL"
+date: 2010-12-15
+categorie: Lâchés et brevets
+---
+Ludovic Missana a obtenu son PPL théorique du premier coup à la session de décembre 2010. Félicitations !

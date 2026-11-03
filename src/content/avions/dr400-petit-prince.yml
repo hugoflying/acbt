@@ -6,10 +6,10 @@ places: 4
 usage: École et voyage
 description: Version Petit Prince du DR400, appréciée pour son confort et sa visibilité. Idéale pour la formation comme pour les balades à plusieurs.
 photos:
-  - https://static.wixstatic.com/media/99eab0_740e36f6a2b44d098b3d35914de16063~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_9fb9e334c5b34a85adc4e5760a802acf~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_e74ff9c70ebb4a7fabff22c07327d1fa~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_b054e5cd20d5454eaf1dcf6151293664~mv2.jpg
+  - /uploads/avions/dr400-petit-prince-01.jpg
+  - /uploads/avions/dr400-petit-prince-02.jpg
+  - /uploads/avions/dr400-petit-prince-03.jpg
+  - /uploads/avions/dr400-petit-prince-04.jpg
 tarifs:
   - a_partir_du: 2026-01-01
     prix_heure: 150

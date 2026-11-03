@@ -6,10 +6,10 @@ places: 4
 usage: École et voyage
 description: Le DR400 est l'avion école de référence des aéroclubs français. Stable et facile à piloter, il emmène 3 passagers pour vos premières navigations.
 photos:
-  - https://static.wixstatic.com/media/99eab0_b378c53ad68446a89777098f0d2bddad~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_95af4e53b764498a8ffbd34b9cee49d7~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_02a7838151134ecdac6967624b209385~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_a277c25fee38492692cb33132deb1981~mv2.jpg
+  - /uploads/avions/dr400-120-01.jpg
+  - /uploads/avions/dr400-120-02.jpg
+  - /uploads/avions/dr400-120-03.jpg
+  - /uploads/avions/dr400-120-04.jpg
 tarifs:
   - a_partir_du: 2026-01-01
     prix_heure: 150
