@@ -14,12 +14,22 @@ const docs = (await getCollection('documents')).map((d) => d.data)
 const parCat = (c: string) => docs.filter((d) => d.categorie === c);
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const docsAvion = docs.filter((d) => d.categorie === 'Documentation avion');
-const fiches = avions.map((a) => {
-  const im = a.data.immatriculation ?? a.data.nom;
-  const siens = docsAvion.filter((d) => d.avions.includes(im));
-  const rubriques = RUBRIQUES_AVION.map((r) => ({ r, docs: siens.filter((d) => (d.rubrique ?? 'Autre') === r) })).filter((x) => x.docs.length);
-  return { id: a.id, im, type: a.data.type, photo: a.data.photos[0], rubriques };
+const PROPRES = ['Manuel de vol', 'Centrage'];
+const ordreRub = (d: { rubrique?: string }) => RUBRIQUES_AVION.indexOf((d.rubrique ?? 'Autre') as (typeof RUBRIQUES_AVION)[number]);
+const modele = (t: string) => t.replace(/-\d+.*$| Petit Prince| Paris-Nice/g, '').trim();
+const fiches = Object.values(
+  avions.reduce<Record<string, { titre: string; avions: { id: string; im: string; photo?: string }[] }>>((acc, a) => {
+    const m = modele(a.data.type);
+    (acc[m] ??= { titre: m, avions: [] }).avions.push({ id: a.id, im: a.data.immatriculation ?? a.data.nom, photo: a.data.photos[0] });
+    return acc;
+  }, {}),
+).map((g) => {
+  const ims = g.avions.map((x) => x.im);
+  const propres = g.avions.map((x) => ({ ...x, docs: docsAvion.filter((d) => d.avions.includes(x.im) && PROPRES.includes(d.rubrique ?? '')).sort((p, q) => ordreRub(p) - ordreRub(q)) }));
+  const communs = docsAvion.filter((d) => !PROPRES.includes(d.rubrique ?? '') && ims.some((i) => d.avions.includes(i))).sort((p, q) => ordreRub(p) - ordreRub(q));
+  return { ...g, ims, propres, communs };
 });
+const court = (t: string) => t.replace(/ F-[A-Z]{4}/, '');
 const autres = ['Sécurité', 'Préparation des vols', 'Météo', 'Formulaires'].map((c) => ({ c, docs: parCat(c) })).filter((x) => x.docs.length);
 const host = (l: string) => new URL(l).hostname.replace(/^www\./, '');
 const sommaire = [
@@ -88,22 +98,19 @@ const sommaire = [
       <div class="section-head"><div><span class="label"><b>02</b> Nos avions</span><h2>Documentation avion</h2></div></div>
       <p class="alerte"><b>!</b><span>{membre.avertissement_avion}</span></p>
       <div class="fiches">
-        {fiches.map((f) => (
-          <article class="fiche" id={`doc-${f.id}`} data-bloc>
+        {fiches.map((g) => (
+          <article class="fiche" id={`doc-${g.avions[0].id}`} data-bloc>
             <header>
-              {f.photo && <img src={asset(f.photo)} alt="" loading="lazy" />}
-              <div><h3>{f.im}</h3><span class="meta">{f.type}</span></div>
+              <div class="photos">{g.avions.map((x) => x.photo && <img src={asset(x.photo)} alt="" loading="lazy" />)}</div>
+              <div><h3>{g.titre}</h3><div class="chips">{g.ims.map((i) => <span>{i}</span>)}</div></div>
             </header>
-            {f.rubriques.length ? (
-              <dl>
-                {f.rubriques.map((x) => (
-                  <div class="rub" data-bloc>
-                    <dt>{x.r}</dt>
-                    <dd>{x.docs.map((d) => <DocLien doc={d} court={d.titre.replace(` ${f.im}`, '')} />)}</dd>
-                  </div>
-                ))}
-              </dl>
-            ) : <p class="meta">Pas encore de document pour cet avion.</p>}
+            <div class="propres" style={`--n:${g.avions.length}`} data-bloc>
+              {g.propres.map((x) => (
+                <div id={`doc-${x.id}`} data-bloc><h5>{x.im}</h5>{x.docs.map((d) => <DocLien doc={d} court={court(d.titre)} />)}</div>
+              ))}
+            </div>
+            {g.communs.length > 0 && <h5 class="sep">{g.avions.length > 1 ? `Communs aux ${g.avions.length} avions` : 'Équipements et check-list'}</h5>}
+            <div class="liste" data-bloc>{g.communs.map((d) => <DocLien doc={d} court={court(d.titre)} />)}</div>
           </article>
         ))}
       </div>
@@ -209,19 +216,25 @@ const sommaire = [
 
   .alerte { display: flex; gap: 14px; align-items: flex-start; background: #fff4e5; border: 1px solid #f2c98a; color: #6b4200; border-radius: 14px; padding: 14px 18px; margin-bottom: 28px; font-size: .95rem; }
   .alerte b { flex: none; width: 26px; height: 26px; border-radius: 50%; background: #d9480f; color: #fff; display: grid; place-items: center; font-size: .9rem; }
-  .fiches { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); align-items: start; }
-  .fiche { background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; scroll-margin-top: 150px; }
-  .fiche header { display: flex; gap: 14px; align-items: center; padding: 14px; border-bottom: 1px solid var(--line); }
-  .fiche header img { width: 92px; height: 64px; object-fit: cover; border-radius: 10px; }
-  .fiche h3 { font-size: 1.35rem; margin: 0; letter-spacing: .03em; }
-  .fiche dl { margin: 0; padding: 6px 14px 14px; }
-  .rub { padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .rub:last-child { border-bottom: 0; }
-  .rub dt { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .rub dd { margin: 0; display: grid; gap: 6px; }
-  .rub dd :global(.doc) { padding: 7px 10px; border-radius: 10px; }
-  .rub dd :global(.doc .meta) { display: none; }
-  .fiche > .meta { padding: 14px; }
+  .fiches { display: grid; gap: 20px; grid-template-columns: 1.4fr 1fr 1fr; align-items: start; }
+  @media (max-width: 1000px) { .fiches { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 680px) { .fiches { grid-template-columns: 1fr; } }
+  .fiche { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 16px; scroll-margin-top: 150px; }
+  .fiche header { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+  .fiche .photos { display: flex; flex: none; }
+  .fiche .photos img { width: 64px; height: 48px; object-fit: cover; border-radius: 10px; border: 2px solid #fff; }
+  .fiche .photos img + img { margin-left: -16px; }
+  .fiche h3 { margin: 0 0 4px; font-size: 1.25rem; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chips span { font-size: .75rem; font-weight: 600; letter-spacing: .05em; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--ink); }
+  .fiche h5 { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; font-family: var(--font-body); }
+  .propres { display: grid; gap: 10px; grid-template-columns: repeat(var(--n), 1fr); padding: 12px; background: color-mix(in srgb, var(--accent) 7%, white); border-radius: 12px; }
+  @media (max-width: 420px) { .propres { grid-template-columns: 1fr; } }
+  .propres > div { display: grid; gap: 6px; align-content: start; scroll-margin-top: 150px; }
+  .fiche .sep { margin-top: 16px; }
+  .liste { display: grid; gap: 6px; }
+  .fiche :global(.doc) { padding: 7px 10px; }
+  .fiche :global(.doc .meta) { display: none; }
 
   .cols2 { display: grid; gap: 40px; grid-template-columns: 1fr 1.4fr; align-items: start; }
   @media (max-width: 860px) { .cols2 { grid-template-columns: 1fr; } }
