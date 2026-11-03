@@ -13,7 +13,7 @@
   --accent: var(--sun);
   --radius: 18px;
   --max: 1200px;
-  --font-title: 'Fraunces', Georgia, serif;
+  --font-title: 'Outfit', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 }
 body[data-univers='decouvrir'] { --accent: #e8703a; }
@@ -31,7 +31,7 @@ body { margin: 0; font-family: var(--font-body); color: var(--text); background:
 img { max-width: 100%; display: block; }
 a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
-h1, h2, h3, h4 { font-family: var(--font-title); color: var(--ink); line-height: 1.08; margin: 0 0 .5em; font-weight: 600; letter-spacing: -.01em; }
+h1, h2, h3, h4 { font-family: var(--font-title); color: var(--ink); line-height: 1.08; margin: 0 0 .5em; font-weight: 600; letter-spacing: -.02em; }
 h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
 h2 { font-size: clamp(1.8rem, 3.6vw, 2.8rem); }
 h3 { font-size: 1.3rem; }
