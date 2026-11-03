@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import d from '../data/decouvrir.json';
+import club from '../data/club.json';
+import { url } from '../lib/utils';
+---
+<Base title="Découvrir le vol" description="Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé.">
+  <PageHead eyebrow="Découvrir le vol" title="Votre premier vol, au-dessus de Beauvais" lead={d.intro} />
+  <section class="section">
+    <div class="container grid grid-3">
+      {d.formules.map((f) => (
+        <div class="card"><div class="card-body">
+          <span class="tag">{f.duree}</span>
+          <h3 style="margin-top:12px">{f.titre}</h3>
+          <p>{f.texte}</p>
+          <p class="prix-formule">{f.prix}</p>
+        </div></div>
+      ))}
+    </div>
+    <div class="container" style="margin-top:32px">
+      <p class="notice">{d.bon_cadeau}</p>
+      <div class="btns" style="margin-top:20px">
+        <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver un vol</a>
+        <a class="btn btn-outline" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>.prix-formule { margin-top: auto; font-family: var(--font-title); font-size: 1.4rem; color: var(--navy); font-weight: 700; }</style>

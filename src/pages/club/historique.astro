@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import h from '../../data/historique.json';
+import { asset } from '../../lib/utils';
+---
+<Base title="Notre histoire" description="L'histoire de l'aéroclub de Beauvais-Tillé depuis 1979.">
+  <PageHead eyebrow="Depuis 1979" title="Notre histoire" lead={h.intro} />
+  <section class="section">
+    <div class="container">
+      <ol class="frise">
+        {h.etapes.map((e) => (
+          <li>
+            <span class="annee">{e.annee}</span>
+            <div class="contenu">
+              <h3>{e.titre}</h3>
+              <p>{e.texte}</p>
+              {e.photos.length > 0 && (
+                <div class="gallery">{e.photos.map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt={`${e.titre}, ${e.annee}`} loading="lazy" /></a>)}</div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+<style>
+  .frise { list-style: none; padding: 0; margin: 0; position: relative; }
+  .frise::before { content: ''; position: absolute; left: 88px; top: 8px; bottom: 8px; width: 3px; background: var(--sky-light); }
+  .frise li { display: grid; grid-template-columns: 76px 1fr; gap: 36px; padding-bottom: 44px; position: relative; }
+  .frise li::before { content: ''; position: absolute; left: 82px; top: 8px; width: 15px; height: 15px; border-radius: 50%; background: var(--sun); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--sun); }
+  .annee { font-family: var(--font-title); font-weight: 700; color: var(--navy); text-align: right; font-size: 1.05rem; padding-top: 2px; }
+  .contenu { max-width: 760px; }
+  @media (max-width: 640px) {
+    .frise::before { left: 6px; }
+    .frise li { grid-template-columns: 1fr; gap: 4px; padding-left: 30px; }
+    .frise li::before { left: 0; }
+    .annee { text-align: left; }
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { url } from '../lib/utils';
+
+interface Props { title: string; description?: string; noindex?: boolean }
+const { title, description = "Aéroclub de Beauvais-Tillé : baptêmes de l'air, formation de pilote BIA, LAPL et PPL dans l'Oise depuis 1979.", noindex = false } = Astro.props;
+const fullTitle = title === 'Accueil' ? "Aéroclub de Beauvais-Tillé (ACBT)" : `${title} · Aéroclub de Beauvais-Tillé`;
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <Header />
+    <main><slot /></main>
+    <Footer />
+  </body>
+</html>

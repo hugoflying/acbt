@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getCollection } from 'astro:content';
+const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const annees = [...new Set(actus.map((a) => a.data.date.getFullYear()))];
+const cats = [...new Set(actus.map((a) => a.data.categorie))];
+---
+<Base title="Actualités" description="Les actualités de l'aéroclub de Beauvais-Tillé depuis 2006.">
+  <PageHead eyebrow="Actualités" title="La vie du club" lead="Lâchés, brevets, événements, nouveaux avions : toutes les nouvelles de l'ACBT, classées par année." />
+  <section class="section">
+    <div class="container">
+      <div class="filters" data-filter="annee">
+        <button aria-pressed="true" data-v="">Toutes les années</button>
+        {annees.map((y) => <button aria-pressed="false" data-v={String(y)}>{y}</button>)}
+      </div>
+      <div class="filters" data-filter="cat">
+        <button aria-pressed="true" data-v="">Tous les thèmes</button>
+        {cats.map((c) => <button aria-pressed="false" data-v={c}>{c}</button>)}
+      </div>
+      {annees.map((y) => (
+        <div class="annee-bloc" data-annee={y}>
+          <h2>{y}</h2>
+          <div class="grid grid-3">{actus.filter((a) => a.data.date.getFullYear() === y).map((a) => <NewsCard actu={a} />)}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>
+<script>
+  const state: Record<string, string> = { annee: '', cat: '' };
+  function apply() {
+    document.querySelectorAll<HTMLElement>('.news').forEach((n) => {
+      const ok = (!state.annee || n.dataset.annee === state.annee) && (!state.cat || n.dataset.cat === state.cat);
+      n.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll<HTMLElement>('.annee-bloc').forEach((b) => {
+      b.style.display = b.querySelector('.news:not([style*="none"])') ? '' : 'none';
+    });
+  }
+  document.querySelectorAll<HTMLElement>('.filters').forEach((group) => {
+    group.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('button');
+      if (!btn) return;
+      group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      state[group.dataset.filter!] = btn.dataset.v ?? '';
+      apply();
+    });
+  });
+</script>
+<style>.annee-bloc { margin-bottom: 48px; }</style>

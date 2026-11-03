@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import club from '../../data/club.json';
+import { url } from '../../lib/utils';
+const liens = [
+  { titre: 'La flotte', texte: 'Deux Robin DR400, un DR300 et un Jodel D120.', href: '/club/flotte' },
+  { titre: 'Les tarifs', texte: 'Heures de vol, cotisations et aides.', href: '/club/tarifs' },
+  { titre: 'Notre histoire', texte: 'De 1979 à aujourd\'hui, en photos.', href: '/club/historique' },
+  { titre: 'Les actualités', texte: 'Lâchés, événements, vie du club.', href: '/actualites' },
+];
+---
+<Base title="Le club">
+  <PageHead eyebrow="Le club" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`} />
+  <section class="section">
+    <div class="container grid grid-2">
+      <div class="prose">
+        <h2>Nos locaux</h2>
+        <p>Le club est installé depuis septembre 2012 dans la zone aéroplaisance de l'aéroport de Beauvais-Tillé. Les membres y disposent d'une salle de briefing, d'une salle de cours, d'un espace détente et du hangar des avions.</p>
+        <h2>Le comité</h2>
+        <p>Le club est administré par un comité élu en assemblée générale : président, secrétaires, trésoriers, responsables techniques, administrateur et correspondant sécurité.</p>
+        <p class="notice">Maquette : les photos des locaux, des instructeurs et du comité restent à reprendre du site actuel.</p>
+      </div>
+      <div class="grid">
+        {liens.map((l) => <a class="card link" href={url(l.href)}><div class="card-body"><h3>{l.titre} →</h3><p>{l.texte}</p></div></a>)}
+      </div>
+    </div>
+  </section>
+</Base>
+<style>.link { text-decoration: none; color: inherit; } .link:hover h3 { color: var(--sky); }</style>

@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { getCollection } from 'astro:content';
+import club from '../data/club.json';
+import { url, asset } from '../lib/utils';
+
+const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+const annees = new Date().getFullYear() - 1979;
+const hero = 'https://static.wixstatic.com/media/99eab0_b378c53ad68446a89777098f0d2bddad~mv2.jpg';
+---
+<Base title="Accueil">
+  <section class="hero" style={`--hero: url('${hero}')`}>
+    <div class="container hero-inner">
+      <span class="eyebrow">Aéroport de Beauvais-Tillé · Oise</span>
+      <h1>Prenez les commandes du ciel picard</h1>
+      <p class="lead">Depuis {annees} ans, nos instructeurs bénévoles forment des pilotes à Beauvais-Tillé. Baptême de l'air, BIA, LAPL ou PPL : votre premier vol commence ici.</p>
+      <div class="btns">
+        <a class="btn btn-primary" href={url('/decouvrir-le-vol')}>Offrir ou faire un baptême</a>
+        <a class="btn btn-ghost" href={url('/formations')}>Devenir pilote</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark stats-band">
+    <div class="container grid grid-4">
+      <div class="stat"><strong>1979</strong>année de création</div>
+      <div class="stat"><strong>{avions.length}</strong>avions au club</div>
+      <div class="stat"><strong>100 %</strong>instructeurs bénévoles</div>
+      <div class="stat"><strong>3</strong>formations : BIA, LAPL, PPL</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Par où commencer ?</span>
+      <h2>Trois façons de voler avec nous</h2>
+      <div class="grid grid-3 parcours">
+        <a class="card" href={url('/decouvrir-le-vol')}>
+          <div class="card-body"><span class="ico">🎟️</span><h3>Découvrir</h3><p>Baptême de l'air, vol découverte ou vol d'initiation aux commandes, pour vous ou à offrir.</p><span class="more">Voir les formules →</span></div>
+        </a>
+        <a class="card" href={url('/formations')}>
+          <div class="card-body"><span class="ico">🎓</span><h3>Apprendre</h3><p>Du BIA dès 13 ans à la licence PPL, avec des aides pour les jeunes pilotes.</p><span class="more">Les formations →</span></div>
+        </a>
+        <a class="card" href={url('/club/flotte')}>
+          <div class="card-body"><span class="ico">🛩️</span><h3>Voler au club</h3><p>Déjà breveté ? Louez nos Robin et notre Jodel pour vos navigations.</p><span class="more">La flotte et les tarifs →</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <div class="head-row">
+        <div><span class="eyebrow">La flotte</span><h2>Nos avions</h2></div>
+        <a class="btn btn-outline" href={url('/club/flotte')}>Toute la flotte</a>
+      </div>
+      <div class="grid grid-4">
+        {avions.map((a) => (
+          <a class="card" href={url(`/club/flotte#${a.id}`)}>
+            {a.data.photos[0] && <img class="cover" src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}
+            <div class="card-body"><h3>{a.data.nom}</h3><p class="meta">{a.data.usage}{a.data.puissance && ` · ${a.data.puissance} ch`}</p></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="head-row">
+        <div><span class="eyebrow">Actualités</span><h2>La vie du club</h2></div>
+        <a class="btn btn-outline" href={url('/actualites')}>Toutes les actualités</a>
+      </div>
+      <div class="grid grid-3">{actus.map((a) => <NewsCard actu={a} />)}</div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container grid grid-2 histoire">
+      <div>
+        <span class="eyebrow">Depuis 1979</span>
+        <h2>Plus de quarante ans d'histoire</h2>
+        <p>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
+        <a class="btn btn-ghost" href={url('/club/historique')}>Notre histoire</a>
+      </div>
+      <img src="https://static.wixstatic.com/media/99eab0_a9bf378fcc554890b9297a63729ff06e~mv2.jpg" alt="Les débuts de l'aéroclub" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-band">
+      <div>
+        <h2>Une question ? Passez nous voir</h2>
+        <p class="lead">{club.adresse}</p>
+      </div>
+      <div class="btns">
+        <a class="btn btn-primary" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
+        <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .hero { position: relative; min-height: min(86vh, 720px); display: flex; align-items: flex-end; color: #fff;
+    background: linear-gradient(180deg, rgba(7,26,51,.25) 0%, rgba(7,26,51,.85) 100%), var(--hero) center / cover no-repeat, var(--navy-2); }
+  .hero-inner { padding-bottom: clamp(48px, 8vw, 96px); }
+  .hero h1 { color: #fff; max-width: 16ch; }
+  .hero .lead { color: #e2ebf5; }
+  .stats-band { padding: 40px 0; }
+  .parcours .card { text-decoration: none; color: inherit; transition: transform .2s; }
+  .parcours .card:hover { transform: translateY(-4px); }
+  .ico { font-size: 2rem; margin-bottom: 10px; }
+  .more { margin-top: auto; color: var(--sky); font-weight: 600; }
+  .head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .grid-4 .card { text-decoration: none; color: inherit; }
+  .histoire { align-items: center; }
+  .histoire img { border-radius: var(--radius); }
+  .contact-band { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+</style>

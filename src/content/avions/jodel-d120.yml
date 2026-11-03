@@ -1,0 +1,17 @@
+nom: Jodel D120 Paris-Nice
+type: Jodel D120 Paris-Nice
+immatriculation: ""
+puissance: 90
+places: 2
+usage: Perfectionnement train classique
+description: Un biplace en bois et toile à train classique, pour apprendre le pilotage « à l'ancienne » et se perfectionner aux décollages et atterrissages.
+photos:
+  - https://static.wixstatic.com/media/99eab0_07d8d59564e441b7b3e0bbda55c156b4~mv2.jpg
+  - https://static.wixstatic.com/media/99eab0_30964d33e51b4f65877baee0c678abfb~mv2.jpg
+  - https://static.wixstatic.com/media/99eab0_1120fe1c013945b9b59be4ab6c99e749~mv2.jpg
+  - https://static.wixstatic.com/media/99eab0_b4112e41582345d2a827574e4ece8660~mv2.jpg
+tarifs:
+  - a_partir_du: 2026-01-01
+    prix_heure: 110
+    note: Tarif d'exemple pour la maquette
+ordre: 4

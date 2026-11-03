@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import club from '../data/club.json';
+const d = 0.01;
+const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2, club.latitude + d].join(',');
+---
+<Base title="Contact" description="Contacter l'aéroclub de Beauvais-Tillé.">
+  <PageHead eyebrow="Contact" title="Nous contacter" lead="Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club." />
+  <section class="section">
+    <div class="container grid grid-2">
+      <form id="contact" class="card"><div class="card-body">
+        <label>Nom et prénom<input name="nom" required /></label>
+        <label>E-mail<input type="email" name="email" required /></label>
+        <label>Téléphone<input type="tel" name="tel" /></label>
+        <label>Objet
+          <select name="objet">
+            <option>Baptême</option><option>Inscription</option><option>Bon cadeau</option><option>Autre question</option>
+          </select>
+        </label>
+        <label>Message<textarea name="message" rows="5" required></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+        <p class="meta" style="margin-top:10px">Le message s'ouvre dans votre logiciel de messagerie.</p>
+      </div></form>
+      <div>
+        <h2>Où nous trouver</h2>
+        <p>{club.adresse}</p>
+        <p><strong>Téléphone</strong> : <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br />
+          <strong>E-mail</strong> : <a href={`mailto:${club.email}`}>{club.email}</a><br />
+          <strong>Horaires</strong> : {club.horaires}</p>
+        <iframe title="Plan d'accès" loading="lazy" src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${club.latitude},${club.longitude}`}></iframe>
+      </div>
+    </div>
+  </section>
+</Base>
+<script define:vars={{ email: club.email }}>
+  const form = document.getElementById('contact');
+  const objet = new URLSearchParams(location.search).get('objet');
+  if (objet) form.objet.value = objet;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const body = `${f.get('message')}\n\n${f.get('nom')}\n${f.get('email')}\n${f.get('tel') || ''}`;
+    location.href = `mailto:${email}?subject=${encodeURIComponent('[Site] ' + f.get('objet'))}&body=${encodeURIComponent(body)}`;
+  });
+</script>
+<style>
+  label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: .92rem; margin-bottom: 14px; }
+  input, select, textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
+  iframe { width: 100%; height: 320px; border: 0; border-radius: var(--radius); }
+</style>
