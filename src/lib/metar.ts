@@ -14,7 +14,8 @@ export interface Metar {
 let cache: Promise<Metar | null> | undefined;
 
 async function charger(station: string): Promise<Metar | null> {
-  const token = process.env.AVWX_TOKEN;
+  // Clé AVWX laissée en clair à la demande du club (site maquette). Le secret GitHub AVWX_TOKEN reste prioritaire.
+  const token = process.env.AVWX_TOKEN || 'v1k-d7EgXdAiRybNQZ6gij20qSs0n9DEPki8lQD0jjo';
   if (!token) return null;
   try {
     const r = await fetch(`https://avwx.rest/api/metar/${station}?options=&format=json&onfail=cache`, {
