@@ -1,9 +1,4 @@
 {
   "intro": "Envie de voir Beauvais d'en haut, ou de prendre les commandes pour la première fois ? Nos pilotes et instructeurs bénévoles vous emmènent à bord de nos Robin.",
-  "formules": [
-    { "titre": "Baptême de l'air", "duree": "20 à 30 min", "prix": "à renseigner", "texte": "Un vol en passager avec un pilote du club, jusqu'à 3 personnes. Idéal pour découvrir les sensations du vol léger." },
-    { "titre": "Vol découverte", "duree": "30 min", "prix": "à renseigner", "texte": "Vous prenez les commandes aux côtés d'un instructeur. Le vol compte dans votre carnet si vous continuez la formation." },
-    { "titre": "Vol d'initiation", "duree": "1 h", "prix": "à renseigner", "texte": "Briefing, vol complet et débriefing avec un instructeur : la meilleure façon de savoir si la formation de pilote est faite pour vous." }
-  ],
   "bon_cadeau": "Toutes nos formules existent en bon cadeau. Contactez-nous pour réserver une date."
 }

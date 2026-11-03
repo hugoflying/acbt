@@ -11,12 +11,7 @@ photos:
   - /uploads/avions/dr400-120-03.jpg
   - /uploads/avions/dr400-120-04.jpg
 tarifs:
-  - a_partir_du: 2026-01-01
-    prix_heure: 150
-    prix_heure_jeune: 135
-    note: Tarif d'exemple pour la maquette
-  - a_partir_du: 2027-01-01
-    prix_heure: 155
-    prix_heure_jeune: 140
-    note: Hausse planifiée (exemple)
+  - a_partir_du: 2025-01-01
+    prix_heure: 130
+    prix_instruction: 175
 ordre: 1

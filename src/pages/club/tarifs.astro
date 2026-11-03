@@ -4,34 +4,149 @@ import PageHead from '../../components/PageHead.astro';
 import PrixAvion from '../../components/PrixAvion.astro';
 import { getCollection } from 'astro:content';
 import club from '../../data/club.json';
-import { url } from '../../lib/utils';
+import t from '../../data/tarifs.json';
+import { url, asset } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+const ad = t.adhesion;
+const n = (x: number) => x.toLocaleString('fr-FR');
 ---
-<Base univers="voler" title="Tarifs" description="Tarifs des heures de vol et cotisations de l'aéroclub de Beauvais-Tillé.">
-  <PageHead eyebrow="03 · Notre flotte — Tarifs" image="/uploads/avions/dr400-120-02.jpg" title="Les tarifs du club" lead="Prix de l'heure de vol, cotisations et aides pour les jeunes. Les tarifs à venir sont affichés dès qu'ils sont votés." />
-  <section class="section">
+<Base univers="voler" title="Tarifs" description={`Tarifs ${t.annee} de l'aéroclub de Beauvais-Tillé : heures de vol, adhésion, vols découverte.`}>
+  <PageHead eyebrow={`03 · Notre flotte — Tarifs ${t.annee}`} image="/uploads/avions/dr400-120-02.jpg" title="Les tarifs du club" lead="Une association, pas une entreprise : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.">
+    <nav class="sommaire" aria-label="Sommaire des tarifs">
+      <a href="#heures">Heures de vol</a><a href="#adhesion">Adhésion</a><a href="#decouvrir">Vols découverte</a><a href="#divers">Divers</a>
+    </nav>
+  </PageHead>
+
+  <section class="section" id="heures">
     <div class="container">
-      <p class="notice" style="margin-bottom:24px">Maquette : les montants sont des exemples. Les vrais tarifs sont à saisir dans le back-office.</p>
-      <h2>Heures de vol</h2>
-      <table class="tarifs">
-        <thead><tr><th>Avion</th><th>Usage</th><th>Prix</th></tr></thead>
-        <tbody>
-          {avions.map((a) => (
-            <tr>
-              <td><a href={url(`/club/flotte#${a.id}`)}>{a.data.immatriculation || a.data.nom}</a>{a.data.immatriculation && <div class="meta">{a.data.nom}</div>}</td>
-              <td>{a.data.usage}</td>
-              <td><PrixAvion tarifs={a.data.tarifs} /></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h2 style="margin-top:48px">Cotisations</h2>
-      <table class="tarifs">
-        <thead><tr><th>Cotisation</th><th>Prix</th></tr></thead>
-        <tbody>{club.cotisations.map((c) => <tr><td>{c.libelle}</td><td class="prix">{c.prix}</td></tr>)}</tbody>
-      </table>
-      <h2 style="margin-top:48px">Aides</h2>
-      <ul>{club.aides.map((a) => <li><strong>{a.titre}</strong> : {a.texte}</li>)}</ul>
+      <div class="section-head">
+        <div><span class="label"><b>01</b> Heures de vol</span><h2>Le prix de l'heure, avion par avion</h2></div>
+        <p class="lead" style="max-width:42ch;margin:0">En solo une fois lâché, ou en double commande avec un instructeur pendant la formation.</p>
+      </div>
+      <div class="avions">
+        {avions.map((a) => (
+          <article class="avion">
+            <a class="photo" href={url(`/club/flotte#${a.id}`)}>{a.data.photos[0] && <img src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}</a>
+            <div class="corps">
+              <h3>{a.data.immatriculation || a.data.nom}</h3>
+              <p class="meta">{[a.data.type, a.data.puissance && `${a.data.puissance} ch`, a.data.places && `${a.data.places} places`].filter(Boolean).join(' · ')}</p>
+              <PrixAvion tarifs={a.data.tarifs} />
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="blocs">
+        <div class="blocs-titre"><strong>Achetez vos heures par bloc</strong><span>{t.blocs_note}</span></div>
+        {t.blocs.map((b) => <div class="bloc"><span class="h">{b.heures} h achetées</span><span class="o">{b.offert}</span></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white" id="adhesion">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="label"><b>02</b> Adhésion {t.annee}</span><h2>Devenir membre du club</h2></div>
+        <p class="lead" style="max-width:42ch;margin:0">L'adhésion annuelle comprend la cotisation au club et la licence FFA avec son assurance.</p>
+      </div>
+      <div class="formules">
+        {ad.colonnes.map((c) => (
+          <div class:list={['formule', { vedette: c.mise_en_avant }]}>
+            {c.mise_en_avant && <span class="ruban">Pour bien démarrer</span>}
+            <span class="public">{c.public}</span>
+            <h3>{c.titre}</h3>
+            <p class="total">{n(c.cotisation_acbt + ad.cotisation_ffa)}<small> € / an</small></p>
+            <ul>
+              <li><span>Cotisation ACBT</span><b>{n(c.cotisation_acbt)} €</b></li>
+              <li><span>Licence et assurance FFA</span><b>{n(ad.cotisation_ffa)} €</b></li>
+              <li class="option"><span>Infopilote (facultatif)</span><b>+ {n(ad.infopilote)} €</b></li>
+            </ul>
+          </div>
+        ))}
+        <div class="formule temporaire">
+          <span class="public">Pour {t.temporaire.duree}</span>
+          <h3>{t.temporaire.titre}</h3>
+          <p class="total">{n(t.temporaire.prix)}<small> €</small></p>
+          <p class="meta">{t.temporaire.texte}</p>
+        </div>
+      </div>
+      <p class="meta" style="margin-top:20px">{ad.note}</p>
+      <div class="aides">
+        {club.aides.map((a) => <div><strong>{a.titre}</strong><span>{a.texte}</span></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="decouvrir">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="label"><b>03</b> Découvrir le vol</span><h2>Vols découverte et initiation</h2></div>
+        <a class="btn btn-outline" href={url('/contact?objet=Baptême')}>Réserver un vol</a>
+      </div>
+      <div class="grid grid-3">
+        {t.formules.map((f) => (
+          <div class="card"><div class="card-body">
+            <h3>{f.titre}</h3>
+            <p>{f.texte}</p>
+            <ul class="lignes">{f.prix.map((p) => <li><span>{p.libelle}</span><b>{n(p.prix)} €</b></li>)}</ul>
+          </div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white" id="divers">
+    <div class="container divers">
+      <div><span class="label"><b>04</b> Divers</span><h2>Fournitures et services</h2><p class="lead">Le matériel du pilote est disponible au club.</p></div>
+      <ul class="lignes grandes">{t.divers.map((d) => <li><span>{d.libelle}</span><b>{d.prix}</b></li>)}</ul>
     </div>
   </section>
 </Base>
+<style>
+  .sommaire { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .sommaire a { color: #fff; text-decoration: none; font-size: .9rem; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); }
+  .sommaire a:hover { background: #fff; color: var(--ink); }
+
+  .avions { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .avion { background: var(--white); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
+  .avion .photo img { aspect-ratio: 16 / 10; object-fit: cover; width: 100%; transition: transform .5s; }
+  .avion .photo { overflow: hidden; display: block; }
+  .avion:hover .photo img { transform: scale(1.04); }
+  .corps { padding: 20px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .corps h3 { margin: 0; font-size: 1.5rem; }
+  .corps .meta { margin-bottom: 14px; }
+
+  .blocs { margin-top: 24px; display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 1px; background: var(--ink); border-radius: 20px; overflow: hidden; }
+  .blocs > div { background: var(--ink); color: #fff; padding: 22px 26px; display: flex; flex-direction: column; justify-content: center; }
+  .blocs-titre strong { font-family: var(--font-title); font-size: 1.35rem; font-weight: 600; }
+  .blocs-titre span { color: #9fb0c6; font-size: .9rem; }
+  .bloc { border-left: 1px solid rgba(255,255,255,.12); }
+  .bloc .h { font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: #9fb0c6; }
+  .bloc .o { font-family: var(--font-title); font-size: 1.4rem; color: #7fd6bb; }
+  @media (max-width: 760px) { .blocs { grid-template-columns: 1fr; } .bloc { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); } }
+
+  .formules { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); align-items: stretch; }
+  .formule { position: relative; border: 1px solid var(--line); border-radius: 20px; padding: 28px 24px; background: var(--paper); display: flex; flex-direction: column; }
+  .formule.vedette { background: var(--ink); color: #cfd6e0; border-color: var(--ink); }
+  .formule.vedette h3, .formule.vedette .total { color: #fff; }
+  .formule.vedette li { border-color: rgba(255,255,255,.12); }
+  .formule.vedette b { color: #fff; }
+  .formule.temporaire { background: transparent; border-style: dashed; }
+  .ruban { position: absolute; top: -12px; left: 24px; background: var(--accent); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; }
+  .public { font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; color: var(--accent); }
+  .vedette .public { color: #7fd6bb; }
+  .formule h3 { margin: 6px 0 14px; }
+  .total { font-family: var(--font-title); font-size: 3rem; font-weight: 600; color: var(--ink); line-height: 1; margin: 0 0 20px; }
+  .total small { font-family: var(--font-body); font-size: .95rem; font-weight: 500; color: var(--muted); }
+  .formule ul, .lignes { list-style: none; margin: 0; padding: 0; }
+  .formule li, .lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: .93rem; }
+  .formule li.option { opacity: .75; }
+  .lignes { margin-top: auto; }
+  .lignes b { white-space: nowrap; color: var(--ink); }
+  .aides { margin-top: 32px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .aides div { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border-radius: 14px; background: color-mix(in srgb, var(--accent) 8%, white); }
+  .aides span { font-size: .9rem; color: var(--muted); }
+
+  .divers { display: grid; gap: 40px; grid-template-columns: 1fr 1.3fr; align-items: start; }
+  @media (max-width: 800px) { .divers { grid-template-columns: 1fr; } }
+  .grandes li { padding: 16px 0; font-size: 1.02rem; }
+</style>

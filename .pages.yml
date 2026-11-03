@@ -51,8 +51,8 @@ content:
         list: true
         fields:
           - { name: a_partir_du, label: 'Applicable à partir du', type: date, required: true }
-          - { name: prix_heure, label: Prix de l'heure (€), type: number, required: true }
-          - { name: prix_heure_jeune, label: Prix moins de 25 ans (€), type: number }
+          - { name: prix_heure, label: Prix de l'heure en solo (€), type: number, required: true }
+          - { name: prix_instruction, label: Prix de l'heure en double commande, avec instructeur (€), type: number }
           - { name: note, label: Note interne, type: string }
       - { name: ordre, label: Ordre d'affichage, type: number, default: 10 }
       - { name: actif, label: Avion affiché sur le site, type: boolean, default: true, description: 'Décochez pour retirer un avion sans le supprimer.' }
@@ -79,7 +79,7 @@ content:
       - { name: mis_a_jour, label: Date de mise à jour, type: date }
 
   - name: club
-    label: Infos du club (contact, cotisations, aides)
+    label: Infos du club (contact, aides)
     type: file
     path: src/data/club.json
     format: json
@@ -96,13 +96,6 @@ content:
       - { name: horaires, label: Horaires, type: string }
       - { name: latitude, label: Latitude (plan), type: number }
       - { name: longitude, label: Longitude (plan), type: number }
-      - name: cotisations
-        label: Cotisations
-        type: object
-        list: true
-        fields:
-          - { name: libelle, label: Libellé, type: string }
-          - { name: prix, label: Prix, type: string }
       - name: aides
         label: Aides au financement
         type: object
@@ -118,6 +111,67 @@ content:
           - { name: nom, label: Nom, type: string }
           - { name: lien, label: Lien, type: string }
 
+  - name: tarifs
+    label: Tarifs (adhésion, formules, divers)
+    type: file
+    path: src/data/tarifs.json
+    format: json
+    fields:
+      - { name: annee, label: Année des tarifs, type: string }
+      - name: adhesion
+        label: Adhésion
+        type: object
+        fields:
+          - name: colonnes
+            label: Formules d'adhésion
+            type: object
+            list: true
+            fields:
+              - { name: titre, label: Titre, type: string }
+              - { name: public, label: Public, type: string }
+              - { name: cotisation_acbt, label: Cotisation ACBT (€), type: number }
+              - { name: mise_en_avant, label: Mettre en avant, type: boolean }
+          - { name: cotisation_ffa, label: Cotisation FFA (€), type: number }
+          - { name: infopilote, label: Infopilote facultatif (€), type: number }
+          - { name: note, label: Note, type: text }
+      - name: blocs
+        label: Blocs d'heures
+        type: object
+        list: true
+        fields:
+          - { name: heures, label: Heures achetées, type: number }
+          - { name: offert, label: Offert, type: string }
+      - { name: blocs_note, label: Note blocs d'heures, type: string }
+      - name: temporaire
+        label: Membre temporaire
+        type: object
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: duree, label: Durée, type: string }
+          - { name: prix, label: Prix (€), type: number }
+          - { name: texte, label: Texte, type: text }
+      - name: formules
+        label: Vols découverte et initiation
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Description, type: text }
+          - name: prix
+            label: Prix
+            type: object
+            list: true
+            fields:
+              - { name: libelle, label: Libellé, type: string }
+              - { name: prix, label: Prix (€), type: number }
+      - name: divers
+        label: Tarifs divers
+        type: object
+        list: true
+        fields:
+          - { name: libelle, label: Article, type: string }
+          - { name: prix, label: Prix, type: string }
+
   - name: decouvrir
     label: Baptêmes et vols découverte
     type: file
@@ -125,15 +179,6 @@ content:
     format: json
     fields:
       - { name: intro, label: Introduction, type: text }
-      - name: formules
-        label: Formules
-        type: object
-        list: true
-        fields:
-          - { name: titre, label: Titre, type: string }
-          - { name: duree, label: Durée, type: string }
-          - { name: prix, label: Prix, type: string }
-          - { name: texte, label: Description, type: text }
       - { name: bon_cadeau, label: Texte bon cadeau, type: text }
 
   - name: outils

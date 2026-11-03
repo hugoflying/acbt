@@ -12,19 +12,35 @@
   "latitude": 49.4544,
   "longitude": 2.1128,
   "aides": [
-    { "titre": "Pass'Sports Citoyen", "texte": "15 € de réduction sur la licence pour les moins de 18 ans, avec le conseil départemental de l'Oise." },
-    { "titre": "Objectif Pilote FFA", "texte": "Subventions de la Fédération française aéronautique pour les moins de 21 ans." },
-    { "titre": "Bourses BIA", "texte": "Les titulaires du BIA peuvent obtenir des bourses : renseignez-vous au club." }
-  ],
-  "cotisations": [
-    { "libelle": "Cotisation annuelle adulte", "prix": "à renseigner" },
-    { "libelle": "Cotisation annuelle moins de 25 ans", "prix": "à renseigner" },
-    { "libelle": "Licence FFA et assurance", "prix": "à renseigner" }
+    {
+      "titre": "Pass'Sports Citoyen",
+      "texte": "15 € de réduction sur la licence pour les moins de 18 ans, avec le conseil départemental de l'Oise."
+    },
+    {
+      "titre": "Objectif Pilote FFA",
+      "texte": "Subventions de la Fédération française aéronautique pour les moins de 21 ans."
+    },
+    {
+      "titre": "Bourses BIA",
+      "texte": "Les titulaires du BIA peuvent obtenir des bourses : renseignez-vous au club."
+    }
   ],
   "partenaires": [
-    { "nom": "Fédération française aéronautique", "lien": "https://www.ffa-aero.fr/" },
-    { "nom": "Conseil départemental de l'Oise", "lien": "https://www.oise.fr/" },
-    { "nom": "Ville de Beauvais", "lien": "https://www.beauvais.fr/" },
-    { "nom": "Aéroport de Beauvais", "lien": "https://www.aeroportparisbeauvais.com/" }
+    {
+      "nom": "Fédération française aéronautique",
+      "lien": "https://www.ffa-aero.fr/"
+    },
+    {
+      "nom": "Conseil départemental de l'Oise",
+      "lien": "https://www.oise.fr/"
+    },
+    {
+      "nom": "Ville de Beauvais",
+      "lien": "https://www.beauvais.fr/"
+    },
+    {
+      "nom": "Aéroport de Beauvais",
+      "lien": "https://www.aeroportparisbeauvais.com/"
+    }
   ]
 }

@@ -1,42 +1,45 @@
 ---
-// Le tarif affiché est calculé au moment de la construction du site, puis recalculé
-// dans le navigateur : un tarif planifié s'affiche donc dès sa date, même sans republier.
-import { tarifEnVigueur, euros, dateFr } from '../lib/utils';
-type Tarif = { a_partir_du: Date; prix_heure: number; prix_heure_jeune?: number; note?: string };
-interface Props { tarifs: Tarif[]; compact?: boolean }
-const { tarifs, compact = false } = Astro.props;
+// Le tarif affiché est calculé au build, puis recalculé dans le navigateur :
+// un tarif planifié s'affiche donc dès sa date, même sans republier le site.
+import { tarifEnVigueur, dateFr } from '../lib/utils';
+type Tarif = { a_partir_du: Date; prix_heure: number; prix_instruction?: number; note?: string };
+interface Props { tarifs: Tarif[] }
+const { tarifs } = Astro.props;
 const { actuel, prochain } = tarifEnVigueur(tarifs);
-const data = JSON.stringify(tarifs.map((t) => ({ d: t.a_partir_du.toISOString().slice(0, 10), p: t.prix_heure, j: t.prix_heure_jeune ?? null })));
+const data = JSON.stringify(tarifs.map((t) => ({ d: t.a_partir_du.toISOString().slice(0, 10), s: t.prix_heure, i: t.prix_instruction ?? null })));
+const n = (x: number) => x.toLocaleString('fr-FR');
 ---
-<div class="prix" data-tarifs={data} data-compact={compact ? '1' : ''}>
+<div class="prix-avion" data-tarifs={data}>
   {actuel ? (
-    <>
-      <span class="montant"><strong>{euros(actuel.prix_heure)}</strong> / heure</span>
-      {actuel.prix_heure_jeune && <span class="jeune">{euros(actuel.prix_heure_jeune)} / h pour les moins de 25 ans</span>}
-      {!compact && prochain && <span class="prochain">À partir du {dateFr(prochain.a_partir_du)} : {euros(prochain.prix_heure)} / h</span>}
-    </>
-  ) : (
-    <span class="montant">Tarif sur demande</span>
-  )}
+    <div class="duo">
+      <div><span class="lbl">Solo</span><span class="val">{n(actuel.prix_heure)}<small> €/h</small></span></div>
+      {actuel.prix_instruction && <div><span class="lbl">Instruction</span><span class="val">{n(actuel.prix_instruction)}<small> €/h</small></span></div>}
+    </div>
+  ) : <p class="meta">Tarif sur demande</p>}
+  {prochain && <p class="prochain">Dès le {dateFr(prochain.a_partir_du)} : {n(prochain.prix_heure)} €/h solo{prochain.prix_instruction ? `, ${n(prochain.prix_instruction)} €/h avec instructeur` : ''}</p>}
 </div>
 <script>
-  const eur = (n: number) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
+  const n = (x: number) => x.toLocaleString('fr-FR');
   const fr = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).replace(/^1 /, '1er ');
-  document.querySelectorAll<HTMLElement>('.prix[data-tarifs]').forEach((el) => {
-    const t: { d: string; p: number; j: number | null }[] = JSON.parse(el.dataset.tarifs!).sort((a: any, b: any) => a.d.localeCompare(b.d));
+  document.querySelectorAll<HTMLElement>('.prix-avion[data-tarifs]').forEach((el) => {
+    const t: { d: string; s: number; i: number | null }[] = JSON.parse(el.dataset.tarifs!).sort((a: any, b: any) => a.d.localeCompare(b.d));
     const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Paris' });
-    const actuel = [...t].reverse().find((x) => x.d <= today);
-    const prochain = t.find((x) => x.d > today);
-    if (!actuel) return;
-    let html = `<span class="montant"><strong>${eur(actuel.p)}</strong> / heure</span>`;
-    if (actuel.j) html += `<span class="jeune">${eur(actuel.j)} / h pour les moins de 25 ans</span>`;
-    if (!el.dataset.compact && prochain) html += `<span class="prochain">À partir du ${fr(prochain.d)} : ${eur(prochain.p)} / h</span>`;
-    el.innerHTML = html;
+    const a = [...t].reverse().find((x) => x.d <= today);
+    const p = t.find((x) => x.d > today);
+    if (!a) return;
+    let h = `<div class="duo"><div><span class="lbl">Solo</span><span class="val">${n(a.s)}<small> €/h</small></span></div>`;
+    if (a.i) h += `<div><span class="lbl">Instruction</span><span class="val">${n(a.i)}<small> €/h</small></span></div>`;
+    h += '</div>';
+    if (p) h += `<p class="prochain">Dès le ${fr(p.d)} : ${n(p.s)} €/h solo${p.i ? `, ${n(p.i)} €/h avec instructeur` : ''}</p>`;
+    el.innerHTML = h;
   });
 </script>
 <style>
-  .prix { display: flex; flex-direction: column; gap: 2px; }
-  .prix :global(.montant strong) { font-family: var(--font-title); font-size: 1.5rem; color: var(--navy); }
-  .prix :global(.jeune) { font-size: .9rem; color: var(--muted); }
-  .prix :global(.prochain) { font-size: .85rem; color: #8a5410; background: #fff3e3; border-radius: 6px; padding: 2px 8px; margin-top: 6px; align-self: flex-start; }
+  .prix-avion :global(.duo) { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .prix-avion :global(.duo > div) { background: var(--paper); padding: 14px 16px; display: flex; flex-direction: column; }
+  .prix-avion :global(.duo > div:last-child:not(:first-child)) { background: color-mix(in srgb, var(--accent) 9%, white); }
+  .prix-avion :global(.lbl) { font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 600; }
+  .prix-avion :global(.val) { font-family: var(--font-title); font-size: 2rem; font-weight: 600; color: var(--ink); line-height: 1.1; }
+  .prix-avion :global(.val small) { font-family: var(--font-body); font-size: .85rem; font-weight: 500; color: var(--muted); }
+  .prix-avion :global(.prochain) { margin: 10px 0 0; font-size: .85rem; color: #8a5410; background: #fff3e3; border-radius: 8px; padding: 6px 10px; }
 </style>

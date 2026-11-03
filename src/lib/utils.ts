@@ -17,7 +17,7 @@ export function euros(n: number) {
   return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
 }
 
-type Tarif = { a_partir_du: Date; prix_heure: number; prix_heure_jeune?: number; note?: string };
+type Tarif = { a_partir_du: Date; prix_heure: number; prix_instruction?: number; note?: string };
 
 /** Tarif en vigueur à une date donnée, et prochain tarif planifié. */
 export function tarifEnVigueur(tarifs: Tarif[], ref = new Date()) {

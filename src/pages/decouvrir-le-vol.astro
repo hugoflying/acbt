@@ -3,18 +3,18 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import d from '../data/decouvrir.json';
 import club from '../data/club.json';
+import t from '../data/tarifs.json';
 import { url } from '../lib/utils';
 ---
 <Base univers="decouvrir" title="Découvrir le vol" description="Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé.">
   <PageHead eyebrow="01 · Découvrir" image="/uploads/avions/dr400-petit-prince-02.jpg" title="Votre premier vol, au-dessus de Beauvais" lead={d.intro} />
   <section class="section">
     <div class="container grid grid-3">
-      {d.formules.map((f) => (
+      {t.formules.map((f) => (
         <div class="card"><div class="card-body">
-          <span class="tag">{f.duree}</span>
-          <h3 style="margin-top:12px">{f.titre}</h3>
+          <h3>{f.titre}</h3>
           <p>{f.texte}</p>
-          <p class="prix-formule">{f.prix}</p>
+          <ul class="lignes">{f.prix.map((p) => <li><span>{p.libelle}</span><b>{p.prix.toLocaleString('fr-FR')} €</b></li>)}</ul>
         </div></div>
       ))}
     </div>
@@ -27,4 +27,8 @@ import { url } from '../lib/utils';
     </div>
   </section>
 </Base>
-<style>.prix-formule { margin-top: auto; font-family: var(--font-title); font-size: 1.4rem; color: var(--navy); font-weight: 700; }</style>
+<style>
+  .lignes { list-style: none; margin: auto 0 0; padding: 0; }
+  .lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .lignes b { font-family: var(--font-title); font-size: 1.2rem; color: var(--ink); white-space: nowrap; }
+</style>
