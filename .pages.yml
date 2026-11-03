@@ -171,6 +171,20 @@ content:
         fields:
           - { name: libelle, label: Article, type: string }
           - { name: prix, label: Prix, type: string }
+      - name: objectif_pilote
+        label: Aides Objectif Pilote FFA (moins de 21 ans)
+        type: object
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: intro, label: Introduction, type: text }
+          - name: lignes
+            label: Étapes et montants
+            type: object
+            list: true
+            fields:
+              - { name: etape, label: Étape, type: string }
+              - { name: montant, label: Montant de l'aide (€), type: number }
+          - { name: note, label: Note, type: string }
 
   - name: decouvrir
     label: Baptêmes et vols découverte
