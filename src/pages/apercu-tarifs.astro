@@ -1,0 +1,23 @@
+---
+// Page temporaire pour choisir la présentation des heures de vol.
+import Base from '../layouts/Base.astro';
+import HeuresVol from '../components/HeuresVol.astro';
+import { getCollection } from 'astro:content';
+const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+const v = [
+  { id: 'liste', titre: 'Style 1 · Liste comparative' },
+  { id: 'groupes', titre: 'Style 2 · Par type d\'avion' },
+  { id: 'photo', titre: 'Style 3 · Photo plein cadre' },
+] as const;
+---
+<Base univers="voler" title="Aperçu des tarifs" noindex>
+  {v.map((x, i) => (
+    <section class:list={['section', { white: i % 2 }]} id={x.id}>
+      <div class="container">
+        <span class="label"><b>{i + 1}</b> {x.titre}</span>
+        <h2>Le prix de l'heure de vol</h2>
+        <HeuresVol avions={avions} variante={x.id} />
+      </div>
+    </section>
+  ))}
+</Base>
