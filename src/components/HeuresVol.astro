@@ -1,10 +1,10 @@
 ---
-// Bloc « heures de vol » de la page Tarifs. Trois présentations : 'liste', 'groupes', 'photo'.
+// Bloc « heures de vol » de la page Tarifs : une carte par groupe d'avions aux tarifs identiques.
 // Le prix affiché est celui en vigueur au moment de la publication (le site se republie chaque nuit).
 import type { CollectionEntry } from 'astro:content';
 import { url, asset, tarifEnVigueur } from '../lib/utils';
-interface Props { avions: CollectionEntry<'avions'>[]; variante: 'liste' | 'groupes' | 'photo' }
-const { avions, variante } = Astro.props;
+interface Props { avions: CollectionEntry<'avions'>[] }
+const { avions } = Astro.props;
 const n = (x?: number) => (x == null ? '—' : x.toLocaleString('fr-FR'));
 const lignes = avions.map((a) => ({ a, t: tarifEnVigueur(a.data.tarifs).actuel }));
 // Regroupe les avions qui ont exactement les mêmes tarifs
@@ -17,23 +17,6 @@ const groupes = Object.values(
 );
 const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.replace(/-120.*| Petit Prince/, '').replace(' Paris-Nice', '')))].join(' / ').replace(/ \/ Robin /g, ' / ');
 ---
-{variante === 'liste' && (
-  <div class="liste">
-    <div class="entete"><span>Avion</span><span>Solo</span><span>Instruction</span></div>
-    {lignes.map(({ a, t }) => (
-      <a class="ligne" href={url(`/club/flotte#${a.id}`)}>
-        <span class="av">
-          {a.data.photos[0] && <img src={asset(a.data.photos[0])} alt="" loading="lazy" />}
-          <span><strong>{a.data.immatriculation || a.data.nom}</strong><small>{a.data.type} · {a.data.puissance} ch · {a.data.places} places</small></span>
-        </span>
-        <span class="p"><em>Solo</em>{n(t?.prix_heure)}<small> €/h</small></span>
-        <span class="p fort"><em>Instruction</em>{n(t?.prix_instruction)}<small> €/h</small></span>
-      </a>
-    ))}
-  </div>
-)}
-
-{variante === 'groupes' && (
   <div class="groupes">
     {groupes.map((g) => (
       <article class="groupe">
@@ -54,47 +37,9 @@ const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.rep
   </div>
 )}
 
-{variante === 'photo' && (
-  <div class="photos">
-    {lignes.map(({ a, t }) => (
-      <a class="carte" href={url(`/club/flotte#${a.id}`)}>
-        {a.data.photos[0] && <img src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}
-        <div class="haut"><strong>{a.data.immatriculation || a.data.nom}</strong><small>{a.data.type}</small></div>
-        <div class="bas">
-          <div><span>Solo</span><b>{n(t?.prix_heure)}<small> €/h</small></b></div>
-          <div><span>Instruction</span><b>{n(t?.prix_instruction)}<small> €/h</small></b></div>
-        </div>
-      </a>
-    ))}
-  </div>
-)}
 
 <style>
-  /* 1. Liste comparative */
-  .liste { background: var(--white); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
-  .entete, .ligne { display: grid; grid-template-columns: 1fr 150px 170px; align-items: center; gap: 16px; padding: 0 28px; }
-  .entete { padding-top: 16px; padding-bottom: 16px; font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--line); }
-  .entete span:not(:first-child) { text-align: right; }
-  .ligne { padding-top: 16px; padding-bottom: 16px; text-decoration: none; color: inherit; transition: background .2s; }
-  .ligne + .ligne { border-top: 1px solid var(--line); }
-  .ligne:hover { background: var(--paper); }
-  .av { display: flex; align-items: center; gap: 18px; }
-  .av img { width: 96px; height: 64px; object-fit: cover; border-radius: 12px; }
-  .av strong { display: block; font-family: var(--font-title); font-size: 1.45rem; font-weight: 600; }
-  .av small { color: var(--muted); font-size: .85rem; }
-  .p { text-align: right; font-family: var(--font-title); font-size: 2rem; font-weight: 600; color: var(--ink); }
-  .p em { display: none; }
-  .p small { font-family: var(--font-body); font-size: .85rem; color: var(--muted); font-weight: 500; }
-  .p.fort { color: var(--accent); }
-  @media (max-width: 700px) {
-    .entete { display: none; }
-    .ligne { grid-template-columns: 1fr 1fr; padding: 18px 20px; }
-    .av { grid-column: span 2; }
-    .p { text-align: left; font-size: 1.6rem; }
-    .p em { display: block; font-style: normal; font-family: var(--font-body); font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
-  }
-
-  /* 2. Par catégorie d'avion */
+  /* Une carte par type d'avion (les avions aux tarifs identiques sont regroupés) */
   .groupes { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
   .groupe { background: var(--white); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; }
   .mosaique { display: grid; gap: 3px; height: 240px; overflow: hidden; grid-template-rows: 100%; }
@@ -114,19 +59,4 @@ const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.rep
   .prix2 b { font-family: var(--font-title); font-size: 2.8rem; font-weight: 600; line-height: 1.1; }
   .prix2 small { font-size: .82rem; opacity: .7; }
 
-  /* 3. Photo plein cadre */
-  .photos { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-  .carte { position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden; color: #fff; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; isolation: isolate; }
-  .carte img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .8s; }
-  .carte:hover img { transform: scale(1.05); }
-  .carte::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,18,31,.55) 0%, transparent 30%, transparent 50%, rgba(10,18,31,.85) 100%); }
-  .haut { padding: 22px 22px 0; display: flex; flex-direction: column; }
-  .haut strong { font-family: var(--font-title); font-size: 1.7rem; font-weight: 600; }
-  .haut small { opacity: .85; font-size: .85rem; }
-  .bas { margin: 14px; display: grid; grid-template-columns: 1fr 1fr; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,.14); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.25); }
-  .bas > div { padding: 12px 14px; display: flex; flex-direction: column; }
-  .bas > div + div { border-left: 1px solid rgba(255,255,255,.25); }
-  .bas span { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; opacity: .8; }
-  .bas b { font-family: var(--font-title); font-size: 1.9rem; font-weight: 600; line-height: 1.1; }
-  .bas b small { font-family: var(--font-body); font-size: .8rem; font-weight: 500; opacity: .8; }
 </style>
