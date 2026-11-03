@@ -70,7 +70,7 @@ const slides = [
         {avions.map((a) => (
           <a class="avion" href={url(`/club/flotte#${a.id}`)}>
             {a.data.photos[0] && <img src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}
-            <div><strong>{a.data.nom}</strong><span>{[a.data.immatriculation, a.data.puissance && `${a.data.puissance} ch`, a.data.usage].filter(Boolean).join(' · ')}</span></div>
+            <div><strong>{a.data.immatriculation || a.data.nom}</strong><span>{[a.data.type, a.data.puissance && `${a.data.puissance} ch`, a.data.usage].filter(Boolean).join(' · ')}</span></div>
           </a>
         ))}
       </div>

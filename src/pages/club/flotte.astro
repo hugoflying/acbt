@@ -1,9 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
-import PrixAvion from '../../components/PrixAvion.astro';
 import { getCollection } from 'astro:content';
-import { asset } from '../../lib/utils';
+import { asset, url } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 ---
 <Base univers="voler" title="La flotte" description="Les avions de l'aéroclub de Beauvais-Tillé : Robin DR400, DR300 et Jodel D120.">
@@ -21,19 +20,23 @@ const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) 
         </div>
         <div>
           <span class="eyebrow">{a.data.usage}</span>
-          <h2>{a.data.nom}</h2>
+          <h2>{a.data.immatriculation || a.data.nom}</h2>
           <dl>
-            {a.data.immatriculation && <><dt>Immatriculation</dt><dd>{a.data.immatriculation}</dd></>}
             <dt>Type</dt><dd>{a.data.type}</dd>
             {a.data.puissance && <><dt>Moteur</dt><dd>{a.data.puissance} ch</dd></>}
             {a.data.places && <><dt>Places</dt><dd>{a.data.places}</dd></>}
           </dl>
           {a.data.description && <p>{a.data.description}</p>}
-          <PrixAvion tarifs={a.data.tarifs} />
         </div>
       </div>
     </section>
   ))}
+  <section class="section">
+    <div class="container" style="text-align:center">
+      <h2>Envie de voler avec nous ?</h2>
+      <a class="btn btn-primary" href={url('/club/tarifs')}>Voir les tarifs</a>
+    </div>
+  </section>
 </Base>
 <style>
   .avion { align-items: start; }
