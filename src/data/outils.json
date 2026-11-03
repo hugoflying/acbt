@@ -12,7 +12,8 @@
         {
           "nom": "Fiches ICARUS (FFA)",
           "description": "Fiches de sécurité et retours d'expérience de la FFA.",
-          "lien": "https://www.ffa-aero.fr/WD170AWP/WD170Awp.exe/CONNECT/SITEFFAPROD?_WWREFERER_=https%3A%2F%2Fwww.ffa-aero.fr%2FWD170AWP%2FWD170Awp.exe%2FCONNECT%2FSITEFFAPROD&_WWNATION_=5&_WW1STPAGE_=frm_icarus"
+          "lien": "https://www.ffa-aero.fr/WD170AWP/WD170Awp.exe/CONNECT/SITEFFAPROD?_WWREFERER_=https%3A%2F%2Fwww.ffa-aero.fr%2FWD170AWP%2FWD170Awp.exe%2FCONNECT%2FSITEFFAPROD&_WWNATION_=5&_WW1STPAGE_=frm_icarus",
+          "logo": "https://fr.wikipedia.org/wiki/Special:FilePath/F%C3%A9d%C3%A9ration_fran%C3%A7aise_a%C3%A9ronautique.svg"
         }
       ]
     },
