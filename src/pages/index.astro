@@ -28,7 +28,7 @@ const slides = [
     <div class="voile"></div>
     <div class="container hero-inner">
       <div class="texte">
-        <span class="eyebrow">Aéroport de Beauvais-Tillé · Oise · depuis 1979</span>
+        <span class="eyebrow">Aéroport de Beauvais-Tillé</span>
         <h1>Prenez les commandes du ciel picard</h1>
         <p class="lead">Depuis {annees} ans, nos instructeurs bénévoles font voler et forment des pilotes à Beauvais-Tillé.</p>
         <div class="btns">
@@ -51,10 +51,10 @@ const slides = [
   <section class="section" id="univers">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>01</b> Nos univers</span><h2>Choisissez votre façon de voler</h2></div>
-        <p class="lead" style="max-width:40ch;margin:0">Première fois en avion, futur pilote ou membre du club : chaque univers a son entrée.</p>
+        <div><span class="label"><b>01</b> Bienvenue au club</span><h2>Choisissez votre façon de voler</h2></div>
+        <p class="lead" style="max-width:40ch;margin:0">Première fois en avion, futur pilote ou membre du club : par où voulez-vous commencer ?</p>
       </div>
-      <div class="univers-grid">
+      <div class="cartes-grid">
         {univers.map((u, i) => <UniversCard u={u} big={i === 0} />)}
       </div>
     </div>
@@ -169,10 +169,6 @@ const slides = [
   .une-label { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: #ffc59e; margin-bottom: 4px; }
   .une strong { font-family: var(--font-title); font-size: 1.1rem; font-weight: 600; }
 
-  .univers-grid { display: grid; gap: 18px; grid-template-columns: 1.3fr 1fr 1fr; grid-auto-rows: minmax(300px, auto); }
-  .univers-grid :global(.big) { grid-row: span 2; }
-  @media (max-width: 900px) { .univers-grid { grid-template-columns: 1fr 1fr; } .univers-grid :global(.big) { grid-column: span 2; grid-row: auto; min-height: 380px; } }
-  @media (max-width: 600px) { .univers-grid { grid-template-columns: 1fr; } .univers-grid :global(.big) { grid-column: auto; } }
 
   .flotte { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .avion { text-decoration: none; color: inherit; }

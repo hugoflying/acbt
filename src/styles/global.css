@@ -102,3 +102,9 @@ table.tarifs td.prix { font-weight: 700; color: var(--ink); white-space: nowrap;
   body { font-size: 16px; }
   table.tarifs th, table.tarifs td { padding: 10px; font-size: .9rem; }
 }
+
+/* Grille des cartes d'entrée de l'accueil */
+.cartes-grid { display: grid; gap: 18px; grid-template-columns: 1.3fr 1fr 1fr; grid-auto-rows: minmax(300px, auto); }
+.cartes-grid .big { grid-row: span 2; }
+@media (max-width: 900px) { .cartes-grid { grid-template-columns: 1fr 1fr; } .cartes-grid .big { grid-column: span 2; grid-row: auto; min-height: 380px; } }
+@media (max-width: 600px) { .cartes-grid { grid-template-columns: 1fr; } .cartes-grid .big { grid-column: auto; } }
