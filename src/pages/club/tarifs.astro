@@ -71,10 +71,13 @@ const op = t.objectif_pilote;
             <p>{op.intro}</p>
             <p class="meta">{op.note}</p>
           </div>
-          <table class="objectif-table">
-            <thead><tr><th scope="col">Étape</th><th scope="col">Aide</th></tr></thead>
-            <tbody>{op.lignes.map((l) => <tr><td>{l.etape}</td><td>{n(l.montant)} €</td></tr>)}</tbody>
-          </table>
+          <details class="aides">
+            <summary>Cliquer pour découvrir les aides <span aria-hidden="true">+</span></summary>
+            <table class="objectif-table">
+              <thead><tr><th scope="col">Étape</th><th scope="col">Aide</th></tr></thead>
+              <tbody>{op.lignes.map((l) => <tr><td>{l.etape}</td><td>{n(l.montant)} €</td></tr>)}</tbody>
+            </table>
+          </details>
         </div>
       )}
     </div>
@@ -145,6 +148,12 @@ const op = t.objectif_pilote;
   @media (max-width: 800px) { .objectif { grid-template-columns: 1fr; padding: 22px; } }
   .objectif .public { font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
   .objectif h3 { font-size: 1.6rem; margin: 6px 0 12px; }
+  .aides { width: 100%; align-self: center; }
+  .aides summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); font-weight: 600; }
+  .aides summary::-webkit-details-marker { display: none; }
+  .aides summary span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.1rem; transition: transform .2s; }
+  .aides[open] summary { margin-bottom: 18px; }
+  .aides[open] summary span { transform: rotate(45deg); }
   .objectif-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
   .objectif-table th { text-align: left; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 0 0 10px; border-bottom: 2px solid var(--ink); }
   .objectif-table td { padding: 11px 0; border-bottom: 1px solid var(--line); }
