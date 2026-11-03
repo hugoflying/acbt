@@ -18,7 +18,7 @@ const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) 
         <tbody>
           {avions.map((a) => (
             <tr>
-              <td><a href={url(`/club/flotte#${a.id}`)}>{a.data.nom}</a>{a.data.immatriculation && <div class="meta">{a.data.immatriculation}</div>}</td>
+              <td><a href={url(`/club/flotte#${a.id}`)}>{a.data.immatriculation || a.data.nom}</a>{a.data.immatriculation && <div class="meta">{a.data.nom}</div>}</td>
               <td>{a.data.usage}</td>
               <td><PrixAvion tarifs={a.data.tarifs} /></td>
             </tr>
