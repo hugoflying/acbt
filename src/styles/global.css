@@ -37,7 +37,7 @@ h2 { font-size: clamp(1.8rem, 3.6vw, 2.8rem); }
 h3 { font-size: 1.3rem; }
 p { margin: 0 0 1em; }
 .container { width: min(var(--max), 100% - 32px); margin-inline: auto; }
-.section { padding: clamp(56px, 9vw, 112px) 0; }
+.section { padding: clamp(40px, 6vw, 72px) 0; }
 .section.soft { background: var(--paper-2); }
 .section.white { background: var(--white); }
 .section.dark { background: var(--ink); color: #cfd6e0; }
