@@ -39,12 +39,6 @@ const slides = [
       </div>
       <div class="hero-bas">
         <div class="compteur"><b id="slide-n">01</b> / {String(slides.length).padStart(2, '0')} <span id="slide-l">{slides[0].legende}</span></div>
-        {une && (
-          <a class="une" href={url(`/actualites/${une.id}`)}>
-            <span class="une-label">À la une · {dateFr(une.data.date, { month: 'long', year: 'numeric' })}</span>
-            <strong>{une.data.titre}</strong>
-          </a>
-        )}
       </div>
     </div>
   </section>
