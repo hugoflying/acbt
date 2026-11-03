@@ -8,7 +8,7 @@ import { url, asset } from '../lib/utils';
 const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const annees = new Date().getFullYear() - 1979;
-const hero = 'https://static.wixstatic.com/media/99eab0_b378c53ad68446a89777098f0d2bddad~mv2.jpg';
+const hero = '/uploads/avions/dr400-120-01.jpg';
 ---
 <Base title="Accueil">
   <section class="hero" style={`--hero: url('${hero}')`}>
@@ -85,7 +85,7 @@ const hero = 'https://static.wixstatic.com/media/99eab0_b378c53ad68446a89777098f
         <p>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
         <a class="btn btn-ghost" href={url('/club/historique')}>Notre histoire</a>
       </div>
-      <img src="https://static.wixstatic.com/media/99eab0_a9bf378fcc554890b9297a63729ff06e~mv2.jpg" alt="Les débuts de l'aéroclub" loading="lazy" />
+      <img src="/uploads/historique/wix-04.jpg" alt="Les débuts de l'aéroclub" loading="lazy" />
     </div>
   </section>
 

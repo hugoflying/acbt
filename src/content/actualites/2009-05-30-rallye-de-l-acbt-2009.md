@@ -1,0 +1,57 @@
+---
+titre: "Rallye de l'ACBT 2009"
+date: 2009-05-30
+categorie: Événements
+image: /uploads/actualites/2009/rallye-de-l-acbt-2009/01.jpg
+galerie:
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/01.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/02.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/03.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/04.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/05.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/06.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/07.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/08.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/09.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/10.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/11.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/12.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/13.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/14.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/15.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/16.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/17.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/18.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/19.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/20.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/21.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/22.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/23.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/24.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/25.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/26.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/27.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/28.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/29.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/30.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/31.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/32.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/33.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/34.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/35.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/36.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/37.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/38.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/39.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/40.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/41.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/42.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/43.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/44.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/45.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/46.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/47.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/48.jpg
+  - /uploads/actualites/2009/rallye-de-l-acbt-2009/49.jpg
+---
+Le rallye de l'ACBT 2009, organisé par Guy Caclard : une belle réussite ! Trois reportages photo, dont ceux de Jean-Pierre Godet et Patrick Robert.

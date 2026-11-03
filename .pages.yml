@@ -25,7 +25,7 @@ content:
         type: select
         required: true
         options:
-          values: ['Vie du club', 'Lâchés et brevets', 'Événements', 'Flotte', 'Sorties et voyages']
+          values: ['Vie du club', 'Lâchés et brevets', 'Événements', 'Flotte', 'Sorties et voyages', 'BIA et jeunes']
       - { name: image, label: Photo principale, type: image }
       - { name: galerie, label: Galerie photos, type: image, list: true }
       - { name: publie, label: Publiée sur le site, type: boolean, default: true }

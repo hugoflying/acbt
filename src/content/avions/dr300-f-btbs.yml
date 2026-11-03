@@ -6,10 +6,10 @@ places: 4
 usage: École et voyage
 description: Dernier arrivé dans la flotte, le F-BTBS est un DR300 équipé d'un moteur de 120 ch. Il complète les DR400 pour l'école et le voyage.
 photos:
-  - https://static.wixstatic.com/media/99eab0_96b05aeab0e9428cadf02bc32eb49816~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_a7fe27d0465e442e8684f329ba6ef5ac~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_7def40331191473397b23e1e8ade581a~mv2.jpg
-  - https://static.wixstatic.com/media/99eab0_7f3b42526de74c67b07384851d44f861~mv2.jpg
+  - /uploads/avions/dr300-f-btbs-01.jpg
+  - /uploads/avions/dr300-f-btbs-02.jpg
+  - /uploads/avions/dr300-f-btbs-03.jpg
+  - /uploads/avions/dr300-f-btbs-04.jpg
 tarifs:
   - a_partir_du: 2026-01-01
     prix_heure: 140
