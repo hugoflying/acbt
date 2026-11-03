@@ -60,7 +60,8 @@
         {
           "nom": "Aerogest",
           "description": "Réservation des avions et compte pilote.",
-          "lien": "https://online.aerogest.fr/connection/Logon"
+          "lien": "https://online.aerogest.fr/connection/Logon",
+          "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU8lI8uw8UzMVXNFz0_8E9P8YBVIw1dRLGiA2_gBcAMzXaJDOsZy4FQySr&s=10"
         }
       ]
     }
