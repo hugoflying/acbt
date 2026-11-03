@@ -23,7 +23,8 @@
         {
           "nom": "AEROWEB",
           "description": "Météo aéronautique officielle de Météo-France (compte gratuit).",
-          "lien": "https://aviation.meteo.fr/login.php"
+          "lien": "https://aviation.meteo.fr/login.php",
+          "logo": "https://upload.wikimedia.org/wikipedia/fr/4/47/Logo_M%C3%A9t%C3%A9o_France_2016.svg"
         },
         {
           "nom": "Windy",
