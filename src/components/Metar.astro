@@ -1,40 +1,47 @@
 ---
+// METAR brut de LFOB, lu sur AVWX à chaque publication du site (toutes les 30 min).
+// Pastille verte clignotante : METAR de moins de 2 h. Pastille rouge : plus de 2 h ou indisponible.
 import { metar } from '../lib/metar';
-interface Props { compact?: boolean }
-const { compact = false } = Astro.props;
+interface Props { sombre?: boolean }
+const { sombre = false } = Astro.props;
 const m = await metar();
 ---
-<div class:list={['metar', { compact }]}>
-  <div class="tete">
-    <span class="titre">METAR LFOB <small>Beauvais-Tillé</small></span>
-  </div>
-  {m ? (
-    <>
-      <code class="raw">{m.raw}</code>
-      <p class="age" data-heure={m.heure}>Observation reçue lors de la dernière mise à jour du site.</p>
-    </>
-  ) : (
-    <p class="age">METAR momentanément indisponible. Consultez <a href="https://aviation.meteo.fr/login.php" target="_blank" rel="noopener">AEROWEB</a>.</p>
-  )}
+<div class:list={['metar', { sombre }]} data-heure={m?.heure}>
+  <span class:list={['etat', m ? 'attente' : 'rouge']}><i></i><b>{m ? 'En direct' : 'Indisponible'}</b></span>
+  <span class="station">METAR LFOB</span>
+  {m
+    ? <code class="raw" title="Dernier METAR publié pour Beauvais-Tillé">{m.raw}</code>
+    : <span class="raw vide">Pas de METAR reçu. Consultez <a href="https://aviation.meteo.fr/login.php" target="_blank" rel="noopener">AEROWEB</a>.</span>}
 </div>
 <script>
-  document.querySelectorAll<HTMLElement>('.metar .age[data-heure]').forEach((el) => {
-    const t = new Date(el.dataset.heure!);
-    if (isNaN(t.getTime())) return;
-    const min = Math.round((Date.now() - t.getTime()) / 60000);
-    const h = t.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
-    const dur = min < 60 ? `${min} min` : `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, '0')}`;
-    el.textContent = `Observation de ${h} UTC, il y a ${dur}.`;
-    if (min > 90) { el.classList.add('vieux'); el.textContent += ' Donnée ancienne : vérifiez sur AEROWEB avant de voler.'; }
+  const maj = () => document.querySelectorAll<HTMLElement>('.metar[data-heure]').forEach((el) => {
+    const t = new Date(el.dataset.heure!).getTime();
+    const etat = el.querySelector<HTMLElement>('.etat')!;
+    if (isNaN(t)) return;
+    const vieux = Date.now() - t > 2 * 3600 * 1000;
+    etat.classList.remove('attente', 'vert', 'rouge');
+    etat.classList.add(vieux ? 'rouge' : 'vert');
+    etat.querySelector('b')!.textContent = vieux ? 'Plus de 2 h' : 'En direct';
+    const h = new Date(t).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+    etat.title = `Observation de ${h} UTC`;
   });
+  maj();
+  setInterval(maj, 60000);
 </script>
 <style>
-  .metar { background: var(--ink); color: #dbe3ee; border-radius: 18px; padding: 20px 22px; }
-  .tete { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .titre { font-family: var(--font-title); font-weight: 700; font-size: 1.15rem; color: #fff; }
-  .titre small { font-family: var(--font-body); font-weight: 400; font-size: .85rem; color: #9fb0c4; margin-left: 6px; }
-  .raw { display: block; font-size: 1rem; line-height: 1.5; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: rgba(255,255,255,.06); padding: 10px 12px; border-radius: 10px; color: #fff; overflow-wrap: anywhere; }
-  .age { font-size: .8rem; color: #9fb0c4; margin: 8px 0 0; }
-  .age a { color: #fff; }
-  .age.vieux { color: #f2c98a; }
+  .metar { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; font-size: .85rem; color: var(--muted); }
+  .station { font-weight: 700; letter-spacing: .06em; font-size: .75rem; color: var(--ink); }
+  .raw { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; color: var(--ink); overflow-wrap: anywhere; }
+  .raw.vide { font-family: inherit; color: var(--muted); }
+  .etat { display: inline-flex; align-items: center; gap: 7px; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .etat i { position: relative; width: 9px; height: 9px; border-radius: 50%; background: #9aa5b4; }
+  .vert { color: #1f8a70; } .vert i { background: #22b07d; }
+  .vert i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #22b07d; animation: pouls 2s ease-out infinite; }
+  .rouge { color: #c2414b; } .rouge i { background: #d94452; }
+  @keyframes pouls { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(2.6); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .vert i::after { animation: none; } }
+  .sombre { color: rgba(255,255,255,.65); }
+  .sombre .station, .sombre .raw { color: #fff; }
+  .sombre .vert { color: #5fd3a6; } .sombre .rouge { color: #ff8a93; }
+  .sombre a { color: #fff; }
 </style>

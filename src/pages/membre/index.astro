@@ -58,7 +58,7 @@ const sommaire = [
     <div class="container">
       <p class="notice" style="margin-bottom:32px">Maquette : cette page est encore publique. La connexion des membres sera activée lors du passage sur Cloudflare (accès par code reçu par e-mail).</p>
       <div class="section-head"><div><span class="label"><b>01</b> Préparer son vol</span><h2>Les outils du pilote</h2></div></div>
-      <div style="margin-bottom:28px"><Metar /></div>
+      <div class="carte-metar"><Metar /></div>
       <div class="cats-outils">
       {outils.categories.map((c) => (
         <div class="bloc" data-bloc>
@@ -189,6 +189,7 @@ const sommaire = [
   @media (max-width: 860px) { .outilbar-in { flex-direction: column; align-items: stretch; gap: 8px; } .cherche input { width: 100%; } }
   .aucun { padding-top: 32px; color: var(--muted); }
   [hidden] { display: none !important; }
+  .carte-metar { margin-bottom: 28px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
 
   .bloc { margin-bottom: 36px; }
   .bloc:last-child { margin-bottom: 0; }

@@ -49,6 +49,8 @@ const facons = [
     </div>
   </section>
 
+  <div class="bande-metar"><div class="container"><Metar sombre /></div></div>
+
   <section class="section" id="univers">
     <div class="container">
       <div class="section-head">
@@ -61,27 +63,10 @@ const facons = [
     </div>
   </section>
 
-  <section class="section white">
-    <div class="container">
-      <div class="section-head">
-        <div><span class="label"><b>02</b> La flotte</span><h2>{avions.length} avions au hangar</h2></div>
-        <a class="btn btn-outline" href={url('/club/flotte')}>Toute la flotte et les tarifs</a>
-      </div>
-      <div class="flotte">
-        {avions.map((a) => (
-          <a class="avion" href={url(`/club/flotte#${a.id}`)}>
-            {a.data.photos[0] && <img src={asset(a.data.photos[0])} alt={a.data.nom} loading="lazy" />}
-            <div><strong>{a.data.immatriculation || a.data.nom}</strong><span>{[a.data.type, a.data.puissance && `${a.data.puissance} ch`, a.data.usage].filter(Boolean).join(' · ')}</span></div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>03</b> Actualités</span><h2>La vie du club</h2></div>
+        <div><span class="label"><b>02</b> Actualités</span><h2>La vie du club</h2></div>
         <a class="btn btn-outline" href={url('/actualites')}>{actus.length} actualités depuis 2006</a>
       </div>
       {une && (
@@ -106,7 +91,7 @@ const facons = [
   <section class="section dark histoire">
     <div class="container grid grid-2">
       <div>
-        <span class="label"><b>04</b> Depuis 1979</span>
+        <span class="label"><b>03</b> Depuis 1979</span>
         <h2>Plus de quarante ans d'histoire au bord des pistes</h2>
         <p>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
         <div class="chiffres">
@@ -123,7 +108,7 @@ const facons = [
   <section class="section">
     <div class="container contact-band">
       <div>
-        <span class="label"><b>05</b> Nous trouver</span>
+        <span class="label"><b>04</b> Nous trouver</span>
         <h2>Passez nous voir au club</h2>
         <p class="lead">{club.adresse}</p>
         <div class="btns">
@@ -131,7 +116,6 @@ const facons = [
           <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
         </div>
       </div>
-      <Metar />
     </div>
   </section>
 </Base>
@@ -211,7 +195,7 @@ const facons = [
   .facons { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
   .facons :global(.carte) { min-height: 380px; }
   @media (max-width: 860px) { .facons { grid-template-columns: 1fr; } .facons :global(.carte) { min-height: 280px; } }
-  .contact-band { display: grid; grid-template-columns: 1fr minmax(0, 520px); align-items: center; gap: 32px; }
+  .bande-metar { background: #0a1424; border-top: 1px solid rgba(255,255,255,.08); padding: 12px 0; }
+  .contact-band { display: block; }
   .contact-band .btns { margin-top: 20px; }
-  @media (max-width: 860px) { .contact-band { grid-template-columns: 1fr; } }
 </style>
