@@ -6,11 +6,12 @@ const nav = [
   { label: 'La flotte', href: '/club/flotte', u: 'voler' },
   { label: 'Tarifs', href: '/club/tarifs', u: 'voler' },
   { label: 'Le club', href: '/club', u: 'club' },
-  { label: 'Actualités', href: '/actualites', u: 'actus' },
   { label: 'Contact', href: '/contact', u: '' },
 ];
 const path = Astro.url.pathname.replace(/\/$/, '');
-const actif = (href: string) => (href === '/club' ? path === url(href) : path.startsWith(url(href)));
+// « Le club » regroupe aussi l'histoire et les actualités (la flotte et les tarifs ont leur propre onglet)
+const actif = (href: string) =>
+  href === '/club' ? [url('/club'), url('/club/historique'), url('/actualites')].some((p) => path === p || path.startsWith(p + '/')) : path.startsWith(url(href));
 ---
 <header class="site-header">
   <div class="container bar">
