@@ -1,30 +1,144 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getCollection } from 'astro:content';
 import club from '../../data/club.json';
-import { url } from '../../lib/utils';
-const liens = [
-  { titre: 'La flotte', texte: 'Deux Robin DR400, un DR300 et un Jodel D120.', href: '/club/flotte' },
-  { titre: 'Les tarifs', texte: 'Heures de vol, cotisations et aides.', href: '/club/tarifs' },
-  { titre: 'Notre histoire', texte: 'De 1979 à aujourd\'hui, en photos.', href: '/club/historique' },
-  { titre: 'Les actualités', texte: 'Lâchés, événements, vie du club.', href: '/actualites' },
+import h from '../../data/historique.json';
+import { url, asset } from '../../lib/utils';
+
+const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const locaux = [
+  { img: '/uploads/historique/2012-locaux-01.jpg', legende: 'Le club-house' },
+  { img: '/uploads/historique/2012-locaux-04.jpg', legende: 'La salle de cours' },
+  { img: '/uploads/historique/2012-locaux-05.jpg', legende: 'Le bar' },
+  { img: '/uploads/historique/2012-locaux-02.jpg', legende: "L'espace détente" },
 ];
+// Quelques grandes dates de la frise, celles qui ont une photo
+const reperes = ['1979', '1982', '1985', '2011-2012', '2022']
+  .map((a) => h.etapes.find((e) => e.annee === a))
+  .filter((e): e is (typeof h.etapes)[number] => !!e);
+const tel = club.telephone.replace(/\s/g, '');
+const d = 0.012;
+const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2, club.latitude + d].join(',');
+const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.latitude},${club.longitude}`;
 ---
-<Base univers="club" title="Le club">
-  <PageHead eyebrow="05 · Le club" image="/uploads/historique/2012-club-house.jpg" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`} />
-  <section class="section">
-    <div class="container grid grid-2">
-      <div class="prose" data-reveal="left">
-        <h2>Nos locaux</h2>
-        <p>Le club est installé depuis septembre 2012 dans la zone aéroplaisance de l'aéroport de Beauvais-Tillé. Les membres y disposent d'une salle de briefing, d'une salle de cours, d'un espace détente et du hangar des avions.</p>
-        <h2>Le comité</h2>
-        <p>Le club est administré par un comité élu en assemblée générale : président, secrétaires, trésoriers, responsables techniques, administrateur et correspondant sécurité.</p>
-        <p class="notice">Maquette : les photos des locaux, des instructeurs et du comité restent à reprendre du site actuel.</p>
+<Base univers="club" title="Le club" description="L'aéroclub de Beauvais-Tillé : nos locaux, notre histoire depuis 1979, les actualités et les informations pratiques pour venir au club.">
+  <PageHead eyebrow="05 · Le club" image="/uploads/historique/2012-locaux-10.jpg" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`}>
+    <nav class="sommaire" aria-label="Sommaire de la page">
+      <a href="#presentation">Le club</a><a href="#histoire">Notre histoire</a><a href="#actualites">Actualités</a><a href="#infos">Infos pratiques</a>
+    </nav>
+  </PageHead>
+
+  <section class="section" id="presentation">
+    <div class="container grid grid-2 presentation">
+      <div class="prose">
+        <span class="label"><b>01</b> Le club</span>
+        <h2 data-split>Nos locaux</h2>
+        <p data-reveal>Le club est installé depuis septembre 2012 dans la zone aéroplaisance de l'aéroport de Beauvais-Tillé. Les membres y disposent d'une salle de briefing, d'une salle de cours, d'un espace détente et du hangar des avions.</p>
+        <h2 data-split>Le comité</h2>
+        <p data-reveal>Le club est administré par un comité élu en assemblée générale : président, secrétaires, trésoriers, responsables techniques, administrateur et correspondant sécurité.</p>
+        <p class="notice" data-reveal>Maquette : les photos des instructeurs et du comité restent à reprendre du site actuel.</p>
       </div>
-      <div class="grid" data-stagger>
-        {liens.map((l) => <a class="card link" href={url(l.href)}><div class="card-body"><h3>{l.titre} →</h3><p>{l.texte}</p></div></a>)}
+      <div class="locaux" data-stagger>
+        {locaux.map((l) => (
+          <figure><img src={asset(l.img)} alt={l.legende} loading="lazy" /><figcaption>{l.legende}</figcaption></figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark" id="histoire">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="label"><b>02</b> Depuis 1979</span><h2 data-split>Notre histoire</h2></div>
+        <a class="btn btn-ghost" href={url('/club/historique')}>Toute notre histoire</a>
+      </div>
+      <p class="lead intro" data-reveal>{h.intro}</p>
+      <ol class="reperes" data-stagger>
+        {reperes.map((e) => (
+          <li>
+            <a href={url('/club/historique')}>
+              <div class="photo">{e.photos[0] && <img src={asset(e.photos[0])} alt="" loading="lazy" />}</div>
+              <span class="annee">{e.annee}</span>
+              <strong>{e.titre}</strong>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="actualites">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="label"><b>03</b> Actualités</span><h2 data-split>La vie du club</h2></div>
+        <a class="btn btn-outline" href={url('/actualites')}>Les {actus.length} actualités</a>
+      </div>
+      <div class="grid grid-3" data-stagger>
+        {actus.filter((a) => a.data.image ?? a.data.galerie[0]).slice(0, 3).map((a) => <NewsCard actu={a} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white" id="infos">
+    <div class="container grid grid-2 infos">
+      <div>
+        <span class="label"><b>04</b> Infos pratiques</span>
+        <h2 data-split>Venir au club</h2>
+        <dl class="pratique" data-stagger>
+          <div><dt>Adresse</dt><dd>{club.adresse}</dd></div>
+          <div><dt>Téléphone</dt><dd><a href={`tel:${tel}`}>{club.telephone}</a></dd></div>
+          <div><dt>E-mail</dt><dd><a href={`mailto:${club.email}`}>{club.email}</a></dd></div>
+          <div><dt>Horaires</dt><dd>{club.horaires}</dd></div>
+          <div><dt>Facebook</dt><dd><a href={club.facebook} rel="noopener">Suivre le club</a></dd></div>
+        </dl>
+        <div class="btns" data-stagger>
+          <a class="btn btn-primary" href={`tel:${tel}`}>Appeler le club</a>
+          <a class="btn btn-outline" href={itineraire} target="_blank" rel="noopener">Itinéraire</a>
+          <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
+        </div>
+      </div>
+      <div class="carte" data-clip>
+        <iframe title="Plan d'accès à l'aéroclub" loading="lazy" src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${club.latitude},${club.longitude}`}></iframe>
       </div>
     </div>
   </section>
 </Base>
-<style>.link { text-decoration: none; color: inherit; } .link:hover h3 { color: var(--sky); }</style>
+<style>
+  .sommaire { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .sommaire a { color: #fff; text-decoration: none; font-size: .9rem; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); }
+  .sommaire a:hover { background: #fff; color: var(--ink); }
+
+  .presentation { align-items: center; gap: 48px; }
+  .prose h2 + p { margin-bottom: 1.6em; }
+  .locaux { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .locaux figure { margin: 0; position: relative; border-radius: 16px; overflow: hidden; }
+  .locaux figure:first-child { grid-column: span 3; }
+  .locaux img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+  .locaux figure:first-child img { aspect-ratio: 16 / 9; }
+  @media (max-width: 520px) { .locaux figure:not(:first-child) figcaption { display: none; } }
+  .locaux figure:hover img { transform: scale(1.05); }
+  .locaux figcaption { position: absolute; left: 10px; bottom: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(15,27,45,.7); color: #fff; font-size: .8rem; backdrop-filter: blur(6px); }
+
+  .intro { color: #9fb0c6; margin-bottom: 36px; }
+  .reperes { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(5, 1fr); }
+  @media (max-width: 1000px) { .reperes { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
+  .reperes a { display: flex; flex-direction: column; gap: 6px; color: #fff; text-decoration: none; }
+  .reperes .photo { aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink-2); margin-bottom: 8px; }
+  .reperes img { width: 100%; height: 100%; object-fit: cover; filter: sepia(.25) saturate(.9); transition: filter .4s, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reperes a:hover img { filter: none; transform: scale(1.05); }
+  .reperes .annee { font-family: var(--font-title); font-size: 2rem; font-weight: 700; line-height: 1; color: #b0873a; }
+  .reperes strong { font-weight: 500; color: #cfd6e0; line-height: 1.35; }
+  .reperes a:hover strong { color: #fff; }
+
+  .infos { align-items: stretch; gap: 48px; }
+  .pratique { margin: 8px 0 28px; }
+  .pratique > div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .pratique > div:last-child { border-bottom: 1px solid var(--line); }
+  .pratique dt { color: var(--muted); font-size: .9rem; }
+  .pratique dd { margin: 0; font-weight: 500; }
+  @media (max-width: 520px) { .pratique > div { grid-template-columns: 1fr; gap: 2px; } }
+  .carte { border-radius: var(--radius); overflow: hidden; min-height: 360px; }
+  .carte iframe { width: 100%; height: 100%; min-height: 360px; border: 0; display: block; }
+</style>
