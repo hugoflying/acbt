@@ -5,13 +5,8 @@ import Metar from '../components/Metar.astro';
 import { getCollection } from 'astro:content';
 import club from '../data/club.json';
 import { univers } from '../data/univers';
-import { url, asset, dateFr } from '../lib/utils';
+import { url, asset } from '../lib/utils';
 
-const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const img = (a: (typeof actus)[number]) => a.data.image ?? a.data.galerie[0];
-// À la une : la dernière actualité qui a une photo
-const une = actus.find((a) => img(a));
-const suite = actus.filter((a) => a !== une);
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const annees = new Date().getFullYear() - 1979;
 const slides = [
@@ -61,37 +56,12 @@ const facons = [
   <section class="section" id="univers">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>01</b> Bienvenue au club</span><h2 data-split>Choisissez votre façon de voler</h2></div>
+        <div><span class="label">Bienvenue au club</span><h2 data-split>Choisissez votre façon de voler</h2></div>
         <p class="lead" style="max-width:40ch;margin:0" data-reveal data-delay="0.3">Première fois en avion, futur pilote ou déjà breveté : par où voulez-vous commencer ?</p>
       </div>
       <div class="facons" data-stagger>
         {facons.map((u) => <UniversCard u={u} variante="bandeau" />)}
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div><span class="label"><b>02</b> Actualités</span><h2 data-split>La vie du club</h2></div>
-        <a class="btn btn-outline" href={url('/actualites')}>{actus.length} actualités depuis 2006</a>
-      </div>
-      {une && (
-        <div class="actus">
-          <a class="actu-une" href={url(`/actualites/${une.id}`)}>
-            {img(une) && <img src={asset(img(une)!)} alt="" loading="lazy" data-clip />}
-            <div data-reveal><span class="meta">{dateFr(une.data.date)}</span><h3>{une.data.titre}</h3><span class="lire">Lire l'article →</span></div>
-          </a>
-          <ul class="actu-liste" data-stagger>
-            {suite.slice(0, 4).map((a) => (
-              <li><a href={url(`/actualites/${a.id}`)}>
-                {img(a) ? <img src={asset(img(a)!)} alt="" loading="lazy" /> : <span class="vide">✈</span>}
-                <div><span class="meta">{dateFr(a.data.date, { month: 'long', year: 'numeric' })}</span><strong>{a.data.titre}</strong></div>
-              </a></li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   </section>
 
@@ -102,7 +72,7 @@ const facons = [
   <section class="section dark histoire">
     <div class="container grid grid-2">
       <div>
-        <span class="label"><b>03</b> Depuis 1979</span>
+        <span class="label">Depuis 1979</span>
         <h2 data-split>Plus de quarante ans d'histoire au bord des pistes</h2>
         <p data-reveal>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
         <div class="chiffres" data-stagger>
@@ -119,7 +89,7 @@ const facons = [
   <section class="section">
     <div class="container contact-band">
       <div>
-        <span class="label"><b>04</b> Nous trouver</span>
+        <span class="label">Nous trouver</span>
         <h2 data-split>Passez nous voir au club</h2>
         <p class="lead" data-reveal>{club.adresse}</p>
         <div class="btns">
@@ -215,20 +185,6 @@ const facons = [
   .avion strong { font-family: var(--font-title); font-size: 1.2rem; font-weight: 600; }
   .avion span { color: var(--muted); font-size: .88rem; }
 
-  .actus { display: grid; gap: 28px; grid-template-columns: 1.4fr 1fr; }
-  @media (max-width: 860px) { .actus { grid-template-columns: 1fr; } }
-  .actu-une { text-decoration: none; color: inherit; }
-  .actu-une img { aspect-ratio: 16 / 10; object-fit: cover; width: 100%; border-radius: 20px; margin-bottom: 18px; }
-  .actu-une h3 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); margin: 6px 0 10px; }
-  .actu-une:hover h3 { color: #c2414b; }
-  .lire { font-weight: 600; }
-  .actu-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-  .actu-liste li + li { border-top: 1px solid var(--line); }
-  .actu-liste a { display: grid; grid-template-columns: 110px 1fr; gap: 16px; align-items: center; padding: 14px 0; text-decoration: none; color: inherit; }
-  .actu-liste img, .vide { width: 110px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
-  .vide { display: grid; place-items: center; background: var(--ink); color: #fff; font-size: 1.6rem; }
-  .actu-liste strong { display: block; font-family: var(--font-title); font-weight: 600; font-size: 1.05rem; line-height: 1.25; }
-  .actu-liste a:hover strong { color: #c2414b; }
 
   .histoire .grid { align-items: center; }
   .histoire-img { border-radius: 20px; overflow: hidden; }
