@@ -47,7 +47,7 @@ p { margin: 0 0 1em; }
 /* Libellé numéroté de section : « 01 — Les univers » */
 .label, .eyebrow { display: inline-flex; align-items: center; gap: .6em; font-size: .76rem; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); margin-bottom: 1.1em; }
 .label b { color: var(--accent); font-weight: 700; }
-.label::after { content: ''; width: 48px; height: 1px; background: currentColor; opacity: .5; }
+.label::after { content: ''; width: 48px; height: 1px; background: currentColor; opacity: .5; transform: scaleX(var(--trait, 1)); transform-origin: left; }
 .dark .label, .page-head .eyebrow, .hero .eyebrow { color: rgba(255,255,255,.75); }
 .lead { font-size: 1.18rem; color: var(--muted); max-width: 60ch; }
 .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 36px; }
@@ -108,3 +108,21 @@ table.tarifs td.prix { font-weight: 700; color: var(--ink); white-space: nowrap;
 .cartes-grid .big { grid-row: span 2; }
 @media (max-width: 900px) { .cartes-grid { grid-template-columns: 1fr 1fr; } .cartes-grid .big { grid-column: span 2; grid-row: auto; min-height: 380px; } }
 @media (max-width: 600px) { .cartes-grid { grid-template-columns: 1fr; } .cartes-grid .big { grid-column: auto; } }
+
+/* ---------- Animations (voir src/scripts/motion.ts) ---------- */
+/* Tant que le moteur n'a pas pris la main, les éléments animés restent invisibles pour éviter un clignotement. */
+html.motion:not(.motion-ready) :is([data-split], [data-reveal], [data-stagger] > *, [data-clip]) { visibility: hidden; }
+html.motion .btn { transition: background .15s, color .15s, border-color .15s; }
+html.motion .btn:hover { transform: none; }
+html.motion { scroll-behavior: auto; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.ligne { padding-bottom: .08em; margin-bottom: -.08em; }
+
+/* Bandeau qui défile */
+.marquee { overflow: hidden; background: var(--ink); color: #fff; padding: clamp(18px, 3vw, 34px) 0; border-block: 1px solid rgba(255,255,255,.08); }
+.marquee .piste { display: flex; width: max-content; }
+.marquee span { display: inline-flex; align-items: center; gap: .5em; padding-right: .5em; font-family: var(--font-title); font-weight: 700; font-size: clamp(2.2rem, 7vw, 5.6rem); line-height: 1; letter-spacing: -.03em; text-transform: uppercase; white-space: nowrap; }
+.marquee span em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.55); }
+.marquee span i { font-style: normal; color: var(--sun); font-size: .55em; }
+@media (prefers-reduced-motion: reduce) { .marquee .piste { flex-wrap: wrap; width: auto; } }
