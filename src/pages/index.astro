@@ -91,10 +91,10 @@ const facons = [
       <div>
         <span class="label">Nous trouver</span>
         <h2 data-split>Passez nous voir au club</h2>
-        <p class="lead" data-reveal>{club.adresse}</p>
-        <div class="btns">
-          <a class="btn btn-primary" data-reveal="scale" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
-          <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
+        <p class="lead" data-reveal>Zone aéroplaisance de l'aéroport de Beauvais-Tillé. Adresse, horaires, plan d'accès et itinéraire : tout est dans les infos pratiques.</p>
+        <div class="btns" data-stagger>
+          <a class="btn btn-primary" href={url('/club#infos')}>Venir au club</a>
+          <a class="btn btn-outline" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
         </div>
       </div>
     </div>

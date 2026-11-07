@@ -9,8 +9,9 @@
   "facebook": "https://www.facebook.com/ACBT60",
   "aerogest": "https://online.aerogest.fr/connection/Logon",
   "horaires": "Ouvert le week-end et sur rendez-vous en semaine (à confirmer)",
-  "latitude": 49.4544,
-  "longitude": 2.1128,
+  "acces": "Premier aéroclub sur la gauche en rentrant",
+  "latitude": 49.46282414952464,
+  "longitude": 2.1184244390691402,
   "aides": [
     {
       "titre": "Pass'Sports Citoyen",

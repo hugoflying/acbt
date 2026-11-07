@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import club from '../data/club.json';
-const d = 0.01;
+const d = 0.004;
 const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2, club.latitude + d].join(',');
 ---
 <Base title="Contact" description="Contacter l'aéroclub de Beauvais-Tillé.">
@@ -24,7 +24,7 @@ const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2,
       </div></form>
       <div data-reveal="right" data-delay="0.15">
         <h2>Où nous trouver</h2>
-        <p>{club.adresse}</p>
+        <p>{club.adresse}<br /><span class="meta">{club.acces}</span></p>
         <p><strong>Téléphone</strong> : <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br />
           <strong>E-mail</strong> : <a href={`mailto:${club.email}`}>{club.email}</a><br />
           <strong>Horaires</strong> : {club.horaires}</p>
