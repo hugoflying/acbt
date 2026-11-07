@@ -38,7 +38,7 @@ const sommaire = [
 ];
 ---
 <Base univers="membres" title="Espace membre" noindex>
-  <PageHead eyebrow="06 · Espace membre" image="/uploads/avions/dr400-120-01.jpg" title="Espace membre" lead="Préparation des vols, documentation des avions, vie du club et parcours de formation.">
+  <PageHead eyebrow="Espace membre" image="/uploads/avions/dr400-120-01.jpg" title="Espace membre" lead="Préparation des vols, documentation des avions, vie du club et parcours de formation.">
     <div class="btns" style="margin-top:20px">
       <a class="btn btn-primary" href={club.aerogest} rel="noopener">Réserver sur Aerogest</a>
     </div>
@@ -57,7 +57,7 @@ const sommaire = [
   <section class="section" id="outils" data-bloc>
     <div class="container">
       <p class="notice" style="margin-bottom:32px">Maquette : cette page est encore publique. La connexion des membres sera activée lors du passage sur Cloudflare (accès par code reçu par e-mail).</p>
-      <div class="section-head"><div><span class="label"><b>01</b> Préparer son vol</span><h2>Les outils du pilote</h2></div></div>
+      <div class="section-head"><div><span class="label">Préparer son vol</span><h2>Les outils du pilote</h2></div></div>
       <div class="carte-metar"><Metar /></div>
       <div class="cats-outils">
       {outils.categories.map((c) => (
@@ -97,7 +97,7 @@ const sommaire = [
 
   <section class="section soft" id="avions" data-bloc>
     <div class="container">
-      <div class="section-head"><div><span class="label"><b>02</b> Nos avions</span><h2>Documentation avion</h2></div></div>
+      <div class="section-head"><div><span class="label">Nos avions</span><h2>Documentation avion</h2></div></div>
       <p class="alerte"><b>!</b><span>{membre.avertissement_avion}</span></p>
       <div class="fiches">
         {fiches.map((g) => (
@@ -121,7 +121,7 @@ const sommaire = [
 
   <section class="section" id="club" data-bloc>
     <div class="container cols2">
-      <div><span class="label"><b>03</b> Vie du club</span><h2>Les documents de l'association</h2>
+      <div><span class="label">Vie du club</span><h2>Les documents de l'association</h2>
         <p class="lead">Livret d'accueil, règlement, statuts et lettres d'information.</p>
         <div class="liens">
           <a class="btn btn-outline" href={club.aerogest} rel="noopener">Aerogest</a>
@@ -134,14 +134,14 @@ const sommaire = [
 
   <section class="section soft" id="pilote" data-bloc>
     <div class="container">
-      <div class="section-head"><div><span class="label"><b>04</b> Documentation pilote</span><h2>Terrain, espace aérien et réglementation</h2></div></div>
+      <div class="section-head"><div><span class="label">Documentation pilote</span><h2>Terrain, espace aérien et réglementation</h2></div></div>
       <div class="docs docs-2" data-bloc>{parCat('Documentation pilote').map((d) => <DocLien doc={d} />)}</div>
     </div>
   </section>
 
   <section class="section" id="eleves" data-bloc>
     <div class="container">
-      <div class="section-head"><div><span class="label"><b>05</b> Parcours élève</span><h2>De la première leçon à la licence</h2></div></div>
+      <div class="section-head"><div><span class="label">Parcours élève</span><h2>De la première leçon à la licence</h2></div></div>
       <ol class="parcours">
         {membre.parcours.map((e, i) => {
           const liste = e.categorie_docs ? parCat(e.categorie_docs) : [];
