@@ -7,7 +7,7 @@ const actus = (await getCollection('actualites', (a) => a.data.publie)).sort((a,
 const annees = [...new Set(actus.map((a) => a.data.date.getFullYear()))];
 ---
 <Base univers="actus" title="Actualités" description="Les actualités de l'aéroclub de Beauvais-Tillé depuis 2006.">
-  <PageHead eyebrow="05 · Le club · Actualités" image="/uploads/actualites/2022/baptemes-kiwanis/01.jpg" title="La vie du club" lead="Lâchés, brevets, événements, sorties, nouveaux avions : toutes les nouvelles de l'ACBT depuis 2006, classées par année." />
+  <PageHead eyebrow="Le club · Actualités" image="/uploads/actualites/2022/baptemes-kiwanis/01.jpg" title="La vie du club" lead="Lâchés, brevets, événements, sorties, nouveaux avions : toutes les nouvelles de l'ACBT depuis 2006, classées par année." />
   <section class="section">
     <div class="container">
       <div class="filters" data-filter="annee" data-reveal>

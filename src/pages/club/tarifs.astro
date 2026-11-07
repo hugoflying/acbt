@@ -12,7 +12,7 @@ const n = (x: number) => x.toLocaleString('fr-FR');
 const op = t.objectif_pilote;
 ---
 <Base univers="voler" title="Tarifs" description={`Tarifs ${t.annee} de l'aéroclub de Beauvais-Tillé : heures de vol, adhésion, vols découverte.`}>
-  <PageHead eyebrow="04 · Tarifs" image="/uploads/avions/dr400-120-02.jpg" title="Les tarifs du club" lead="Une association, pas une entreprise : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.">
+  <PageHead eyebrow="Tarifs" image="/uploads/avions/dr400-120-02.jpg" title="Les tarifs du club" lead="Une association, pas une entreprise : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.">
     <nav class="sommaire" aria-label="Sommaire des tarifs">
       <a href="#heures">Heures de vol</a><a href="#adhesion">Adhésion</a><a href="#decouvrir">Vols découverte</a><a href="#divers">Divers</a>
     </nav>
@@ -21,7 +21,7 @@ const op = t.objectif_pilote;
   <section class="section" id="heures">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>01</b> Heures de vol</span><h2 data-split>Le prix de l'heure de vol</h2></div>
+        <div><span class="label">Heures de vol</span><h2 data-split>Le prix de l'heure de vol</h2></div>
         <p class="lead" style="max-width:42ch;margin:0">En solo une fois lâché, ou en double commande avec un instructeur pendant la formation.</p>
       </div>
       <div data-reveal><HeuresVol avions={avions} /></div>
@@ -35,7 +35,7 @@ const op = t.objectif_pilote;
   <section class="section white" id="adhesion">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>02</b> Adhésion {t.annee}</span><h2 data-split>Devenir membre du club</h2></div>
+        <div><span class="label">Adhésion {t.annee}</span><h2 data-split>Devenir membre du club</h2></div>
         <p class="lead" style="max-width:42ch;margin:0">L'adhésion annuelle comprend la cotisation au club et la licence FFA avec son assurance.</p>
       </div>
       <div class="formules" data-stagger>
@@ -86,7 +86,7 @@ const op = t.objectif_pilote;
   <section class="section" id="decouvrir">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>03</b> Découvrir le vol</span><h2 data-split>Vols découverte et initiation</h2></div>
+        <div><span class="label">Découvrir le vol</span><h2 data-split>Vols découverte et initiation</h2></div>
         <a class="btn btn-outline" href={url('/contact?objet=Baptême')}>Réserver un vol</a>
       </div>
       <div class="grid grid-3" data-stagger>
@@ -103,7 +103,7 @@ const op = t.objectif_pilote;
 
   <section class="section white" id="divers">
     <div class="container divers">
-      <div><span class="label"><b>04</b> Divers</span><h2 data-split>Fournitures et services</h2><p class="lead">Le matériel du pilote est disponible au club.</p></div>
+      <div><span class="label">Divers</span><h2 data-split>Fournitures et services</h2><p class="lead">Le matériel du pilote est disponible au club.</p></div>
       <ul class="lignes grandes" data-stagger>{t.divers.map((d) => <li><span>{d.libelle}</span><b>{d.prix}</b></li>)}</ul>
     </div>
   </section>

@@ -24,7 +24,7 @@ const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2,
 const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.latitude},${club.longitude}`;
 ---
 <Base univers="club" title="Le club" description="L'aéroclub de Beauvais-Tillé : nos locaux, notre histoire depuis 1979, les actualités et les informations pratiques pour venir au club.">
-  <PageHead eyebrow="05 · Le club" image="/uploads/historique/2012-locaux-10.jpg" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`}>
+  <PageHead eyebrow="Le club" image="/uploads/historique/2012-locaux-10.jpg" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`}>
     <nav class="sommaire" aria-label="Sommaire de la page">
       <a href="#presentation">Le club</a><a href="#histoire">Notre histoire</a><a href="#actualites">Actualités</a><a href="#infos">Infos pratiques</a>
     </nav>
@@ -33,7 +33,7 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
   <section class="section" id="presentation">
     <div class="container grid grid-2 presentation">
       <div class="prose">
-        <span class="label"><b>01</b> Le club</span>
+        <span class="label">Le club</span>
         <h2 data-split>Nos locaux</h2>
         <p data-reveal>Le club est installé depuis septembre 2012 dans la zone aéroplaisance de l'aéroport de Beauvais-Tillé. Les membres y disposent d'une salle de briefing, d'une salle de cours, d'un espace détente et du hangar des avions.</p>
         <h2 data-split>Le comité</h2>
@@ -51,7 +51,7 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
   <section class="section dark" id="histoire">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>02</b> Depuis 1979</span><h2 data-split>Notre histoire</h2></div>
+        <div><span class="label">Depuis 1979</span><h2 data-split>Notre histoire</h2></div>
         <a class="btn btn-ghost" href={url('/club/historique')}>Toute notre histoire</a>
       </div>
       <p class="lead intro" data-reveal>{h.intro}</p>
@@ -72,7 +72,7 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
   <section class="section" id="actualites">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>03</b> Actualités</span><h2 data-split>La vie du club</h2></div>
+        <div><span class="label">Actualités</span><h2 data-split>La vie du club</h2></div>
         <a class="btn btn-outline" href={url('/actualites')}>Les {actus.length} actualités</a>
       </div>
       <div class="grid grid-3" data-stagger>
@@ -84,7 +84,7 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
   <section class="section white" id="infos">
     <div class="container grid grid-2 infos">
       <div>
-        <span class="label"><b>04</b> Infos pratiques</span>
+        <span class="label">Infos pratiques</span>
         <h2 data-split>Venir au club</h2>
         <dl class="pratique" data-stagger>
           <div><dt>Adresse</dt><dd>{club.adresse}</dd></div>
