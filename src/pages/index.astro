@@ -33,17 +33,24 @@ const facons = [
       {slides.map((s, i) => <img src={asset(s.img)} alt={s.legende} class:list={{ on: i === 0 }} loading={i ? 'lazy' : 'eager'} />)}
     </div>
     <div class="voile"></div>
+    <svg class="vol" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <mask id="trace-mask" maskUnits="userSpaceOnUse"><path id="trace-plein" d="M -60 560 C 220 560, 430 470, 580 330 S 840 70, 1100 30" fill="none" stroke="#fff" stroke-width="6" /></mask>
+      </defs>
+      <path class="trace" d="M -60 560 C 220 560, 430 470, 580 330 S 840 70, 1100 30" mask="url(#trace-mask)" />
+      <g class="avion-svg"><path transform="scale(1.4)" d="M16,0 C16,-1.6 13,-2.4 10,-2.4 L4,-2.4 L2,-19 L-3,-19 L-3,-2.4 L-14,-2 L-17,-8 L-20,-8 L-19,-1.6 L-19,1.6 L-20,8 L-17,8 L-14,2 L-3,2.4 L-3,19 L2,19 L4,2.4 L10,2.4 C13,2.4 16,1.6 16,0 Z" /></g>
+    </svg>
     <div class="container hero-inner">
       <div class="texte">
-        <span class="eyebrow">Aéroport de Beauvais-Tillé</span>
-        <h1>Prenez les commandes du ciel picard</h1>
-        <p class="lead">Depuis {annees} ans, nos instructeurs bénévoles font voler et forment des pilotes à Beauvais-Tillé.</p>
-        <div class="btns">
+        <span class="eyebrow" data-reveal data-delay="0.1">Aéroport de Beauvais-Tillé</span>
+        <h1 data-split="now">Prenez les commandes du ciel picard</h1>
+        <p class="lead" data-reveal data-delay="0.8">Depuis {annees} ans, nos instructeurs bénévoles font voler et forment des pilotes à Beauvais-Tillé.</p>
+        <div class="btns" data-stagger data-delay="1">
           <a class="btn btn-primary" href={url('/decouvrir-le-vol')}>Faire un baptême</a>
           <a class="btn btn-ghost" href={url('/formations')}>Devenir pilote</a>
         </div>
       </div>
-      <div class="hero-bas">
+      <div class="hero-bas" data-reveal data-delay="1.3">
         <div class="compteur"><b id="slide-n">01</b> / {String(slides.length).padStart(2, '0')} <span id="slide-l">{slides[0].legende}</span></div>
       </div>
     </div>
@@ -54,10 +61,10 @@ const facons = [
   <section class="section" id="univers">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>01</b> Bienvenue au club</span><h2>Choisissez votre façon de voler</h2></div>
-        <p class="lead" style="max-width:40ch;margin:0">Première fois en avion, futur pilote ou déjà breveté : par où voulez-vous commencer ?</p>
+        <div><span class="label"><b>01</b> Bienvenue au club</span><h2 data-split>Choisissez votre façon de voler</h2></div>
+        <p class="lead" style="max-width:40ch;margin:0" data-reveal data-delay="0.3">Première fois en avion, futur pilote ou déjà breveté : par où voulez-vous commencer ?</p>
       </div>
-      <div class="facons">
+      <div class="facons" data-stagger>
         {facons.map((u) => <UniversCard u={u} />)}
       </div>
     </div>
@@ -66,16 +73,16 @@ const facons = [
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>02</b> Actualités</span><h2>La vie du club</h2></div>
+        <div><span class="label"><b>02</b> Actualités</span><h2 data-split>La vie du club</h2></div>
         <a class="btn btn-outline" href={url('/actualites')}>{actus.length} actualités depuis 2006</a>
       </div>
       {une && (
         <div class="actus">
           <a class="actu-une" href={url(`/actualites/${une.id}`)}>
-            {img(une) && <img src={asset(img(une)!)} alt="" loading="lazy" />}
-            <div><span class="meta">{dateFr(une.data.date)}</span><h3>{une.data.titre}</h3><span class="lire">Lire l'article →</span></div>
+            {img(une) && <img src={asset(img(une)!)} alt="" loading="lazy" data-clip />}
+            <div data-reveal><span class="meta">{dateFr(une.data.date)}</span><h3>{une.data.titre}</h3><span class="lire">Lire l'article →</span></div>
           </a>
-          <ul class="actu-liste">
+          <ul class="actu-liste" data-stagger>
             {suite.slice(0, 4).map((a) => (
               <li><a href={url(`/actualites/${a.id}`)}>
                 {img(a) ? <img src={asset(img(a)!)} alt="" loading="lazy" /> : <span class="vide">✈</span>}
@@ -88,20 +95,24 @@ const facons = [
     </div>
   </section>
 
+  <div class="marquee" data-marquee aria-hidden="true">
+    <div class="piste"><span>Baptêmes <i>✦</i> <em>BIA</em> <i>✦</i> LAPL <i>✦</i> <em>PPL</em> <i>✦</i> Voyages <i>✦</i> <em>Depuis 1979</em> <i>✦</i></span></div>
+  </div>
+
   <section class="section dark histoire">
     <div class="container grid grid-2">
       <div>
         <span class="label"><b>03</b> Depuis 1979</span>
-        <h2>Plus de quarante ans d'histoire au bord des pistes</h2>
-        <p>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
-        <div class="chiffres">
-          <div><strong>1979</strong><span>fondation</span></div>
-          <div><strong>{avions.length}</strong><span>avions</span></div>
-          <div><strong>100 %</strong><span>bénévoles</span></div>
+        <h2 data-split>Plus de quarante ans d'histoire au bord des pistes</h2>
+        <p data-reveal>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
+        <div class="chiffres" data-stagger>
+          <div><strong data-count="1979" data-from="1900">1979</strong><span>fondation</span></div>
+          <div><strong data-count={avions.length}>{avions.length}</strong><span>avions</span></div>
+          <div><strong data-count="100" data-suffix=" %">100 %</strong><span>bénévoles</span></div>
         </div>
         <a class="btn btn-ghost" href={url('/club/historique')}>Notre histoire</a>
       </div>
-      <img src={asset('/uploads/historique/1979-debuts-du-club.jpg')} alt="Les débuts de l'aéroclub" loading="lazy" />
+      <div class="histoire-img" data-clip><img src={asset('/uploads/historique/1979-debuts-du-club.jpg')} alt="Les débuts de l'aéroclub" loading="lazy" data-parallax="8" /></div>
     </div>
   </section>
 
@@ -109,10 +120,10 @@ const facons = [
     <div class="container contact-band">
       <div>
         <span class="label"><b>04</b> Nous trouver</span>
-        <h2>Passez nous voir au club</h2>
-        <p class="lead">{club.adresse}</p>
+        <h2 data-split>Passez nous voir au club</h2>
+        <p class="lead" data-reveal>{club.adresse}</p>
         <div class="btns">
-          <a class="btn btn-primary" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
+          <a class="btn btn-primary" data-reveal="scale" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
           <a class="btn btn-outline" href={url('/contact')}>Nous écrire</a>
         </div>
       </div>
@@ -121,6 +132,33 @@ const facons = [
 </Base>
 
 <script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+  // Avion qui traverse le ciel du hero en laissant une trace pointillée, puis la parallaxe au défilement.
+  if (document.documentElement.classList.contains('motion')) {
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 701px)', () => {
+      const plein = document.getElementById('trace-plein') as unknown as SVGPathElement;
+      const longueur = plein.getTotalLength();
+      gsap.set(plein, { strokeDasharray: longueur, strokeDashoffset: longueur });
+      gsap.set('.vol', { autoAlpha: 1 });
+      gsap.timeline({ delay: 1.2, repeat: -1, repeatDelay: 7 })
+        .set('.trace', { opacity: 1 })
+        .set(plein, { strokeDashoffset: longueur })
+        .to('.avion-svg', { duration: 7, ease: 'power1.inOut', motionPath: { path: '#trace-plein', align: '#trace-plein', alignOrigin: [0.5, 0.5], autoRotate: true } }, 0)
+        .to(plein, { strokeDashoffset: 0, duration: 7, ease: 'power1.inOut' }, 0)
+        .to('.trace', { opacity: 0, duration: 2, ease: 'power2.in' }, 7.5);
+
+      const scroll = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true };
+      gsap.to('.slides', { yPercent: 18, ease: 'none', scrollTrigger: scroll });
+      gsap.to('.vol', { yPercent: 30, ease: 'none', scrollTrigger: scroll });
+      gsap.to('.hero .texte', { y: -90, opacity: 0.15, ease: 'none', scrollTrigger: scroll });
+    });
+  }
+
   const imgs = [...document.querySelectorAll<HTMLImageElement>('.slides img')];
   const n = document.getElementById('slide-n');
   const l = document.getElementById('slide-l');
@@ -139,9 +177,14 @@ const facons = [
 
 <style>
   .hero { position: relative; min-height: min(92vh, 860px); display: flex; color: #fff; background: var(--ink); overflow: hidden; }
+  .slides { position: absolute; inset: 0; }
   .slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 1.4s ease, transform 7s ease-out; }
   .slides img.on { opacity: 1; transform: scale(1); }
   .voile { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,18,31,.78) 0%, rgba(10,18,31,.35) 55%, rgba(10,18,31,.1) 100%), linear-gradient(0deg, rgba(10,18,31,.7) 0%, transparent 40%); }
+  .vol { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
+  .trace { fill: none; stroke: rgba(255,255,255,.7); stroke-width: 2; stroke-dasharray: 2 12; stroke-linecap: round; }
+  .avion-svg path { fill: #fff; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
+  @media (max-width: 700px) { .vol { display: none; } }
   .hero-inner { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(72px, 14vh, 160px) 0 32px; gap: 48px; }
   .hero h1 { color: #fff; max-width: 13ch; }
   .hero .lead { color: rgba(255,255,255,.88); max-width: 46ch; }
@@ -188,7 +231,8 @@ const facons = [
   .actu-liste a:hover strong { color: #c2414b; }
 
   .histoire .grid { align-items: center; }
-  .histoire img { border-radius: 20px; filter: sepia(.15); }
+  .histoire-img { border-radius: 20px; overflow: hidden; }
+  .histoire img { filter: sepia(.15); width: 100%; }
   .chiffres { display: flex; gap: 36px; margin: 28px 0 32px; flex-wrap: wrap; }
   .chiffres strong { display: block; font-family: var(--font-title); font-size: 2.4rem; color: #fff; line-height: 1; }
   .chiffres span { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: #9fb0c6; }

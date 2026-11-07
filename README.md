@@ -33,6 +33,9 @@ Décocher « Avion affiché sur le site » pour le masquer en gardant sa fiche, 
 - Déploiement : `.github/workflows/deploy.yml` publie sur GitHub Pages à chaque push sur `main`
   et chaque nuit. Pour Cloudflare Pages : commande `npm run build`, dossier `dist`,
   variables `BASE_PATH=/` et `SITE_URL=https://votre-domaine`.
+- Animations : GSAP + Lenis dans `src/scripts/motion.ts`, pilotées par des attributs HTML
+  (`data-split`, `data-reveal`, `data-stagger`, `data-count`, `data-parallax`, `data-clip`, `data-marquee`).
+  Coupées automatiquement si le visiteur a demandé à réduire les animations.
 - Espace membre : `/membre` est public dans la maquette. En production, le protéger avec
   Cloudflare Access (règle sur le chemin `/membre*`, connexion par code e-mail).
 

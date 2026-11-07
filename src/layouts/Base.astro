@@ -23,10 +23,19 @@ const fullTitle = title === 'Accueil' ? "Aéroclub de Beauvais-Tillé (ACBT)" : 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <!-- Animations : activées seulement si JavaScript tourne et que la personne n'a pas demandé à les réduire.
+         Filet de sécurité : si le moteur ne démarre pas en 4 s, tout redevient visible. -->
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion');
+        setTimeout(() => { if (!document.documentElement.classList.contains('motion-ready')) document.documentElement.classList.remove('motion'); }, 4000);
+      }
+    </script>
   </head>
   <body data-univers={univers}>
     <Header />
     <main><slot /></main>
     <Footer />
+    <script>import '../scripts/motion';</script>
   </body>
 </html>

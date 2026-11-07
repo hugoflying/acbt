@@ -29,9 +29,13 @@ const actif = (href: string) => (href === '/club' ? path === url(href) : path.st
       </ul>
     </nav>
   </div>
+  <div class="progression" aria-hidden="true"></div>
 </header>
 <style>
-  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(246,242,234,.9); backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); }
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(246,242,234,.9); backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .3s; }
+  .site-header.cache { transform: translateY(-100%); }
+  .site-header.defile { box-shadow: 0 8px 30px rgba(15,27,45,.08); }
+  .progression { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
   .bar { display: flex; align-items: center; justify-content: space-between; height: 76px; }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
   .logo img { height: 52px; width: auto; display: block; }
