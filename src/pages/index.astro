@@ -22,9 +22,9 @@ const slides = [
 ];
 // Les trois façons de voler avec le club (la flotte, le club et l'espace membre ont leur propre place).
 const facons = [
-  univers.find((u) => u.id === 'decouvrir')!,
+  { ...univers.find((u) => u.id === 'decouvrir')!, image: '/uploads/avions/dr400-120-03.jpg' },
   univers.find((u) => u.id === 'apprendre')!,
-  { id: 'voler', titre: 'Piloter au club', sousTitre: 'Déjà breveté ? Rejoignez le club et volez sur nos avions', href: '/club/flotte', image: '/uploads/avions/jodel-d120-02.jpg' },
+  { id: 'voler', titre: 'Piloter au club', sousTitre: 'Déjà breveté ? Rejoignez le club et volez sur nos avions', href: '/club/flotte', image: '/uploads/avions/dr300-f-btbs-03.jpg' },
 ];
 ---
 <Base title="Accueil">
@@ -65,7 +65,7 @@ const facons = [
         <p class="lead" style="max-width:40ch;margin:0" data-reveal data-delay="0.3">Première fois en avion, futur pilote ou déjà breveté : par où voulez-vous commencer ?</p>
       </div>
       <div class="facons" data-stagger>
-        {facons.map((u) => <UniversCard u={u} />)}
+        {facons.map((u) => <UniversCard u={u} variante="bandeau" />)}
       </div>
     </div>
   </section>
@@ -237,8 +237,9 @@ const facons = [
   .chiffres strong { display: block; font-family: var(--font-title); font-size: 2.4rem; color: #fff; line-height: 1; }
   .chiffres span { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: #9fb0c6; }
   .facons { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
-  .facons :global(.carte) { min-height: 380px; }
-  @media (max-width: 860px) { .facons { grid-template-columns: 1fr; } .facons :global(.carte) { min-height: 280px; } }
+  .facons :global(.carte) { min-height: 0; }
+  .facons :global(.carte .img) { aspect-ratio: 3 / 2; flex: none; min-height: 0; }
+  @media (max-width: 860px) { .facons { grid-template-columns: 1fr; } .facons :global(.carte) { min-height: 0; } }
   .bande-metar { background: #0a1424; border-top: 1px solid rgba(255,255,255,.08); padding: 12px 0; }
   .contact-band { display: block; }
   .contact-band .btns { margin-top: 20px; }

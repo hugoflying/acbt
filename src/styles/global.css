@@ -111,7 +111,7 @@ table.tarifs td.prix { font-weight: 700; color: var(--ink); white-space: nowrap;
 
 /* ---------- Animations (voir src/scripts/motion.ts) ---------- */
 /* Tant que le moteur n'a pas pris la main, les éléments animés restent invisibles pour éviter un clignotement. */
-html.motion:not(.motion-ready) :is([data-split], [data-reveal], [data-stagger] > *, [data-clip]) { visibility: hidden; }
+html.motion:not(.motion-ready) :is([data-split], [data-reveal], [data-stagger] > *, [data-batch] > *, [data-clip]) { visibility: hidden; }
 html.motion .btn { transition: background .15s, color .15s, border-color .15s; }
 html.motion .btn:hover { transform: none; }
 html.motion { scroll-behavior: auto; }

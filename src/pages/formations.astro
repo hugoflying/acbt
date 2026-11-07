@@ -12,7 +12,7 @@ const formations = [
 <Base univers="apprendre" title="Se former" description="Formations BIA, LAPL et PPL à l'aéroclub de Beauvais-Tillé.">
   <PageHead eyebrow="02 · Apprendre" image="/uploads/actualites/2022/lache-elisa/01.jpg" title="Devenez pilote à Beauvais-Tillé" lead="Nos instructeurs bénévoles vous accompagnent du premier vol jusqu'à la licence. Théorie, pratique et examen : tout se prépare au club." />
   <section class="section">
-    <div class="container grid grid-3">
+    <div class="container grid grid-3" data-stagger>
       {formations.map((f) => (
         <div class="card"><div class="card-body">
           <span class="big">{f.nom}</span>
@@ -23,17 +23,17 @@ const formations = [
       ))}
     </div>
     <div class="container" style="margin-top:28px">
-      <p class="meta">Pour toutes les licences : réussite aux examens théorique et pratique, et visite médicale auprès d'un médecin agréé. La qualification vol de nuit est possible une fois la licence obtenue.</p>
+      <p class="meta" data-reveal>Pour toutes les licences : réussite aux examens théorique et pratique, et visite médicale auprès d'un médecin agréé. La qualification vol de nuit est possible une fois la licence obtenue.</p>
     </div>
   </section>
   <section class="section soft">
     <div class="container">
       <span class="eyebrow">Aides au financement</span>
-      <h2>Voler jeune coûte moins cher</h2>
-      <div class="grid grid-3">
+      <h2 data-split>Voler jeune coûte moins cher</h2>
+      <div class="grid grid-3" data-stagger>
         {club.aides.map((a) => <div class="card"><div class="card-body"><h3>{a.titre}</h3><p>{a.texte}</p></div></div>)}
       </div>
-      <div class="btns" style="margin-top:32px">
+      <div class="btns" style="margin-top:32px" data-stagger>
         <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>S'inscrire ou poser une question</a>
         <a class="btn btn-outline" href={url('/club/tarifs')}>Voir les tarifs</a>
       </div>

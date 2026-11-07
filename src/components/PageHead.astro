@@ -5,9 +5,9 @@ const { eyebrow, title, lead, image } = Astro.props;
 ---
 <section class:list={['page-head', { 'has-img': image }]} style={image ? `--img: url('${asset(image)}')` : undefined}>
   <div class="container">
-    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-    <h1>{title}</h1>
-    {lead && <p class="lead">{lead}</p>}
-    <slot />
+    {eyebrow && <span class="eyebrow" data-reveal data-delay="0.1">{eyebrow}</span>}
+    <h1 data-split="now">{title}</h1>
+    {lead && <p class="lead" data-reveal data-delay="0.7">{lead}</p>}
+    <div data-reveal data-delay="0.9"><slot /></div>
   </div>
 </section>

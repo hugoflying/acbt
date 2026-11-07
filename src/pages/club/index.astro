@@ -14,14 +14,14 @@ const liens = [
   <PageHead eyebrow="05 · Le club" image="/uploads/historique/2012-club-house.jpg" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`} />
   <section class="section">
     <div class="container grid grid-2">
-      <div class="prose">
+      <div class="prose" data-reveal="left">
         <h2>Nos locaux</h2>
         <p>Le club est installé depuis septembre 2012 dans la zone aéroplaisance de l'aéroport de Beauvais-Tillé. Les membres y disposent d'une salle de briefing, d'une salle de cours, d'un espace détente et du hangar des avions.</p>
         <h2>Le comité</h2>
         <p>Le club est administré par un comité élu en assemblée générale : président, secrétaires, trésoriers, responsables techniques, administrateur et correspondant sécurité.</p>
         <p class="notice">Maquette : les photos des locaux, des instructeurs et du comité restent à reprendre du site actuel.</p>
       </div>
-      <div class="grid">
+      <div class="grid" data-stagger>
         {liens.map((l) => <a class="card link" href={url(l.href)}><div class="card-body"><h3>{l.titre} →</h3><p>{l.texte}</p></div></a>)}
       </div>
     </div>
