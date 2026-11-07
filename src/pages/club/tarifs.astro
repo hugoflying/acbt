@@ -21,11 +21,11 @@ const op = t.objectif_pilote;
   <section class="section" id="heures">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>01</b> Heures de vol</span><h2>Le prix de l'heure de vol</h2></div>
+        <div><span class="label"><b>01</b> Heures de vol</span><h2 data-split>Le prix de l'heure de vol</h2></div>
         <p class="lead" style="max-width:42ch;margin:0">En solo une fois lâché, ou en double commande avec un instructeur pendant la formation.</p>
       </div>
-      <HeuresVol avions={avions} />
-      <div class="blocs">
+      <div data-reveal><HeuresVol avions={avions} /></div>
+      <div class="blocs" data-reveal>
         <div class="blocs-titre"><strong>Achetez vos heures par bloc</strong><span>{t.blocs_note}</span></div>
         {t.blocs.map((b) => <div class="bloc"><span class="h">{b.heures} h achetées</span><span class="o">{b.offert}</span></div>)}
       </div>
@@ -35,10 +35,10 @@ const op = t.objectif_pilote;
   <section class="section white" id="adhesion">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>02</b> Adhésion {t.annee}</span><h2>Devenir membre du club</h2></div>
+        <div><span class="label"><b>02</b> Adhésion {t.annee}</span><h2 data-split>Devenir membre du club</h2></div>
         <p class="lead" style="max-width:42ch;margin:0">L'adhésion annuelle comprend la cotisation au club et la licence FFA avec son assurance.</p>
       </div>
-      <div class="formules">
+      <div class="formules" data-stagger>
         {ad.colonnes.map((c) => (
           <div class:list={['formule', { vedette: c.mise_en_avant }]}>
             {c.mise_en_avant && <span class="ruban">Pour bien démarrer</span>}
@@ -60,11 +60,11 @@ const op = t.objectif_pilote;
         </div>
       </div>
       <p class="meta" style="margin-top:20px">{ad.note}</p>
-      <div class="aides">
+      <div class="aides" data-stagger>
         {club.aides.map((a) => <div><strong>{a.titre}</strong><span>{a.texte}</span></div>)}
       </div>
       {op && (
-        <div class="objectif" id="objectif-pilote">
+        <div class="objectif" id="objectif-pilote" data-reveal>
           <div class="objectif-intro">
             <span class="public">Moins de 21 ans</span>
             <h3>{op.titre}</h3>
@@ -86,10 +86,10 @@ const op = t.objectif_pilote;
   <section class="section" id="decouvrir">
     <div class="container">
       <div class="section-head">
-        <div><span class="label"><b>03</b> Découvrir le vol</span><h2>Vols découverte et initiation</h2></div>
+        <div><span class="label"><b>03</b> Découvrir le vol</span><h2 data-split>Vols découverte et initiation</h2></div>
         <a class="btn btn-outline" href={url('/contact?objet=Baptême')}>Réserver un vol</a>
       </div>
-      <div class="grid grid-3">
+      <div class="grid grid-3" data-stagger>
         {t.formules.map((f) => (
           <div class="card"><div class="card-body">
             <h3>{f.titre}</h3>
@@ -103,8 +103,8 @@ const op = t.objectif_pilote;
 
   <section class="section white" id="divers">
     <div class="container divers">
-      <div><span class="label"><b>04</b> Divers</span><h2>Fournitures et services</h2><p class="lead">Le matériel du pilote est disponible au club.</p></div>
-      <ul class="lignes grandes">{t.divers.map((d) => <li><span>{d.libelle}</span><b>{d.prix}</b></li>)}</ul>
+      <div><span class="label"><b>04</b> Divers</span><h2 data-split>Fournitures et services</h2><p class="lead">Le matériel du pilote est disponible au club.</p></div>
+      <ul class="lignes grandes" data-stagger>{t.divers.map((d) => <li><span>{d.libelle}</span><b>{d.prix}</b></li>)}</ul>
     </div>
   </section>
 </Base>

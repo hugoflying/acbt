@@ -10,14 +10,14 @@ const annees = [...new Set(actus.map((a) => a.data.date.getFullYear()))];
   <PageHead eyebrow="Actualités" image="/uploads/actualites/2022/baptemes-kiwanis/01.jpg" title="La vie du club" lead="Lâchés, brevets, événements, sorties, nouveaux avions : toutes les nouvelles de l'ACBT depuis 2006, classées par année." />
   <section class="section">
     <div class="container">
-      <div class="filters" data-filter="annee">
+      <div class="filters" data-filter="annee" data-reveal>
         <button aria-pressed="true" data-v="">Toutes les années</button>
         {annees.map((y) => <button aria-pressed="false" data-v={String(y)}>{y}</button>)}
       </div>
       {annees.map((y) => (
         <div class="annee-bloc" data-annee={y}>
-          <h2>{y}</h2>
-          <div class="grid grid-3 grille-actus">{actus.filter((a) => a.data.date.getFullYear() === y).map((a) => <NewsCard actu={a} />)}</div>
+          <h2 data-reveal>{y}</h2>
+          <div class="grid grid-3 grille-actus" data-batch>{actus.filter((a) => a.data.date.getFullYear() === y).map((a) => <NewsCard actu={a} />)}</div>
         </div>
       ))}
     </div>

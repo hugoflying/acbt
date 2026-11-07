@@ -10,13 +10,13 @@ import { asset } from '../../lib/utils';
     <div class="container">
       <ol class="frise">
         {h.etapes.map((e) => (
-          <li>
+          <li data-reveal>
             <span class="annee">{e.annee}</span>
             <div class="contenu">
               <h3>{e.titre}</h3>
               <p>{e.texte}</p>
               {e.photos.length > 0 && (
-                <div class="gallery">{e.photos.map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt={`${e.titre}, ${e.annee}`} loading="lazy" /></a>)}</div>
+                <div class="gallery" data-stagger>{e.photos.map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt={`${e.titre}, ${e.annee}`} loading="lazy" /></a>)}</div>
               )}
             </div>
           </li>

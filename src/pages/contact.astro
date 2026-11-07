@@ -9,7 +9,7 @@ const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2,
   <PageHead eyebrow="Contact" title="Nous contacter" lead="Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club." />
   <section class="section">
     <div class="container grid grid-2">
-      <form id="contact" class="card"><div class="card-body">
+      <form id="contact" class="card" data-reveal="left"><div class="card-body">
         <label>Nom et prénom<input name="nom" required /></label>
         <label>E-mail<input type="email" name="email" required /></label>
         <label>Téléphone<input type="tel" name="tel" /></label>
@@ -22,7 +22,7 @@ const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2,
         <button class="btn btn-primary" type="submit">Envoyer</button>
         <p class="meta" style="margin-top:10px">Le message s'ouvre dans votre logiciel de messagerie.</p>
       </div></form>
-      <div>
+      <div data-reveal="right" data-delay="0.15">
         <h2>Où nous trouver</h2>
         <p>{club.adresse}</p>
         <p><strong>Téléphone</strong> : <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br />

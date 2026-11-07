@@ -9,6 +9,7 @@
  *   data-parallax="12"   image qui glisse plus lentement que la page (amplitude en %)
  *   data-clip            image dévoilée par un rideau
  *   data-marquee         bandeau de texte qui défile, accéléré par la vitesse du scroll
+ *   data-batch           longue liste (actualités, galeries) : les éléments apparaissent par vagues à mesure qu'on descend
  *
  * Si la personne a réglé « réduire les animations », ou si JavaScript échoue,
  * tout le contenu reste visible et immobile.
@@ -114,6 +115,21 @@ function reveals() {
       { autoAlpha: 0, y: 70 },
       { autoAlpha: 1, y: 0, stagger: 0.12, delay: Number(parent.dataset.delay ?? 0), scrollTrigger: { trigger: parent, start: 'top 85%', once: true } },
     );
+  });
+
+  // Longues listes : apparition par vagues, au fil du défilement
+  document.querySelectorAll<HTMLElement>('[data-batch]').forEach((parent) => {
+    const enfants = [...parent.children] as HTMLElement[];
+    gsap.set(enfants, { autoAlpha: 0, y: 50 });
+    ScrollTrigger.batch(enfants, {
+      start: 'top 92%',
+      once: true,
+      onEnter: (lot) => gsap.to(lot, { autoAlpha: 1, y: 0, stagger: 0.08, overwrite: true }),
+    });
+  });
+  // Après un filtre (actualités par année…), les positions changent
+  document.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('.filters button, details summary')) requestAnimationFrame(() => ScrollTrigger.refresh());
   });
 
   // Le filet des libellés « 01 — … » se trace
