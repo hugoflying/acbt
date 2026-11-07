@@ -1,6 +1,7 @@
 ---
 import { url } from '../lib/utils';
 const nav = [
+  { label: 'Accueil', href: '/', u: '' },
   { label: 'Découvrir', href: '/decouvrir-le-vol', u: 'decouvrir' },
   { label: 'Apprendre', href: '/formations', u: 'apprendre' },
   { label: 'La flotte', href: '/club/flotte', u: 'voler' },
@@ -11,6 +12,7 @@ const nav = [
 const path = Astro.url.pathname.replace(/\/$/, '');
 // « Le club » regroupe aussi l'histoire et les actualités (la flotte et les tarifs ont leur propre onglet)
 const actif = (href: string) =>
+  href === '/' ? path === url('/').replace(/\/$/, '') || path === '' :
   href === '/club' ? [url('/club'), url('/club/historique'), url('/actualites')].some((p) => path === p || path.startsWith(p + '/')) : path.startsWith(url(href));
 ---
 <header class="site-header">
@@ -44,7 +46,7 @@ const actif = (href: string) =>
   .logo strong { font-family: var(--font-title); font-size: 1.4rem; letter-spacing: .02em; }
   .logo small { font-size: .72rem; color: var(--muted); letter-spacing: .03em; }
   nav ul { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
-  nav a { display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: var(--text); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: 999px; }
+  nav a { display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: var(--text); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: 999px; white-space: nowrap; }
   nav a[data-u]:not([data-u=''])::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c); opacity: 0; transition: opacity .2s; }
   nav a:hover::before, nav a[aria-current]::before { opacity: 1 !important; }
   nav a[aria-current] { font-weight: 600; color: var(--ink); }
@@ -53,7 +55,7 @@ const actif = (href: string) =>
   nav a.member { background: var(--ink); color: #fff; padding: 10px 20px; margin-left: 10px; }
   nav a.member:hover { background: #6b4fbb; color: #fff; }
   .nav-toggle, .burger { display: none; }
-  @media (max-width: 1060px) {
+  @media (max-width: 1180px) {
     .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
     .burger span { width: 24px; height: 2px; background: var(--ink); }
     nav { position: absolute; top: 76px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); display: none; }
