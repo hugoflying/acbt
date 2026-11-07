@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import NewsCard from '../../components/NewsCard.astro';
+import CartePlan from '../../components/CartePlan.astro';
 import { getCollection } from 'astro:content';
 import club from '../../data/club.json';
 import h from '../../data/historique.json';
@@ -19,8 +20,6 @@ const reperes = ['1979', '1982', '1985', '2011-2012', '2022']
   .map((a) => h.etapes.find((e) => e.annee === a))
   .filter((e): e is (typeof h.etapes)[number] => !!e);
 const tel = club.telephone.replace(/\s/g, '');
-const d = 0.004;
-const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2, club.latitude + d].join(',');
 const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.latitude},${club.longitude}`;
 ---
 <Base univers="club" title="Le club" description="L'aéroclub de Beauvais-Tillé : nos locaux, notre histoire depuis 1979, les actualités et les informations pratiques pour venir au club.">
@@ -87,8 +86,7 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
         <span class="label">Infos pratiques</span>
         <h2 data-split>Venir au club</h2>
         <dl class="pratique" data-stagger>
-          <div><dt>Adresse</dt><dd>{club.adresse}</dd></div>
-          <div><dt>Accès</dt><dd>{club.acces}</dd></div>
+          <div><dt>Adresse</dt><dd>{club.adresse}<span class="acces">{club.acces.map((l) => <span>{l}</span>)}</span></dd></div>
           <div><dt>Téléphone</dt><dd><a href={`tel:${tel}`}>{club.telephone}</a></dd></div>
           <div><dt>E-mail</dt><dd><a href={`mailto:${club.email}`}>{club.email}</a></dd></div>
           <div><dt>Horaires</dt><dd>{club.horaires}</dd></div>
@@ -101,7 +99,7 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
         </div>
       </div>
       <div class="carte" data-clip>
-        <iframe title="Plan d'accès à l'aéroclub" loading="lazy" src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${club.latitude},${club.longitude}`}></iframe>
+        <CartePlan />
       </div>
     </div>
   </section>
@@ -141,5 +139,6 @@ const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.la
   .pratique dd { margin: 0; font-weight: 500; }
   @media (max-width: 520px) { .pratique > div { grid-template-columns: 1fr; gap: 2px; } }
   .carte { border-radius: var(--radius); overflow: hidden; min-height: 360px; }
-  .carte iframe { width: 100%; height: 100%; min-height: 360px; border: 0; display: block; }
+  .acces { display: flex; flex-direction: column; margin-top: 6px; font-weight: 400; color: var(--muted); font-size: .92rem; }
+  .acces span::before { content: '→ '; color: var(--accent); }
 </style>

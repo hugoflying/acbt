@@ -2,8 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import club from '../data/club.json';
-const d = 0.004;
-const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2, club.latitude + d].join(',');
+import CartePlan from '../components/CartePlan.astro';
 ---
 <Base title="Contact" description="Contacter l'aéroclub de Beauvais-Tillé.">
   <PageHead eyebrow="Contact" title="Nous contacter" lead="Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club." />
@@ -24,11 +23,11 @@ const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2,
       </div></form>
       <div data-reveal="right" data-delay="0.15">
         <h2>Où nous trouver</h2>
-        <p>{club.adresse}<br /><span class="meta">{club.acces}</span></p>
+        <p>{club.adresse}{club.acces.map((l) => <><br /><span class="meta">→ {l}</span></>)}</p>
         <p><strong>Téléphone</strong> : <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br />
           <strong>E-mail</strong> : <a href={`mailto:${club.email}`}>{club.email}</a><br />
           <strong>Horaires</strong> : {club.horaires}</p>
-        <iframe title="Plan d'accès" loading="lazy" src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${club.latitude},${club.longitude}`}></iframe>
+        <CartePlan hauteur="320px" />
       </div>
     </div>
   </section>
@@ -47,5 +46,4 @@ const bbox = [club.longitude - d * 2, club.latitude - d, club.longitude + d * 2,
 <style>
   label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: .92rem; margin-bottom: 14px; }
   input, select, textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
-  iframe { width: 100%; height: 320px; border: 0; border-radius: var(--radius); }
 </style>
