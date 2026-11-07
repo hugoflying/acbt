@@ -1,0 +1,47 @@
+---
+// Plan d'accès au club : carte OpenStreetMap avec un pin rouge à l'emplacement exact du club.
+// Sans JavaScript, un lien vers la carte reste disponible.
+import club from '../data/club.json';
+interface Props { hauteur?: string }
+const { hauteur = '360px' } = Astro.props;
+const lien = `https://www.openstreetmap.org/?mlat=${club.latitude}&mlon=${club.longitude}#map=17/${club.latitude}/${club.longitude}`;
+---
+<div class="plan" style={`--h: ${hauteur}`} data-lat={club.latitude} data-lng={club.longitude} data-titre={club.sigle} data-acces={club.acces.join('|')}>
+  <a class="secours" href={lien} target="_blank" rel="noopener">Voir le plan d'accès sur OpenStreetMap</a>
+</div>
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  // Pin rouge dessiné en SVG (pas d'image à charger)
+  const pin = L.divIcon({
+    className: 'pin-club',
+    html: `<svg viewBox="0 0 32 44" width="32" height="44" aria-hidden="true"><path d="M16 1C7.7 1 1 7.6 1 15.8 1 27 16 43 16 43s15-16 15-27.2C31 7.6 24.3 1 16 1z" fill="#d93025" stroke="#8e1b13" stroke-width="1.5"/><circle cx="16" cy="15.5" r="5.5" fill="#fff"/></svg>`,
+    iconSize: [32, 44],
+    iconAnchor: [16, 43],
+    popupAnchor: [0, -40],
+  });
+
+  document.querySelectorAll<HTMLElement>('.plan').forEach((el) => {
+    const pos: L.LatLngTuple = [Number(el.dataset.lat), Number(el.dataset.lng)];
+    el.innerHTML = '';
+    const tactile = matchMedia('(pointer: coarse)').matches;
+    // Molette désactivée (sinon la page ne défile plus en passant sur la carte) ; au doigt, on ne fait pas glisser la carte pour laisser défiler la page (zoom à deux doigts possible)
+    const carte = L.map(el, { center: pos, zoom: 16, scrollWheelZoom: false, dragging: !tactile, tap: false } as L.MapOptions);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(carte);
+    L.marker(pos, { icon: pin, title: el.dataset.titre })
+      .addTo(carte)
+      .bindPopup(`<strong>${el.dataset.titre}</strong><br>${(el.dataset.acces ?? '').split('|').join('<br>')}`)
+      .openPopup();
+  });
+</script>
+<style>
+  .plan { position: relative; width: 100%; height: 100%; min-height: var(--h); border-radius: var(--radius); overflow: hidden; background: var(--paper-2); z-index: 0; }
+  .secours { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 600; }
+  :global(.pin-club) { background: none; border: 0; }
+  :global(.pin-club svg) { filter: drop-shadow(0 3px 4px rgba(0,0,0,.35)); }
+  :global(.leaflet-popup-content) { font-family: var(--font-body); font-size: .88rem; line-height: 1.4; margin: 10px 14px; }
+</style>
