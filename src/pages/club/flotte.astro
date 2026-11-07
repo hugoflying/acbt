@@ -11,14 +11,14 @@ const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) 
     <section class={`section ${i % 2 ? 'soft' : ''}`} id={a.id}>
       <div class="container grid grid-2 avion">
         <div>
-          {a.data.photos[0] && <div class="main-cadre" data-clip><img class="main" src={asset(a.data.photos[0])} alt={a.data.nom} loading={i ? 'lazy' : 'eager'} data-parallax="3"  /></div>}
+          {a.data.photos[0] && <div class="main-cadre"><img class="main" src={asset(a.data.photos[0])} alt={a.data.nom} loading={i ? 'lazy' : 'eager'} /></div>}
           {a.data.photos.length > 1 && (
-            <div class="gallery" style="margin-top:10px" data-stagger>
+            <div class="gallery" style="margin-top:10px">
               {a.data.photos.slice(1).map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt="" loading="lazy" /></a>)}
             </div>
           )}
         </div>
-        <div data-reveal="right">
+        <div>
           <span class="eyebrow">{a.data.usage}</span>
           <h2 class="immat">{a.data.immatriculation || a.data.nom}</h2>
           <dl>
