@@ -1,16 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import Etapes from '../components/Etapes.astro';
+import Faq from '../components/Faq.astro';
 import club from '../data/club.json';
+import f from '../data/formations.json';
+import pages from '../data/pages.json';
 import { url } from '../lib/utils';
-const formations = [
-  { nom: 'BIA', titre: "Brevet d'initiation aéronautique", age: 'Dès 13 ans', points: ["Cours théoriques au collège, au lycée ou au club", 'Initiation pratique en vol au club', 'Ouvre droit à des bourses pour la suite de la formation'] },
-  { nom: 'LAPL', titre: "Licence de pilote d'avion léger", age: 'Examen à 17 ans, solo dès 16 ans', points: ['30 h de vol minimum, dont 15 h en double commande et 6 h en solo supervisé (3 h de navigation)', "Jusqu'à 3 passagers après 10 h de vol comme commandant de bord", 'Valable dans toute l\'Europe (UE, Suisse, Islande, Norvège, Liechtenstein)'] },
-  { nom: 'PPL', titre: 'Licence de pilote privé', age: 'Examen à 17 ans', points: ['45 h de vol minimum, dont 25 h en double commande et 10 h en solo supervisé', 'Passagers sans limite de distance, dans le monde entier', 'Ouvre aux qualifications (vol de nuit, vol aux instruments…)'] },
-];
+const formations = f.licences;
+const pg = pages.formations;
 ---
 <Base univers="apprendre" title="Se former" description="Formations BIA, LAPL et PPL à l'aéroclub de Beauvais-Tillé.">
-  <PageHead eyebrow="Apprendre" image="/uploads/actualites/2022/lache-elisa/01.jpg" title="Devenez pilote à Beauvais-Tillé" lead="Nos instructeurs bénévoles vous accompagnent du premier vol jusqu'à la licence. Théorie, pratique et examen : tout se prépare au club." />
+  <PageHead eyebrow="Apprendre" image={pg.image} title={pg.titre} lead={pg.texte} />
   <section class="section">
     <div class="container grid grid-3" data-stagger>
       {formations.map((f) => (
@@ -23,9 +24,18 @@ const formations = [
       ))}
     </div>
     <div class="container" style="margin-top:28px">
-      <p class="meta" data-reveal>Pour toutes les licences : réussite aux examens théorique et pratique, et visite médicale auprès d'un médecin agréé. La qualification vol de nuit est possible une fois la licence obtenue.</p>
+      <p class="meta" data-reveal>{f.note}</p>
     </div>
   </section>
+  {f.parcours.length > 0 && (
+    <section class="section white">
+      <div class="container">
+        <span class="eyebrow">Le parcours</span>
+        <h2 data-split>{f.parcours_titre}</h2>
+        <Etapes etapes={f.parcours} />
+      </div>
+    </section>
+  )}
   <section class="section soft">
     <div class="container">
       <span class="eyebrow">Aides au financement</span>
@@ -39,6 +49,15 @@ const formations = [
       </div>
     </div>
   </section>
+  {f.questions.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Questions fréquentes</span>
+        <h2 data-split>Avant de vous lancer</h2>
+        <Faq questions={f.questions} />
+      </div>
+    </section>
+  )}
 </Base>
 <style>
   .big { font-family: var(--font-title); font-size: 2.4rem; font-weight: 700; color: var(--sun); }

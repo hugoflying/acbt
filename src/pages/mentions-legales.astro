@@ -2,18 +2,67 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import club from '../data/club.json';
+import { url } from '../lib/utils';
+const l = club.legal;
+// Informations légales encore à renseigner dans le back-office (Infos du club > Informations légales)
+const manquants = [!l.rna && !l.siret && 'numéro RNA ou SIRET', !l.directeur_publication && 'directeur de la publication'].filter(Boolean);
 ---
-<Base title="Mentions légales">
-  <PageHead title="Mentions légales et données personnelles" />
-  <section class="section"><div class="container prose">
-    <h2>Éditeur</h2>
-    <p>{club.nom}, association loi 1901. {club.adresse}. Téléphone : {club.telephone}. E-mail : {club.email}.</p>
-    <p class="notice">À compléter : numéro RNA ou SIRET, directeur de la publication, hébergeur définitif.</p>
-    <h2>Hébergement</h2>
-    <p>Maquette hébergée par GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis).</p>
-    <h2>Données personnelles</h2>
-    <p>Le formulaire de contact ouvre votre messagerie : aucune donnée n'est enregistrée par le site. Le site n'utilise ni cookie publicitaire ni outil de mesure d'audience.</p>
-    <h2>Photos</h2>
-    <p>Les photos appartiennent à l'aéroclub et à ses membres. Toute réutilisation nécessite leur accord.</p>
+<Base title="Mentions légales" description="Mentions légales, politique de confidentialité et crédits du site de l'aéroclub de Beauvais-Tillé.">
+  <PageHead eyebrow="Informations légales" title="Mentions légales et confidentialité" />
+  <section class="section"><div class="container mise-en-page">
+    <nav class="sommaire-legal" aria-label="Sommaire">
+      <a href="#editeur">Éditeur du site</a>
+      <a href="#hebergement">Hébergement</a>
+      <a href="#propriete">Propriété intellectuelle</a>
+      <a href="#donnees">Données personnelles</a>
+      <a href="#cookies">Cookies et services tiers</a>
+      <a href="#responsabilite">Responsabilité</a>
+    </nav>
+    <div class="prose">
+      {manquants.length > 0 && <p class="notice">À compléter par le club : {manquants.join(', ')}.</p>}
+
+      <h2 id="editeur">Éditeur du site</h2>
+      <p>
+        <strong>{club.nom}</strong> ({club.sigle}), {l.statut.toLowerCase()}, fondée le {club.fondation}.<br />
+        Siège : {club.adresse}.<br />
+        Téléphone : <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>. E-mail : <a href={`mailto:${club.email}`}>{club.email}</a>.
+        {l.rna && <><br />Numéro RNA : {l.rna}.</>}
+        {l.siret && <><br />SIRET : {l.siret}.</>}
+      </p>
+      {l.directeur_publication && <p>Directeur de la publication : {l.directeur_publication}.</p>}
+
+      <h2 id="hebergement">Hébergement</h2>
+      <p>Le site est hébergé par {l.hebergeur_nom}, {l.hebergeur_adresse}.</p>
+
+      <h2 id="propriete">Propriété intellectuelle</h2>
+      <p>Les textes, le logo et la mise en page de ce site sont la propriété de l'aéroclub. {l.credits_photos} Toute reproduction ou réutilisation, même partielle, nécessite l'accord préalable du club.</p>
+
+      <h2 id="donnees">Données personnelles</h2>
+      <p>Le site ne crée aucun compte et n'enregistre aucune donnée vous concernant. Le formulaire de contact ouvre simplement votre propre messagerie : les informations que vous saisissez nous parviennent par e-mail, uniquement si vous envoyez ce message.</p>
+      <p>Les messages reçus servent seulement à vous répondre (réservation d'un vol, inscription, renseignement). Ils ne sont ni cédés ni vendus, et sont conservés le temps nécessaire au traitement de votre demande.</p>
+      <p>Conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés, vous pouvez demander l'accès, la rectification ou la suppression des données qui vous concernent en écrivant à <a href={`mailto:${club.email}`}>{club.email}</a>. Vous pouvez aussi adresser une réclamation à la <a href="https://www.cnil.fr/" rel="noopener">CNIL</a>.</p>
+      <p>Les personnes qui apparaissent sur les photos du site peuvent demander le retrait d'une image à la même adresse.</p>
+
+      <h2 id="cookies">Cookies et services tiers</h2>
+      <p>Ce site ne dépose aucun cookie publicitaire et n'utilise aucun outil de mesure d'audience. Aucun bandeau de consentement n'est donc nécessaire.</p>
+      <p>Pour s'afficher, certaines pages font appel à des services extérieurs, qui reçoivent alors votre adresse IP comme pour toute visite d'un site : les polices de caractères (Google Fonts), le fond de carte du plan d'accès (OpenStreetMap) et, dans l'espace membre, les logos de quelques sites partenaires.</p>
+
+      <h2 id="responsabilite">Responsabilité</h2>
+      <p>Les informations de ce site sont données à titre indicatif et peuvent évoluer, notamment les tarifs et les horaires : contactez le club pour toute confirmation.</p>
+      <p><strong>Informations aéronautiques.</strong> Le METAR affiché et les liens de préparation des vols sont fournis pour information. Ils ne remplacent en aucun cas la documentation officielle (SIA, Météo-France, NOTAM) ni la préparation réglementaire du vol, qui reste de la responsabilité du commandant de bord.</p>
+      <p>Les liens vers d'autres sites sont proposés pour vous rendre service ; le club n'est pas responsable de leur contenu.</p>
+
+      <p class="meta" style="margin-top:2.5em"><a href={url('/contact')}>Une question sur ces mentions ? Écrivez-nous.</a></p>
+    </div>
   </div></section>
 </Base>
+<style>
+  .mise-en-page { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .sommaire-legal { position: sticky; top: 96px; display: grid; gap: 2px; border-left: 2px solid var(--line); }
+  .sommaire-legal a { padding: 7px 16px; color: var(--muted); text-decoration: none; font-size: .92rem; font-weight: 500; margin-left: -2px; border-left: 2px solid transparent; }
+  .sommaire-legal a:hover { color: var(--ink); border-left-color: var(--sun); }
+  .prose h2 { font-size: 1.45rem; margin-top: 2em; scroll-margin-top: 96px; }
+  .prose h2:first-of-type { margin-top: 0; }
+  .prose .notice { margin-bottom: 2em; }
+  @media (max-width: 820px) { .mise-en-page { grid-template-columns: 1fr; gap: 24px; } .sommaire-legal { position: static; } }
+</style>

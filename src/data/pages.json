@@ -1,0 +1,84 @@
+{
+  "accueil": {
+    "titre": "Prenez les commandes du ciel picard",
+    "texte": "Depuis {annees} ans, nos instructeurs bénévoles font voler et forment des pilotes à Beauvais-Tillé.",
+    "diaporama": [
+      {
+        "image": "/uploads/avions/dr400-120-01.jpg",
+        "legende": "Aux commandes du DR400"
+      },
+      {
+        "image": "/uploads/avions/dr400-120-02.jpg",
+        "legende": "Robin DR400 120 ch"
+      },
+      {
+        "image": "/uploads/avions/dr300-f-btbs-01.jpg",
+        "legende": "Le DR300 F-BTBS devant le hangar"
+      },
+      {
+        "image": "/uploads/avions/jodel-d120-01.jpg",
+        "legende": "Jodel D120 Paris-Nice"
+      }
+    ],
+    "cartes": [
+      {
+        "titre": "Découvrir",
+        "texte": "Baptêmes de l'air et vols d'initiation",
+        "image": "/uploads/avions/dr400-120-03.jpg"
+      },
+      {
+        "titre": "Apprendre",
+        "texte": "BIA, LAPL et PPL avec nos instructeurs",
+        "image": "/uploads/actualites/2022/lache-elisa/01.jpg"
+      },
+      {
+        "titre": "Piloter au club",
+        "texte": "Déjà breveté ? Rejoignez le club et volez sur nos avions",
+        "image": "/uploads/avions/dr300-f-btbs-03.jpg"
+      }
+    ]
+  },
+  "decouvrir": {
+    "titre": "Votre premier vol, au-dessus de Beauvais",
+    "image": "/uploads/avions/dr400-petit-prince-02.jpg"
+  },
+  "formations": {
+    "titre": "Devenez pilote à Beauvais-Tillé",
+    "texte": "Nos instructeurs bénévoles vous accompagnent du premier vol jusqu'à la licence. Théorie, pratique et examen : tout se prépare au club.",
+    "image": "/uploads/actualites/2022/lache-elisa/01.jpg"
+  },
+  "flotte": {
+    "titre": "{nombre} avions pour apprendre et voyager",
+    "texte": "Des Robin robustes pour l'école et le voyage, et un Jodel à train classique pour se perfectionner.",
+    "image": "/uploads/avions/jodel-d120-02.jpg"
+  },
+  "tarifs": {
+    "titre": "Les tarifs du club",
+    "texte": "Une association, pas une entreprise : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.",
+    "image": "/uploads/avions/dr400-120-02.jpg"
+  },
+  "club": {
+    "titre": "Une association de passionnés",
+    "texte": "Fondé le {fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.",
+    "image": "/uploads/historique/2012-locaux-10.jpg"
+  },
+  "historique": {
+    "titre": "Notre histoire",
+    "image": "/uploads/historique/1979-flotte-de-depart.jpg"
+  },
+  "actualites": {
+    "titre": "La vie du club",
+    "texte": "Lâchés, brevets, événements, sorties, nouveaux avions : toutes les nouvelles de l'ACBT depuis 2006, classées par année.",
+    "image": "/uploads/actualites/2022/baptemes-kiwanis/01.jpg"
+  },
+  "contact": {
+    "titre": "Nous contacter",
+    "texte": "Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club.",
+    "image": ""
+  },
+  "membre": {
+    "titre": "Espace membre",
+    "texte": "Préparation des vols, documentation des avions, vie du club et parcours de formation.",
+    "image": "/uploads/avions/dr400-120-01.jpg"
+  }
+}

@@ -1,12 +1,13 @@
 # Back-office du site, utilisable sans connaissance technique : https://app.pagescms.org
 # Chaque enregistrement crée un commit sur GitHub et le site se republie tout seul en 1 à 2 minutes.
+# Les rubriques sont rangées de la plus utilisée à la moins utilisée.
 media:
   input: public/uploads
   output: /uploads
 
 content:
   - name: actualites
-    label: Actualités
+    label: "📰 Actualités"
     type: collection
     path: src/content/actualites
     filename: '{year}-{month}-{day}-{primary}.md'
@@ -20,13 +21,13 @@ content:
     fields:
       - { name: titre, label: Titre, type: string, required: true }
       - { name: date, label: Date, type: date, required: true }
-      - { name: image, label: Photo principale, type: image }
+      - { name: image, label: Photo principale, type: image, description: 'Affichée sur la carte de l’actualité et en haut de l’article. Sans photo, un visuel aux couleurs du club est utilisé.' }
       - { name: galerie, label: Galerie photos, type: image, list: true }
-      - { name: publie, label: Publiée sur le site, type: boolean, default: true }
+      - { name: publie, label: Publiée sur le site, type: boolean, default: true, description: 'Décochez pour garder un brouillon sans le montrer.' }
       - { name: body, label: Texte, type: rich-text }
 
   - name: avions
-    label: Flotte et tarifs avions
+    label: "✈️ Avions : fiches, photos et prix de l'heure"
     type: collection
     path: src/content/avions
     format: yaml
@@ -57,109 +58,8 @@ content:
       - { name: ordre, label: Ordre d'affichage, type: number, default: 10 }
       - { name: actif, label: Avion affiché sur le site, type: boolean, default: true, description: 'Décochez pour retirer un avion sans le supprimer.' }
 
-  - name: documents
-    label: Documents de l'espace membre
-    type: collection
-    path: src/content/documents
-    format: yaml
-    filename: '{primary}.yml'
-    view:
-      fields: [titre, categorie, avions]
-      primary: titre
-    fields:
-      - { name: titre, label: Titre, type: string, required: true }
-      - name: categorie
-        label: Rubrique de l'espace membre
-        type: select
-        required: true
-        options:
-          values: ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Examen pratique', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires']
-      - name: avions
-        label: Avion(s) concerné(s) (seulement pour « Documentation avion »)
-        type: select
-        options:
-          multiple: true
-          values: ['F-GCAL', 'F-BXEK', 'F-BTBS', 'F-BIXA']
-      - name: rubrique
-        label: Type de document avion
-        type: select
-        options:
-          values: ['Manuel de vol', 'Paramètres', 'Check-list', 'Centrage', 'Guide radio rapide', 'Radio VFR', 'Transpondeur', 'DME', 'Balise de détresse', 'Autre']
-      - { name: fichier, label: Fichier (PDF, Excel…), type: file, description: "Déposez le fichier ici, ou remplissez plutôt le lien ci-dessous." }
-      - { name: lien, label: Ou lien vers un site / une vidéo, type: string }
-      - { name: description, label: Description, type: string }
-      - { name: mis_a_jour, label: Date de mise à jour, type: date }
-      - { name: ordre, label: Ordre d'affichage (petit = en premier), type: number, default: 10 }
-
-  - name: membre
-    label: Espace membre (textes et parcours élève)
-    type: file
-    path: src/data/membre.json
-    format: json
-    fields:
-      - { name: avertissement_avion, label: Avertissement documentation avion, type: text }
-      - name: liens_club
-        label: Liens « Vie du club »
-        type: object
-        list: true
-        fields:
-          - { name: libelle, label: Libellé, type: string }
-          - { name: lien, label: Lien, type: string }
-      - name: parcours
-        label: Étapes du parcours élève
-        type: object
-        list: true
-        fields:
-          - { name: titre, label: Titre, type: string }
-          - { name: texte, label: Texte, type: text }
-          - name: categorie_docs
-            label: Documents à afficher
-            type: select
-            options:
-              values: ['', 'Pour les élèves', 'Examens', 'Examen pratique']
-          - name: liens
-            label: Liens
-            type: object
-            list: true
-            fields:
-              - { name: libelle, label: Libellé, type: string }
-              - { name: lien, label: Lien, type: string }
-
-  - name: club
-    label: Infos du club (contact, aides)
-    type: file
-    path: src/data/club.json
-    format: json
-    fields:
-      - { name: nom, label: Nom du club, type: string }
-      - { name: sigle, label: Sigle, type: string }
-      - { name: fondation, label: Date de fondation, type: string }
-      - { name: slogan, label: Slogan, type: string }
-      - { name: adresse, label: Adresse, type: string }
-      - { name: telephone, label: Téléphone, type: string }
-      - { name: email, label: E-mail, type: string }
-      - { name: facebook, label: Page Facebook, type: string }
-      - { name: aerogest, label: Lien Aerogest, type: string }
-      - { name: horaires, label: Horaires, type: string }
-      - { name: latitude, label: Latitude (plan), type: number }
-      - { name: longitude, label: Longitude (plan), type: number }
-      - name: aides
-        label: Aides au financement
-        type: object
-        list: true
-        fields:
-          - { name: titre, label: Titre, type: string }
-          - { name: texte, label: Texte, type: text }
-      - name: partenaires
-        label: Partenaires
-        type: object
-        list: true
-        fields:
-          - { name: nom, label: Nom, type: string }
-          - { name: lien, label: Lien, type: string }
-
   - name: tarifs
-    label: Tarifs (adhésion, formules, divers)
+    label: "💶 Tarifs : adhésion, baptêmes, divers"
     type: file
     path: src/data/tarifs.json
     format: json
@@ -233,17 +133,250 @@ content:
               - { name: montant, label: Montant de l'aide (€), type: number }
           - { name: note, label: Note, type: string }
 
+  - name: pages
+    label: "🖼️ Pages du site : titres, textes et photos d'en-tête"
+    type: file
+    path: src/data/pages.json
+    format: json
+    fields:
+      - name: accueil
+        label: Accueil
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text, description: "Écrivez {annees} pour afficher automatiquement l'âge du club." }
+          - name: diaporama
+            label: Photos qui défilent en haut de l'accueil
+            description: Choisissez de préférence des photos horizontales (format paysage).
+            type: object
+            list: true
+            fields:
+              - { name: image, label: Photo, type: image }
+              - { name: legende, label: Légende, type: string }
+          - name: cartes
+            label: "Les 3 cartes « Choisissez votre façon de voler » (dans l'ordre : Découvrir, Apprendre, Piloter au club)"
+            type: object
+            list: true
+            fields:
+              - { name: titre, label: Titre, type: string }
+              - { name: texte, label: Texte, type: string }
+              - { name: image, label: Photo, type: image }
+      - name: decouvrir
+        label: Découvrir le vol
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: formations
+        label: Apprendre (formations)
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: flotte
+        label: La flotte
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: tarifs
+        label: Tarifs
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: club
+        label: Le club
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: historique
+        label: Notre histoire
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: actualites
+        label: Actualités
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+      - name: membre
+        label: Espace membre
+        type: object
+        fields:
+          - { name: titre, label: Grand titre, type: string }
+          - { name: texte, label: Texte sous le titre, type: text }
+          - { name: image, label: Photo d'en-tête, type: image }
+
   - name: decouvrir
-    label: Baptêmes et vols découverte
+    label: "🎁 Page Découvrir : textes, déroulé du vol, questions"
     type: file
     path: src/data/decouvrir.json
     format: json
     fields:
       - { name: intro, label: Introduction, type: text }
       - { name: bon_cadeau, label: Texte bon cadeau, type: text }
+      - { name: deroulement_titre, label: Titre du déroulé, type: string }
+      - name: deroulement
+        label: Déroulé du vol (étapes numérotées)
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+      - name: questions
+        label: Questions fréquentes
+        type: object
+        list: true
+        fields:
+          - { name: question, label: Question, type: string }
+          - { name: reponse, label: Réponse, type: text }
+
+  - name: formations
+    label: "🎓 Page Apprendre : licences, parcours, questions"
+    type: file
+    path: src/data/formations.json
+    format: json
+    fields:
+      - name: licences
+        label: Licences et brevets
+        type: object
+        list: true
+        fields:
+          - { name: nom, label: Sigle, type: string }
+          - { name: titre, label: Nom complet, type: string }
+          - { name: age, label: Âge, type: string }
+          - { name: points, label: Points clés, type: string, list: true }
+      - { name: note, label: Note sous les licences, type: text }
+      - { name: parcours_titre, label: Titre du parcours, type: string }
+      - name: parcours
+        label: Étapes du parcours de formation
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+      - name: questions
+        label: Questions fréquentes
+        type: object
+        list: true
+        fields:
+          - { name: question, label: Question, type: string }
+          - { name: reponse, label: Réponse, type: text }
+
+  - name: club
+    label: "📍 Infos du club : contact, horaires, accès, mentions légales"
+    type: file
+    path: src/data/club.json
+    format: json
+    fields:
+      - { name: nom, label: Nom du club, type: string }
+      - { name: sigle, label: Sigle, type: string }
+      - { name: fondation, label: Date de fondation, type: string }
+      - { name: slogan, label: Slogan, type: string }
+      - { name: adresse, label: Adresse, type: string }
+      - { name: telephone, label: Téléphone, type: string }
+      - { name: email, label: E-mail, type: string }
+      - { name: facebook, label: Page Facebook, type: string }
+      - { name: aerogest, label: Lien Aerogest, type: string }
+      - { name: horaires, label: Horaires, type: string }
+      - { name: acces, label: "Indications d'accès (une ligne par indication)", type: string, list: true }
+      - { name: latitude, label: Latitude (plan), type: number }
+      - { name: longitude, label: Longitude (plan), type: number }
+      - name: aides
+        label: Aides au financement
+        type: object
+        list: true
+        fields:
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+      - name: partenaires
+        label: Partenaires
+        type: object
+        list: true
+        fields:
+          - { name: nom, label: Nom, type: string }
+          - { name: lien, label: Lien, type: string }
+      - name: legal
+        label: Informations légales (page Mentions légales)
+        type: object
+        fields:
+          - { name: statut, label: Statut, type: string }
+          - { name: rna, label: Numéro RNA de l'association, type: string, description: 'Commence par W, visible sur le récépissé de la préfecture.' }
+          - { name: siret, label: Numéro SIRET, type: string }
+          - { name: directeur_publication, label: Directeur de la publication, type: string, description: 'En général le président du club : prénom et nom.' }
+          - { name: hebergeur_nom, label: Hébergeur du site, type: string }
+          - { name: hebergeur_adresse, label: Adresse de l'hébergeur, type: string }
+          - { name: credits_photos, label: Crédits photos, type: string }
+
+  - name: historique
+    label: "📜 Page Notre histoire"
+    type: file
+    path: src/data/historique.json
+    format: json
+    fields:
+      - { name: intro, label: Introduction, type: text }
+      - name: etapes
+        label: Étapes
+        type: object
+        list: true
+        fields:
+          - { name: annee, label: Année ou période, type: string }
+          - { name: titre, label: Titre, type: string }
+          - { name: texte, label: Texte, type: text }
+          - { name: photos, label: Photos, type: image, list: true }
+
+  - name: documents
+    label: "🔒 Espace membre : documents"
+    type: collection
+    path: src/content/documents
+    format: yaml
+    filename: '{primary}.yml'
+    view:
+      fields: [titre, categorie, avions]
+      primary: titre
+    fields:
+      - { name: titre, label: Titre, type: string, required: true }
+      - name: categorie
+        label: Rubrique de l'espace membre
+        type: select
+        required: true
+        options:
+          values: ['Vie du club', 'Documentation pilote', 'Documentation avion', 'Pour les élèves', 'Examens', 'Examen pratique', 'Sécurité', 'Préparation des vols', 'Météo', 'Formulaires']
+      - name: avions
+        label: Avion(s) concerné(s) (seulement pour « Documentation avion »)
+        type: select
+        options:
+          multiple: true
+          values: ['F-GCAL', 'F-BXEK', 'F-BTBS', 'F-BIXA']
+      - name: rubrique
+        label: Type de document avion
+        type: select
+        options:
+          values: ['Manuel de vol', 'Paramètres', 'Check-list', 'Centrage', 'Guide radio rapide', 'Radio VFR', 'Transpondeur', 'DME', 'Balise de détresse', 'Autre']
+      - { name: fichier, label: Fichier (PDF, Excel…), type: file, description: "Déposez le fichier ici, ou remplissez plutôt le lien ci-dessous." }
+      - { name: lien, label: Ou lien vers un site / une vidéo, type: string }
+      - { name: description, label: Description, type: string }
+      - { name: mis_a_jour, label: Date de mise à jour, type: date }
+      - { name: ordre, label: Ordre d'affichage (petit = en premier), type: number, default: 10 }
 
   - name: outils
-    label: Outils de préparation des vols (espace membre)
+    label: "🔒 Espace membre : outils de préparation des vols"
     type: file
     path: src/data/outils.json
     format: json
@@ -264,19 +397,36 @@ content:
               - { name: lien, label: Lien, type: string }
               - { name: logo, label: Logo (facultatif, sinon celui du site est pris automatiquement), type: image }
 
-  - name: historique
-    label: Historique
+  - name: membre
+    label: "🔒 Espace membre : textes et parcours élève"
     type: file
-    path: src/data/historique.json
+    path: src/data/membre.json
     format: json
     fields:
-      - { name: intro, label: Introduction, type: text }
-      - name: etapes
-        label: Étapes
+      - { name: avertissement_avion, label: Avertissement documentation avion, type: text }
+      - name: liens_club
+        label: Liens « Vie du club »
         type: object
         list: true
         fields:
-          - { name: annee, label: Année ou période, type: string }
+          - { name: libelle, label: Libellé, type: string }
+          - { name: lien, label: Lien, type: string }
+      - name: parcours
+        label: Étapes du parcours élève
+        type: object
+        list: true
+        fields:
           - { name: titre, label: Titre, type: string }
           - { name: texte, label: Texte, type: text }
-          - { name: photos, label: Photos, type: image, list: true }
+          - name: categorie_docs
+            label: Documents à afficher
+            type: select
+            options:
+              values: ['', 'Pour les élèves', 'Examens', 'Examen pratique']
+          - name: liens
+            label: Liens
+            type: object
+            list: true
+            fields:
+              - { name: libelle, label: Libellé, type: string }
+              - { name: lien, label: Lien, type: string }

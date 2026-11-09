@@ -11,12 +11,21 @@ import { url } from '../lib/utils';
       <p><a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br /><a href={`mailto:${club.email}`}>{club.email}</a></p>
     </div>
     <div>
-      <h3>Le site</h3>
+      <h3>Voler</h3>
       <ul>
         <li><a href={url('/decouvrir-le-vol')}>Baptêmes et vols découverte</a></li>
         <li><a href={url('/formations')}>Formations BIA, LAPL, PPL</a></li>
+        <li><a href={url('/club/flotte')}>La flotte</a></li>
+        <li><a href={url('/club/tarifs')}>Tarifs</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Le club</h3>
+      <ul>
+        <li><a href={url('/club')}>Présentation et accès</a></li>
         <li><a href={url('/club/historique')}>Notre histoire</a></li>
         <li><a href={url('/actualites')}>Actualités</a></li>
+        <li><a href={url('/contact')}>Contact</a></li>
         <li><a href={url('/membre')}>Espace membre</a></li>
       </ul>
     </div>
@@ -28,17 +37,25 @@ import { url } from '../lib/utils';
   </div>
   <div class="container legal">
     <span>© {new Date().getFullYear()} {club.nom}, association loi 1901 fondée en 1979</span>
-    <a href={url('/mentions-legales')}>Mentions légales et données personnelles</a>
+    <nav aria-label="Informations légales">
+      <a href={url('/mentions-legales')}>Mentions légales</a>
+      <a href={url('/mentions-legales#donnees')}>Données personnelles</a>
+      <a href={url('/mentions-legales#cookies')}>Cookies</a>
+      <a href={url('/mentions-legales#propriete')}>Crédits</a>
+    </nav>
   </div>
 </footer>
 <style>
   .site-footer { background: #0a1422; color: #b8c6d8; padding: 56px 0 24px; font-size: .95rem; }
   .logo-pied { display: block; background: #fff; border-radius: 14px; padding: 8px 12px; width: 140px; height: auto; margin-bottom: 16px; }
-  .cols { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .cols { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
   h3 { color: #fff; font-size: 1.2rem; }
   ul { list-style: none; padding: 0; margin: 0 0 1em; }
   li { margin-bottom: 6px; }
   a { color: #dce6f2; text-decoration: none; }
   a:hover { color: var(--sun); }
+  .legal nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+  .legal nav a { color: #b8c6d8; text-decoration: underline; text-decoration-color: #33445c; text-underline-offset: 3px; }
   .legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid #1f2d42; margin-top: 32px; padding-top: 20px; font-size: .85rem; }
+  @media (max-width: 640px) { .cols { grid-template-columns: 1fr 1fr; gap: 24px 20px; } .cols > :first-child, .cols > :last-child { grid-column: 1 / -1; } }
 </style>

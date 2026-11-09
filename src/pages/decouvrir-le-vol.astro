@@ -1,13 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import Etapes from '../components/Etapes.astro';
+import Faq from '../components/Faq.astro';
 import d from '../data/decouvrir.json';
+import pages from '../data/pages.json';
 import club from '../data/club.json';
 import t from '../data/tarifs.json';
 import { url } from '../lib/utils';
 ---
 <Base univers="decouvrir" title="Découvrir le vol" description="Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé.">
-  <PageHead eyebrow="Découvrir" image="/uploads/avions/dr400-petit-prince-02.jpg" title="Votre premier vol, au-dessus de Beauvais" lead={d.intro} />
+  <PageHead eyebrow="Découvrir" image={pages.decouvrir.image} title={pages.decouvrir.titre} lead={d.intro} />
   <section class="section">
     <div class="container grid grid-3" data-stagger>
       {t.formules.map((f) => (
@@ -19,15 +22,46 @@ import { url } from '../lib/utils';
       ))}
     </div>
     <div class="container" style="margin-top:32px">
-      <p class="notice" data-reveal>{d.bon_cadeau}</p>
-      <div class="btns" style="margin-top:20px" data-stagger>
+      <div class="btns" style="margin-top:28px" data-stagger>
         <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver un vol</a>
         <a class="btn btn-outline" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
       </div>
     </div>
   </section>
+  {d.deroulement.length > 0 && (
+    <section class="section white">
+      <div class="container">
+        <span class="eyebrow">Le jour J</span>
+        <h2 data-split>{d.deroulement_titre}</h2>
+        <Etapes etapes={d.deroulement} />
+      </div>
+    </section>
+  )}
+  <section class="section">
+    <div class="container cadeau" data-reveal>
+      <div>
+        <span class="eyebrow">Bon cadeau</span>
+        <h2>Offrez un baptême de l'air</h2>
+        <p class="lead">{d.bon_cadeau}</p>
+      </div>
+      <a class="btn btn-primary" href={url('/contact?objet=Bon cadeau')}>Demander un bon cadeau</a>
+    </div>
+  </section>
+  {d.questions.length > 0 && (
+    <section class="section soft">
+      <div class="container">
+        <span class="eyebrow">Questions fréquentes</span>
+        <h2 data-split>Bon à savoir</h2>
+        <Faq questions={d.questions} />
+      </div>
+    </section>
+  )}
 </Base>
 <style>
+  .cadeau { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; background: var(--ink); color: #fff; border-radius: 24px; padding: clamp(24px, 4vw, 44px); }
+  .cadeau h2 { color: #fff; margin-bottom: 8px; }
+  .cadeau .lead { color: rgba(255,255,255,.82); margin: 0; max-width: 52ch; }
+  .cadeau .eyebrow { color: rgba(255,255,255,.7); }
   .lignes { list-style: none; margin: auto 0 0; padding: 0; }
   .lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
   .lignes b { font-family: var(--font-title); font-size: 1.2rem; color: var(--ink); white-space: nowrap; }

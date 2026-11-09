@@ -36,9 +36,10 @@ const host = (l: string) => new URL(l).hostname.replace(/^www\./, '');
 const sommaire = [
   ['outils', 'Préparer son vol'], ['avions', 'Nos avions'], ['club', 'Vie du club'], ['pilote', 'Documentation pilote'], ['eleves', 'Parcours élève'],
 ];
+import pages from '../../data/pages.json';
 ---
-<Base univers="membres" title="Espace membre" noindex>
-  <PageHead eyebrow="Espace membre" image="/uploads/avions/dr400-120-01.jpg" title="Espace membre" lead="Préparation des vols, documentation des avions, vie du club et parcours de formation.">
+<Base univers="membres" title="Espace membre" description="Espace réservé aux membres de l'aéroclub de Beauvais-Tillé : préparation des vols et documentation." noindex>
+  <PageHead eyebrow="Espace membre" image={pages.membre.image} title={pages.membre.titre} lead={pages.membre.texte}>
     <div class="btns" style="margin-top:20px">
       <a class="btn btn-primary" href={club.aerogest} rel="noopener">Réserver sur Aerogest</a>
     </div>

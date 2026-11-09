@@ -21,9 +21,10 @@ const reperes = ['1979', '1982', '1985', '2011-2012', '2022']
   .filter((e): e is (typeof h.etapes)[number] => !!e);
 const tel = club.telephone.replace(/\s/g, '');
 const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${club.latitude},${club.longitude}`;
+import pages from '../../data/pages.json';
 ---
 <Base univers="club" title="Le club" description="L'aéroclub de Beauvais-Tillé : nos locaux, notre histoire depuis 1979, les actualités et les informations pratiques pour venir au club.">
-  <PageHead eyebrow="Le club" image="/uploads/historique/2012-locaux-10.jpg" title="Une association de passionnés" lead={`Fondé le ${club.fondation}, l'ACBT est une association loi 1901 dédiée à la formation au pilotage et au vol de loisir. Ses instructeurs sont bénévoles.`}>
+  <PageHead eyebrow="Le club" image={pages.club.image} title={pages.club.titre} lead={pages.club.texte.replace('{fondation}', club.fondation)}>
     <nav class="sommaire" aria-label="Sommaire de la page">
       <a href="#presentation">Le club</a><a href="#histoire">Notre histoire</a><a href="#actualites">Actualités</a><a href="#infos">Infos pratiques</a>
     </nav>
