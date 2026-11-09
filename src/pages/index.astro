@@ -4,25 +4,25 @@ import UniversCard from '../components/UniversCard.astro';
 import Metar from '../components/Metar.astro';
 import { getCollection } from 'astro:content';
 import club from '../data/club.json';
-import { univers } from '../data/univers';
+import pages from '../data/pages.json';
 import { url, asset } from '../lib/utils';
 
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const annees = new Date().getFullYear() - 1979;
-const slides = [
-  { img: '/uploads/avions/dr400-120-01.jpg', legende: 'Aux commandes du DR400' },
-  { img: '/uploads/avions/dr400-120-02.jpg', legende: 'Robin DR400 120 ch' },
-  { img: '/uploads/avions/dr300-f-btbs-01.jpg', legende: 'Le DR300 F-BTBS devant le hangar' },
-  { img: '/uploads/avions/jodel-d120-01.jpg', legende: 'Jodel D120 Paris-Nice' },
-];
-// Les trois façons de voler avec le club (la flotte, le club et l'espace membre ont leur propre place).
-const facons = [
-  { ...univers.find((u) => u.id === 'decouvrir')!, image: '/uploads/avions/dr400-120-03.jpg' },
-  univers.find((u) => u.id === 'apprendre')!,
-  { id: 'voler', titre: 'Piloter au club', sousTitre: 'Déjà breveté ? Rejoignez le club et volez sur nos avions', href: '/club/flotte', image: '/uploads/avions/dr300-f-btbs-03.jpg' },
-];
+const pg = pages.accueil;
+const slides = pg.diaporama.map((d) => ({ img: d.image, legende: d.legende }));
+// Les trois façons de voler avec le club : textes et photos modifiables dans le back-office (Pages du site > Accueil).
+const cibles = [{ id: 'decouvrir', href: '/decouvrir-le-vol' }, { id: 'apprendre', href: '/formations' }, { id: 'voler', href: '/club/flotte' }];
+const facons = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titre, sousTitre: c.texte, image: c.image }));
 ---
 <Base title="Accueil">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'SportsClub', name: club.nom, alternateName: club.sigle,
+    url: new URL(url('/'), Astro.site).href, telephone: club.telephone, email: club.email, foundingDate: '1979',
+    image: new URL(asset('/partage.jpg'), Astro.site).href, sameAs: [club.facebook],
+    address: { '@type': 'PostalAddress', streetAddress: 'Aéroport de Beauvais-Tillé, zone aéroplaisance', postalCode: '60000', addressLocality: 'Tillé', addressCountry: 'FR' },
+    geo: { '@type': 'GeoCoordinates', latitude: club.latitude, longitude: club.longitude },
+  })} />
   <section class="hero" aria-label="Présentation">
     <div class="slides">
       {slides.map((s, i) => <img src={asset(s.img)} alt={s.legende} class:list={{ on: i === 0 }} loading={i ? 'lazy' : 'eager'} />)}
@@ -38,8 +38,8 @@ const facons = [
     <div class="container hero-inner">
       <div class="texte">
         <span class="eyebrow" data-reveal data-delay="0.1">Aéroport de Beauvais-Tillé</span>
-        <h1 data-split="now">Prenez les commandes du ciel picard</h1>
-        <p class="lead" data-reveal data-delay="0.8">Depuis {annees} ans, nos instructeurs bénévoles font voler et forment des pilotes à Beauvais-Tillé.</p>
+        <h1 data-split="now">{pg.titre}</h1>
+        <p class="lead" data-reveal data-delay="0.8">{pg.texte.replace('{annees}', String(annees))}</p>
         <div class="btns" data-stagger data-delay="1">
           <a class="btn btn-primary" href={url('/decouvrir-le-vol')}>Faire un baptême</a>
           <a class="btn btn-ghost" href={url('/formations')}>Devenir pilote</a>

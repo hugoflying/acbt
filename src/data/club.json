@@ -9,7 +9,10 @@
   "facebook": "https://www.facebook.com/ACBT60",
   "aerogest": "https://online.aerogest.fr/connection/Logon",
   "horaires": "Ouvert le week-end et sur rendez-vous en semaine (à confirmer)",
-  "acces": ["Direction P4 (3e rond-point depuis Beauvais)", "Premier aéroclub sur la gauche après le portail coulissant vert"],
+  "acces": [
+    "Direction P4 (3e rond-point depuis Beauvais)",
+    "Premier aéroclub sur la gauche après le portail coulissant vert"
+  ],
   "latitude": 49.46282414952464,
   "longitude": 2.1184244390691402,
   "aides": [
@@ -43,5 +46,14 @@
       "nom": "Aéroport de Beauvais",
       "lien": "https://www.aeroportparisbeauvais.com/"
     }
-  ]
+  ],
+  "legal": {
+    "statut": "Association loi 1901",
+    "rna": "",
+    "siret": "",
+    "directeur_publication": "",
+    "hebergeur_nom": "GitHub Pages (GitHub Inc.)",
+    "hebergeur_adresse": "88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis",
+    "credits_photos": "Les photos appartiennent à l'aéroclub et à ses membres."
+  }
 }

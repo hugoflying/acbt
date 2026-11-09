@@ -3,9 +3,10 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import club from '../data/club.json';
 import CartePlan from '../components/CartePlan.astro';
+import pages from '../data/pages.json';
 ---
 <Base title="Contact" description="Contacter l'aéroclub de Beauvais-Tillé.">
-  <PageHead eyebrow="Contact" title="Nous contacter" lead="Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club." />
+  <PageHead eyebrow="Contact" image={pages.contact.image || undefined} title={pages.contact.titre} lead={pages.contact.texte} />
   <section class="section">
     <div class="container grid grid-2">
       <form id="contact" class="card" data-reveal="left"><div class="card-body">
@@ -27,7 +28,7 @@ import CartePlan from '../components/CartePlan.astro';
         <p><strong>Téléphone</strong> : <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a><br />
           <strong>E-mail</strong> : <a href={`mailto:${club.email}`}>{club.email}</a><br />
           <strong>Horaires</strong> : {club.horaires}</p>
-        <CartePlan hauteur="320px" />
+        <div class="carte-contact"><CartePlan hauteur="320px" /></div>
       </div>
     </div>
   </section>
@@ -44,6 +45,8 @@ import CartePlan from '../components/CartePlan.astro';
   });
 </script>
 <style>
+  .carte-contact { height: 320px; }
+  .grid-2 > * { min-width: 0; }
   label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: .92rem; margin-bottom: 14px; }
   input, select, textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
 </style>

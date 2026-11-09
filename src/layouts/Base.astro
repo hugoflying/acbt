@@ -2,11 +2,14 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { url } from '../lib/utils';
+import { url, asset } from '../lib/utils';
 
-interface Props { title: string; description?: string; noindex?: boolean; univers?: string }
-const { title, description = "Aéroclub de Beauvais-Tillé : baptêmes de l'air, formation de pilote BIA, LAPL et PPL dans l'Oise depuis 1979.", noindex = false, univers } = Astro.props;
+interface Props { title: string; description?: string; noindex?: boolean; univers?: string; image?: string; type?: 'website' | 'article' }
+const { title, description = "Aéroclub de Beauvais-Tillé : baptêmes de l'air, formation de pilote BIA, LAPL et PPL dans l'Oise depuis 1979.", noindex = false, univers, image, type = 'website' } = Astro.props;
 const fullTitle = title === 'Accueil' ? "Aéroclub de Beauvais-Tillé (ACBT)" : `${title} · Aéroclub de Beauvais-Tillé`;
+// Adresse officielle de la page et image affichée quand on partage un lien (Facebook, WhatsApp…)
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const partage = new URL(asset(image || '/partage.jpg'), Astro.site).href;
 ---
 <!doctype html>
 <html lang="fr">
@@ -21,8 +24,17 @@ const fullTitle = title === 'Accueil' ? "Aéroclub de Beauvais-Tillé (ACBT)" : 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0f1b2d" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Aéroclub de Beauvais-Tillé" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={partage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
     <!-- Animations : activées seulement si JavaScript tourne et que la personne n'a pas demandé à les réduire.
          Filet de sécurité : si le moteur ne démarre pas en 4 s, tout redevient visible. -->
     <script is:inline>

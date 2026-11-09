@@ -1,0 +1,22 @@
+{
+  "licences": [
+    { "nom": "BIA", "titre": "Brevet d'initiation aéronautique", "age": "Dès 13 ans", "points": ["Cours théoriques au collège, au lycée ou au club", "Initiation pratique en vol au club", "Ouvre droit à des bourses pour la suite de la formation"] },
+    { "nom": "LAPL", "titre": "Licence de pilote d'avion léger", "age": "Examen à 17 ans, solo dès 16 ans", "points": ["30 h de vol minimum, dont 15 h en double commande et 6 h en solo supervisé (3 h de navigation)", "Jusqu'à 3 passagers après 10 h de vol comme commandant de bord", "Valable dans toute l'Europe (UE, Suisse, Islande, Norvège, Liechtenstein)"] },
+    { "nom": "PPL", "titre": "Licence de pilote privé", "age": "Examen à 17 ans", "points": ["45 h de vol minimum, dont 25 h en double commande et 10 h en solo supervisé", "Passagers sans limite de distance, dans le monde entier", "Ouvre aux qualifications (vol de nuit, vol aux instruments…)"] }
+  ],
+  "note": "Pour toutes les licences : réussite aux examens théorique et pratique, et visite médicale auprès d'un médecin agréé. La qualification vol de nuit est possible une fois la licence obtenue.",
+  "parcours_titre": "De la première leçon à la licence",
+  "parcours": [
+    { "titre": "Un vol d'initiation", "texte": "Vous prenez les commandes avec un instructeur pour voir si le pilotage vous plaît, sans engagement." },
+    { "titre": "L'inscription au club", "texte": "Adhésion au club et licence fédérale FFA, qui comprend l'assurance. Vous réservez ensuite vos vols en ligne." },
+    { "titre": "Les leçons en vol et la théorie", "texte": "Vous volez en double commande à votre rythme et préparez l'examen théorique, en e-learning et avec l'aide du club." },
+    { "titre": "Le lâcher", "texte": "Quand votre instructeur vous juge prêt, vous décollez seul à bord pour la première fois. Un moment qu'on n'oublie pas." },
+    { "titre": "Les examens", "texte": "Navigations en solo, examen théorique, puis test en vol avec un examinateur : vous voilà pilote." }
+  ],
+  "questions": [
+    { "question": "Combien de temps dure la formation ?", "reponse": "Tout dépend de votre disponibilité. La formation se fait à votre rythme, vol après vol, sans calendrier imposé : plus vous volez régulièrement, plus vous progressez vite." },
+    { "question": "Combien coûte une licence ?", "reponse": "Le budget dépend surtout du nombre d'heures de vol. Comptez l'adhésion annuelle et les heures en double commande puis en solo : tous les prix sont sur la page Tarifs. Les instructeurs sont bénévoles, et des aides existent pour les jeunes." },
+    { "question": "Faut-il passer une visite médicale ?", "reponse": "Oui. Un certificat médical délivré par un médecin agréé aéronautique est nécessaire avant votre premier vol en solo. Nous vous indiquons les médecins agréés de la région." },
+    { "question": "Comment se prépare l'examen théorique ?", "reponse": "En e-learning à la maison, avec le soutien des instructeurs du club. L'examen se passe ensuite en ligne dans un centre agréé." }
+  ]
+}

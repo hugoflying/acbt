@@ -1,4 +1,41 @@
 {
   "intro": "Envie de voir Beauvais d'en haut, ou de prendre les commandes pour la première fois ? Nos pilotes et instructeurs bénévoles vous emmènent à bord de nos Robin.",
-  "bon_cadeau": "Toutes nos formules existent en bon cadeau. Contactez-nous pour réserver une date."
+  "bon_cadeau": "Toutes nos formules existent en bon cadeau. Contactez-nous pour réserver une date.",
+  "deroulement_titre": "Comment se passe votre vol",
+  "deroulement": [
+    {
+      "titre": "Vous réservez",
+      "texte": "Par téléphone ou par le formulaire de contact. Nous convenons ensemble d'une date."
+    },
+    {
+      "titre": "Accueil au club-house",
+      "texte": "Vous êtes reçu par votre pilote, qui vous présente l'avion et le déroulement du vol."
+    },
+    {
+      "titre": "Décollage",
+      "texte": "Installé à bord d'un de nos Robin, vous survolez Beauvais et ses environs. En vol d'initiation, c'est vous qui pilotez."
+    },
+    {
+      "titre": "Retour au sol",
+      "texte": "On débriefe autour d'un café au club. Et si l'envie de continuer vous prend, on vous explique comment devenir pilote."
+    }
+  ],
+  "questions": [
+    {
+      "question": "Que se passe-t-il si la météo est mauvaise ?",
+      "reponse": "La sécurité passe avant tout : si les conditions ne permettent pas de voler, nous reportons simplement votre vol à une autre date."
+    },
+    {
+      "question": "Peut-on offrir un vol ?",
+      "reponse": "Oui, toutes nos formules existent en bon cadeau. Contactez-nous, nous vous l'envoyons et la personne choisit ensuite sa date."
+    },
+    {
+      "question": "Où faut-il se présenter ?",
+      "reponse": "Au club-house de l'aéroclub, dans la zone aéroplaisance de l'aéroport de Beauvais-Tillé. Le plan d'accès est sur la page Le club."
+    },
+    {
+      "question": "Faut-il prévoir quelque chose ?",
+      "reponse": "Une tenue confortable et de quoi prendre des photos. Les enfants sont les bienvenus, accompagnés d'un adulte."
+    }
+  ]
 }

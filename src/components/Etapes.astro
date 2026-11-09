@@ -1,0 +1,21 @@
+---
+// Étapes numérotées (déroulement d'un vol, parcours de formation).
+interface Props { etapes: { titre: string; texte: string }[] }
+const { etapes } = Astro.props;
+---
+<ol class="etapes" style={`--n: ${etapes.length}`} data-stagger>
+  {etapes.map((e, i) => (
+    <li>
+      <span class="num">{i + 1}</span>
+      <h3>{e.titre}</h3>
+      <p>{e.texte}</p>
+    </li>
+  ))}
+</ol>
+<style>
+  .etapes { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); counter-reset: e; }
+  li { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 22px 20px 20px; }
+  .num { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--accent, var(--sun)); color: #fff; font-family: var(--font-title); font-weight: 700; margin-bottom: 14px; }
+  h3 { font-size: 1.1rem; margin: 0 0 6px; }
+  p { margin: 0; color: var(--muted); font-size: .95rem; }
+</style>

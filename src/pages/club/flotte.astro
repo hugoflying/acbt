@@ -4,9 +4,10 @@ import PageHead from '../../components/PageHead.astro';
 import { getCollection } from 'astro:content';
 import { asset, url } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+import pages from '../../data/pages.json';
 ---
 <Base univers="voler" title="La flotte" description="Les avions de l'aéroclub de Beauvais-Tillé : Robin DR400, DR300 et Jodel D120.">
-  <PageHead eyebrow="Notre flotte" image="/uploads/avions/jodel-d120-02.jpg" title={`${avions.length} avions pour apprendre et voyager`} lead="Des Robin robustes pour l'école et le voyage, et un Jodel à train classique pour se perfectionner." />
+  <PageHead eyebrow="Notre flotte" image={pages.flotte.image} title={pages.flotte.titre.replace('{nombre}', String(avions.length))} lead={pages.flotte.texte} />
   {avions.map((a, i) => (
     <section class={`section ${i % 2 ? 'soft' : ''}`} id={a.id}>
       <div class="container grid grid-2 avion">

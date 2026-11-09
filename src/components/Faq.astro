@@ -1,0 +1,24 @@
+---
+// Questions fréquentes en accordéon, avec les données structurées pour les moteurs de recherche.
+interface Props { questions: { question: string; reponse: string }[] }
+const { questions } = Astro.props;
+const ld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: questions.map((q) => ({ '@type': 'Question', name: q.question, acceptedAnswer: { '@type': 'Answer', text: q.reponse } })) };
+---
+<div class="faq" data-stagger>
+  {questions.map((q) => (
+    <details>
+      <summary>{q.question}<span aria-hidden="true">+</span></summary>
+      <p>{q.reponse}</p>
+    </details>
+  ))}
+</div>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+<style>
+  .faq { display: grid; gap: 10px; max-width: 820px; }
+  details { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 20px; font-family: var(--font-title); font-weight: 600; font-size: 1.05rem; color: var(--ink); }
+  summary::-webkit-details-marker { display: none; }
+  summary span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); color: var(--ink); font-size: 1.1rem; transition: transform .2s, background .2s; }
+  details[open] summary span { transform: rotate(45deg); background: var(--accent, var(--sun)); color: #fff; }
+  p { margin: 0; padding: 0 20px 18px; color: var(--muted); max-width: 68ch; }
+</style>

@@ -11,7 +11,7 @@ const { Content } = await render(actu);
 const cover = actu.data.image ?? actu.data.galerie[0];
 const galerie = actu.data.galerie.filter((g) => g !== cover);
 ---
-<Base univers="actus" title={actu.data.titre}>
+<Base univers="actus" title={actu.data.titre} image={cover} type="article" description={`${actu.data.titre} : une actualité de l'aéroclub de Beauvais-Tillé du ${dateFr(actu.data.date)}.`}>
   <article class="section">
     <div class="container prose">
       <p><a href={url('/actualites')}>← Toutes les actualités</a></p>
