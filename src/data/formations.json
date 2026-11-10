@@ -1,22 +1,150 @@
 {
   "licences": [
-    { "nom": "BIA", "titre": "Brevet d'initiation aéronautique", "age": "Dès 13 ans", "points": ["Cours théoriques au collège, au lycée ou au club", "Initiation pratique en vol au club", "Ouvre droit à des bourses pour la suite de la formation"] },
-    { "nom": "LAPL", "titre": "Licence de pilote d'avion léger", "age": "Examen à 17 ans, solo dès 16 ans", "points": ["30 h de vol minimum, dont 15 h en double commande et 6 h en solo supervisé (3 h de navigation)", "Jusqu'à 3 passagers après 10 h de vol comme commandant de bord", "Valable dans toute l'Europe (UE, Suisse, Islande, Norvège, Liechtenstein)"] },
-    { "nom": "PPL", "titre": "Licence de pilote privé", "age": "Examen à 17 ans", "points": ["45 h de vol minimum, dont 25 h en double commande et 10 h en solo supervisé", "Passagers sans limite de distance, dans le monde entier", "Ouvre aux qualifications (vol de nuit, vol aux instruments…)"] }
+    {
+      "nom": "BIA",
+      "titre": "Brevet d'initiation aéronautique",
+      "age": "Dès 13 ans",
+      "points": [
+        "Cours théoriques au collège, au lycée ou au club",
+        "Initiation pratique en vol au club",
+        "Ouvre droit à des bourses pour la suite de la formation"
+      ]
+    },
+    {
+      "nom": "LAPL",
+      "titre": "Licence de pilote d'avion léger",
+      "age": "Examen à 17 ans, solo dès 16 ans",
+      "points": [
+        "30 h de vol minimum, dont 15 h en double commande et 6 h en solo supervisé (3 h de navigation)",
+        "Jusqu'à 3 passagers après 10 h de vol comme commandant de bord",
+        "Valable dans toute l'Europe (UE, Suisse, Islande, Norvège, Liechtenstein)"
+      ]
+    },
+    {
+      "nom": "PPL",
+      "titre": "Licence de pilote privé",
+      "age": "Examen à 17 ans",
+      "points": [
+        "45 h de vol minimum, dont 25 h en double commande et 10 h en solo supervisé",
+        "Passagers sans limite de distance, dans le monde entier",
+        "Ouvre aux qualifications (vol de nuit, vol aux instruments…)"
+      ]
+    }
   ],
   "note": "Pour toutes les licences : réussite aux examens théorique et pratique, et visite médicale auprès d'un médecin agréé. La qualification vol de nuit est possible une fois la licence obtenue.",
+  "privileges_titre": "Ce que permet chaque licence",
+  "privileges": [
+    {
+      "critere": "Avions",
+      "lapl": "Monomoteurs à pistons et motoplaneurs, jusqu'à 2 000 kg",
+      "ppl": "Tous les avions pour lesquels vous avez la qualification, sans limite de masse : monomoteur, puis multimoteur…"
+    },
+    {
+      "critere": "Personnes à bord",
+      "lapl": "4 au maximum, pilote compris (3 passagers)",
+      "ppl": "Autant de passagers que l'avion le permet"
+    },
+    {
+      "critere": "Emmener des passagers",
+      "lapl": "Après 10 h de vol comme commandant de bord une fois la licence obtenue",
+      "ppl": "Dès l'obtention de la licence"
+    },
+    {
+      "critere": "Où voler",
+      "lapl": "Dans les pays européens qui appliquent les règles de l'AESA (Union européenne, Suisse, Norvège, Islande, Liechtenstein)",
+      "ppl": "Dans le monde entier (licence reconnue par l'OACI), en respectant les règles du pays survolé"
+    },
+    {
+      "critere": "Qualifications possibles ensuite",
+      "lapl": "Pas de vol aux instruments ni de multimoteur",
+      "ppl": "Vol de nuit, vol aux instruments, multimoteur, voltige, montagne…"
+    },
+    {
+      "critere": "Certificat médical",
+      "lapl": "Certificat médical LAPL, moins exigeant",
+      "ppl": "Certificat médical de classe 2"
+    },
+    {
+      "critere": "Garder sa licence active",
+      "lapl": "Expérience récente sur les 24 derniers mois, sans date d'échéance (détail ci-dessous)",
+      "ppl": "Qualification monomoteur (SEP terrestre) valable 2 ans, à proroger (détail ci-dessous)"
+    },
+    {
+      "critere": "Et après ?",
+      "lapl": "Peut être complété plus tard pour obtenir le PPL, les heures déjà faites comptent",
+      "ppl": "Base de toutes les licences suivantes, y compris professionnelles"
+    }
+  ],
+  "privileges_note": "Avec les deux licences, les vols restent privés : pas de rémunération, mais le partage des frais avec vos passagers est autorisé. Ce tableau résume les règles européennes (Part-FCL) : vos instructeurs vous détaillent les conditions exactes.",
+  "maintien_titre": "Garder sa licence valide",
+  "maintien_intro": "Une licence ne s'use que si l'on ne vole pas. Voici les règles à suivre pour rester à jour une fois breveté, en monomoteur à pistons terrestre (SEP terrestre).",
+  "maintien": [
+    {
+      "titre": "Expérience récente pour emmener des passagers",
+      "pour": "LAPL et PPL",
+      "texte": "3 décollages et 3 atterrissages aux commandes dans les 90 jours précédents, sur la même classe d'avion. Pour emmener des passagers de nuit, au moins un des trois doit avoir été fait de nuit. Sinon, un vol seul à bord ou avec un instructeur suffit à se remettre à jour."
+    },
+    {
+      "titre": "Maintenir son LAPL",
+      "pour": "LAPL",
+      "texte": "Le LAPL n'a pas de date d'échéance. Pour voler, il faut avoir fait sur les 24 derniers mois au moins 12 h comme commandant de bord, 12 décollages et atterrissages, et 1 h de vol de remise à niveau avec un instructeur. Sinon, un contrôle de compétences avec un examinateur remet la licence à jour."
+    },
+    {
+      "titre": "Prorogation de la SEP terrestre",
+      "pour": "PPL",
+      "texte": "La qualification de classe SEP terrestre est valable 24 mois. On la proroge avant son échéance, soit par l'expérience : dans les 12 mois qui précèdent l'échéance, 12 h de vol dont 6 h comme commandant de bord, 12 décollages et atterrissages et 1 h de vol avec un instructeur ; soit par un contrôle de compétences avec un examinateur dans les 3 mois qui précèdent l'échéance."
+    },
+    {
+      "titre": "Renouvellement après expiration",
+      "pour": "PPL",
+      "texte": "Si la date d'échéance est dépassée, la qualification doit être renouvelée : formation de remise à niveau avec un instructeur, dont la durée dépend du temps écoulé et de votre niveau, puis contrôle de compétences avec un examinateur."
+    },
+    {
+      "titre": "Certificat médical",
+      "pour": "LAPL et PPL",
+      "texte": "Classe 2 pour le PPL : valable 5 ans avant 40 ans, 2 ans de 40 à 50 ans, puis 1 an. Certificat LAPL : 5 ans avant 40 ans, puis 2 ans. Sans certificat valide, on ne peut pas voler comme commandant de bord."
+    }
+  ],
+  "maintien_note": "Pensez à faire signer votre carnet de vol par l'instructeur après chaque vol de remise à niveau. En cas de doute sur une échéance, demandez à un instructeur du club : il vérifie avec vous votre carnet et vos dates.",
   "parcours_titre": "De la première leçon à la licence",
   "parcours": [
-    { "titre": "Un vol d'initiation", "texte": "Vous prenez les commandes avec un instructeur pour voir si le pilotage vous plaît, sans engagement." },
-    { "titre": "L'inscription au club", "texte": "Adhésion au club et licence fédérale FFA, qui comprend l'assurance. Vous réservez ensuite vos vols en ligne." },
-    { "titre": "Les leçons en vol et la théorie", "texte": "Vous volez en double commande à votre rythme et préparez l'examen théorique, en e-learning et avec l'aide du club." },
-    { "titre": "Le lâcher", "texte": "Quand votre instructeur vous juge prêt, vous décollez seul à bord pour la première fois. Un moment qu'on n'oublie pas." },
-    { "titre": "Les examens", "texte": "Navigations en solo, examen théorique, puis test en vol avec un examinateur : vous voilà pilote." }
+    {
+      "titre": "Un vol d'initiation",
+      "texte": "Vous prenez les commandes avec un instructeur pour voir si le pilotage vous plaît, sans engagement."
+    },
+    {
+      "titre": "L'inscription au club",
+      "texte": "Adhésion au club et licence fédérale FFA, qui comprend l'assurance. Vous réservez ensuite vos vols en ligne."
+    },
+    {
+      "titre": "Les leçons en vol et la théorie",
+      "texte": "Vous volez en double commande à votre rythme et préparez l'examen théorique, en e-learning et avec l'aide du club."
+    },
+    {
+      "titre": "Le lâcher",
+      "texte": "Quand votre instructeur vous juge prêt, vous décollez seul à bord pour la première fois. Un moment qu'on n'oublie pas."
+    },
+    {
+      "titre": "Les examens",
+      "texte": "Navigations en solo, examen théorique, puis test en vol avec un examinateur : vous voilà pilote."
+    }
   ],
   "questions": [
-    { "question": "Combien de temps dure la formation ?", "reponse": "Tout dépend de votre disponibilité. La formation se fait à votre rythme, vol après vol, sans calendrier imposé : plus vous volez régulièrement, plus vous progressez vite." },
-    { "question": "Combien coûte une licence ?", "reponse": "Le budget dépend surtout du nombre d'heures de vol. Comptez l'adhésion annuelle et les heures en double commande puis en solo : tous les prix sont sur la page Tarifs. Les instructeurs sont bénévoles, et des aides existent pour les jeunes." },
-    { "question": "Faut-il passer une visite médicale ?", "reponse": "Oui. Un certificat médical délivré par un médecin agréé aéronautique est nécessaire avant votre premier vol en solo. Nous vous indiquons les médecins agréés de la région." },
-    { "question": "Comment se prépare l'examen théorique ?", "reponse": "En e-learning à la maison, avec le soutien des instructeurs du club. L'examen se passe ensuite en ligne dans un centre agréé." }
+    {
+      "question": "Combien de temps dure la formation ?",
+      "reponse": "Tout dépend de votre disponibilité. La formation se fait à votre rythme, vol après vol, sans calendrier imposé : plus vous volez régulièrement, plus vous progressez vite."
+    },
+    {
+      "question": "Combien coûte une licence ?",
+      "reponse": "Le budget dépend surtout du nombre d'heures de vol. Comptez l'adhésion annuelle et les heures en double commande puis en solo : tous les prix sont sur la page Tarifs. Les instructeurs sont bénévoles, et des aides existent pour les jeunes."
+    },
+    {
+      "question": "Faut-il passer une visite médicale ?",
+      "reponse": "Oui. Un certificat médical délivré par un médecin agréé aéronautique est nécessaire avant votre premier vol en solo. Nous vous indiquons les médecins agréés de la région."
+    },
+    {
+      "question": "Comment se prépare l'examen théorique ?",
+      "reponse": "En e-learning à la maison, avec le soutien des instructeurs du club. L'examen se passe ensuite en ligne dans un centre agréé."
+    }
   ]
 }
