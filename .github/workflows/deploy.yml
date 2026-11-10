@@ -43,3 +43,6 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # GitHub Pages met parfois plus de 10 min à finaliser la mise en ligne : on lui laisse 30 min.
+          timeout: 1800000
