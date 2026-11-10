@@ -26,7 +26,7 @@ const actif = (href: string) =>
     <nav aria-label="Navigation principale">
       <ul>
         {nav.map((n) => (
-          <li><a href={url(n.href)} data-u={n.u} aria-current={actif(n.href) ? 'page' : undefined}>{n.label}</a></li>
+          <li><a href={url(n.href)} data-u={n.u} aria-current={actif(n.href) ? 'page' : undefined}>{n.label}<svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg></a></li>
         ))}
         <li><a class="btn member" href={url('/membre')}>Espace membre</a></li>
       </ul>
@@ -46,23 +46,39 @@ const actif = (href: string) =>
   .logo strong { font-family: var(--font-title); font-size: 1.4rem; letter-spacing: .02em; }
   .logo small { font-size: .72rem; color: var(--muted); letter-spacing: .03em; }
   nav ul { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
-  nav a { display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: var(--text); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: 999px; white-space: nowrap; }
-  nav a[data-u]:not([data-u=''])::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c); opacity: 0; transition: opacity .2s; }
-  nav a:hover::before, nav a[aria-current]::before { opacity: 1 !important; }
+  nav a { --c: var(--ink); position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: var(--text); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: 999px; white-space: nowrap; transition: background-color .2s, color .2s; }
+  nav a[data-u='decouvrir'] { --c: #e8703a; } nav a[data-u='apprendre'] { --c: #2f6fd6; } nav a[data-u='voler'] { --c: #1f8a70; }
+  nav a[data-u='club'] { --c: #b0873a; } nav a[data-u='actus'] { --c: #c2414b; }
+  /* Soulignement fin à la couleur de la rubrique : glisse au survol, reste sur la page active */
+  nav a:not(.member)::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
+  nav a:not(.member):hover { background: rgba(15,27,45,.05); color: var(--ink); }
+  nav a:not(.member):hover::after { transform: scaleX(.35); }
   nav a[aria-current] { font-weight: 600; color: var(--ink); }
-  a[data-u='decouvrir'] { --c: #e8703a; } a[data-u='apprendre'] { --c: #2f6fd6; } a[data-u='voler'] { --c: #1f8a70; }
-  a[data-u='club'] { --c: #b0873a; } a[data-u='actus'] { --c: #c2414b; }
+  nav a[aria-current]::after, nav a[aria-current]:hover::after { transform: scaleX(1); }
+  nav a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+  .chevron { display: none; }
   nav a.member { background: var(--ink); color: #fff; padding: 10px 20px; margin-left: 10px; }
   nav a.member:hover { background: #6b4fbb; color: #fff; }
   .nav-toggle, .burger { display: none; }
   @media (max-width: 1180px) {
     .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
-    .burger span { width: 24px; height: 2px; background: var(--ink); }
-    nav { position: absolute; top: 76px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); display: none; }
-    nav ul { flex-direction: column; align-items: stretch; padding: 12px 16px 20px; }
-    nav a { padding: 12px; font-size: 1.05rem; }
-    nav a::before { opacity: 1 !important; }
-    nav a.member { margin: 10px 0 0; justify-content: center; }
-    .nav-toggle:checked ~ nav { display: block; }
+    .burger span { width: 24px; height: 2px; background: var(--ink); transition: transform .25s, opacity .2s; }
+    .nav-toggle:checked + .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle:checked + .burger span:nth-child(2) { opacity: 0; }
+    .nav-toggle:checked + .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    nav { position: absolute; top: 76px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 18px 40px rgba(15,27,45,.12); display: none; }
+    nav ul { flex-direction: column; align-items: stretch; gap: 4px; padding: 12px 16px 20px; }
+    /* Menu ouvert : la couleur de rubrique devient une barre à gauche, chevron à droite */
+    nav a { padding: 14px 16px; font-size: 1.05rem; border-radius: 12px; }
+    nav a:not(.member)::before { content: ''; width: 3px; height: 20px; border-radius: 3px; background: var(--c); flex: none; }
+    nav a:not([data-u]):not(.member)::before, nav a[data-u='']::before { background: var(--line); }
+    nav a:not(.member)::after { display: none; }
+    nav a[aria-current] { background: #fff; box-shadow: 0 1px 0 var(--line); }
+    .chevron { display: block; margin-left: auto; width: 16px; height: 16px; color: var(--muted); transition: transform .2s, color .2s; }
+    nav a:hover .chevron, nav a[aria-current] .chevron { transform: translateX(3px); color: var(--c); }
+    nav a.member { margin: 10px 0 0; justify-content: center; border-radius: 999px; }
+    .nav-toggle:checked ~ nav { display: block; animation: menu-in .25s cubic-bezier(.2,.7,.2,1); }
   }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-8px); } }
+  @media (prefers-reduced-motion: reduce) { nav a::after, .chevron, .burger span { transition: none; } .nav-toggle:checked ~ nav { animation: none; } }
 </style>
