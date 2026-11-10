@@ -33,9 +33,6 @@ const fiches = Object.values(
 const court = (t: string) => t.replace(/ F-[A-Z]{4}/, '');
 const autres = ['Sécurité', 'Préparation des vols', 'Météo', 'Formulaires'].map((c) => ({ c, docs: parCat(c) })).filter((x) => x.docs.length);
 const host = (l: string) => new URL(l).hostname.replace(/^www\./, '');
-const sommaire = [
-  ['outils', 'Préparer son vol'], ['avions', 'Nos avions'], ['club', 'Vie du club'], ['pilote', 'Documentation pilote'], ['eleves', 'Parcours élève'],
-];
 import pages from '../../data/pages.json';
 ---
 <Base univers="membres" title="Espace membre" description="Espace réservé aux membres de l'aéroclub de Beauvais-Tillé : préparation des vols et documentation." noindex>
@@ -47,7 +44,6 @@ import pages from '../../data/pages.json';
 
   <div class="outilbar">
     <div class="container outilbar-in">
-      <nav aria-label="Sommaire">{sommaire.map(([id, l]) => <a href={`#${id}`}>{l}</a>)}</nav>
       <label class="cherche"><span class="sr">Rechercher un document</span>
         <input type="search" id="q" placeholder="Rechercher un document…" autocomplete="off" />
       </label>
@@ -180,14 +176,13 @@ import pages from '../../data/pages.json';
 
 <style>
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .outilbar { position: sticky; top: 76px; z-index: 20; background: rgba(246,242,234,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-  .outilbar-in { display: flex; gap: 16px; align-items: center; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; }
-  .outilbar nav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
-  .outilbar nav a { white-space: nowrap; padding: 7px 14px; border-radius: 999px; font-size: .88rem; font-weight: 500; text-decoration: none; color: var(--ink); border: 1px solid var(--line); background: #fff; }
-  .outilbar nav a:hover { border-color: var(--accent); color: var(--accent); }
-  .cherche input { width: 260px; max-width: 100%; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: inherit; font-size: .92rem; }
+  .outilbar { position: sticky; top: 76px; z-index: 20; transition: top .5s cubic-bezier(.2,.7,.2,1); background: rgba(246,242,234,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .outilbar-in { padding-top: 10px; padding-bottom: 10px; }
+  :global(body:has(.site-header.cache)) .outilbar { top: 0; }
+  .cherche { display: block; width: 100%; }
+  .cherche input { width: 100%; max-width: 520px; display: block; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: inherit; font-size: .92rem; }
   .cherche input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-  @media (max-width: 860px) { .outilbar-in { flex-direction: column; align-items: stretch; gap: 8px; } .cherche input { width: 100%; } }
+  @media (max-width: 860px) { .cherche input { max-width: none; } }
   .aucun { padding-top: 32px; color: var(--muted); }
   [hidden] { display: none !important; }
   .carte-metar { margin-bottom: 28px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }

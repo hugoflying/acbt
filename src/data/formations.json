@@ -50,6 +50,11 @@
       "ppl": "Dès l'obtention de la licence"
     },
     {
+      "critere": "Argent et partage des frais",
+      "lapl": "Vols privés uniquement : impossible d'être payé pour piloter. Vous pouvez partager les frais du vol (avion, taxes, carburant) à parts égales avec vos passagers, pilote compris, sans faire le moindre bénéfice.",
+      "ppl": "Même règle : partage des frais à parts égales, pilote compris, sans bénéfice. Être rémunéré pour piloter demande une licence professionnelle (CPL), sauf cas particuliers comme devenir instructeur."
+    },
+    {
       "critere": "Où voler",
       "lapl": "Dans les pays européens qui appliquent les règles de l'AESA (Union européenne, Suisse, Norvège, Islande, Liechtenstein)",
       "ppl": "Dans le monde entier (licence reconnue par l'OACI), en respectant les règles du pays survolé"
@@ -75,7 +80,7 @@
       "ppl": "Base de toutes les licences suivantes, y compris professionnelles"
     }
   ],
-  "privileges_note": "Avec les deux licences, les vols restent privés : pas de rémunération, mais le partage des frais avec vos passagers est autorisé. Ce tableau résume les règles européennes (Part-FCL) : vos instructeurs vous détaillent les conditions exactes.",
+  "privileges_note": "Ce tableau résume les règles européennes (Part-FCL) : vos instructeurs vous détaillent les conditions exactes.",
   "maintien_titre": "Garder sa licence valide",
   "maintien_intro": "Une licence ne s'use que si l'on ne vole pas. Voici les règles à suivre pour rester à jour une fois breveté, en monomoteur à pistons terrestre (SEP terrestre).",
   "maintien": [
