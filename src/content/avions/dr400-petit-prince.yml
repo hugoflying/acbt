@@ -14,4 +14,8 @@ tarifs:
   - a_partir_du: 2025-01-01
     prix_heure: 130
     prix_instruction: 175
+  - a_partir_du: 2026-11-01
+    prix_heure: 140
+    prix_instruction: 185
+    note: "+10 € / h en solo, supplément double commande maintenu à 45 €"
 ordre: 2
