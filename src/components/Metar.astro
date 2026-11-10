@@ -1,20 +1,21 @@
 ---
-// METAR brut de LFOB, lu sur AVWX à chaque publication du site (toutes les 30 min).
+// METAR brut de LFOB : lu sur AVWX à chaque publication du site, puis rafraîchi par le navigateur toutes les 5 min
+// (les publications automatiques de GitHub sont souvent retardées de plusieurs heures).
 // Pastille verte clignotante : METAR de moins de 2 h. Pastille rouge : plus de 2 h ou indisponible.
-import { metar } from '../lib/metar';
+import { metar, AVWX_CLE } from '../lib/metar';
 interface Props { sombre?: boolean }
 const { sombre = false } = Astro.props;
 const m = await metar();
 ---
-<div class:list={['metar', { sombre }]} data-heure={m?.heure}>
+<div class:list={['metar', { sombre }]} data-heure={m?.heure ?? ''} data-cle={AVWX_CLE}>
   <span class:list={['etat', m ? 'attente' : 'rouge']}><i></i><b>{m ? 'En direct' : 'Indisponible'}</b></span>
   <span class="station">METAR LFOB</span>
-  {m
-    ? <code class="raw" title="Dernier METAR publié pour Beauvais-Tillé">{m.raw}</code>
-    : <span class="raw vide">Pas de METAR reçu. Consultez <a href="https://aviation.meteo.fr/login.php" target="_blank" rel="noopener">AEROWEB</a>.</span>}
+  <code class="raw" title="Dernier METAR publié pour Beauvais-Tillé" hidden={!m}>{m?.raw}</code>
+  <span class="raw vide" hidden={!!m}>Pas de METAR reçu. Consultez <a href="https://aviation.meteo.fr/login.php" target="_blank" rel="noopener">AEROWEB</a>.</span>
 </div>
 <script>
-  const maj = () => document.querySelectorAll<HTMLElement>('.metar[data-heure]').forEach((el) => {
+  const metars = () => document.querySelectorAll<HTMLElement>('.metar');
+  const maj = () => metars().forEach((el) => {
     const t = new Date(el.dataset.heure!).getTime();
     const etat = el.querySelector<HTMLElement>('.etat')!;
     if (isNaN(t)) return;
@@ -25,8 +26,37 @@ const m = await metar();
     const h = new Date(t).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
     etat.title = `Observation de ${h} UTC`;
   });
+  // Dernier METAR directement depuis le navigateur : AVWX, puis aviationweather.gov en secours.
+  const lire = async (cle: string): Promise<{ raw: string; heure: string } | null> => {
+    try {
+      const r = await fetch(`https://avwx.rest/api/metar/LFOB?format=json&onfail=cache&token=${encodeURIComponent(cle)}`, { signal: AbortSignal.timeout(8000) });
+      if (r.ok) { const m = await r.json(); if (m?.raw && m?.time?.dt) return { raw: m.raw, heure: m.time.dt }; }
+    } catch {}
+    try {
+      const r = await fetch('https://aviationweather.gov/api/data/metar?ids=LFOB&format=json', { signal: AbortSignal.timeout(8000) });
+      if (r.ok) { const [m] = await r.json(); if (m?.rawOb && m?.obsTime) return { raw: String(m.rawOb).replace(/^METAR\s+/, ''), heure: new Date(m.obsTime * 1000).toISOString() }; }
+    } catch {}
+    return null;
+  };
+  const rafraichir = async () => {
+    const el0 = metars()[0];
+    if (!el0) return;
+    const m = await lire(el0.dataset.cle ?? '');
+    if (!m) return;
+    metars().forEach((el) => {
+      const avant = new Date(el.dataset.heure || 0).getTime() || 0;
+      if (new Date(m.heure).getTime() < avant) return;
+      el.dataset.heure = m.heure;
+      const code = el.querySelector<HTMLElement>('code.raw')!;
+      code.textContent = m.raw; code.hidden = false;
+      el.querySelector<HTMLElement>('.raw.vide')!.hidden = true;
+    });
+    maj();
+  };
   maj();
+  rafraichir();
   setInterval(maj, 60000);
+  setInterval(rafraichir, 5 * 60000);
 </script>
 <style>
   .metar { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; font-size: .85rem; color: var(--muted); }
