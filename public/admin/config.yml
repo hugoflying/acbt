@@ -1,0 +1,1021 @@
+# Back-office Sveltia CMS (essai, en parallèle de Pages CMS).
+# Fichier généré à partir de .pages.yml : garder les deux en phase.
+# Ouvrir https://hugoflying.github.io/acbt/admin/
+backend:
+  name: github
+  repo: hugoflying/acbt
+  branch: main
+  auth_methods:
+  - token
+  commit_messages:
+    create: 'Ajout : {{collection}} « {{slug}} » (back-office)'
+    update: 'Modification : {{collection}} « {{slug}} » (back-office)'
+    delete: 'Suppression : {{collection}} « {{slug}} » (back-office)'
+    uploadMedia: Ajout du fichier {{path}} (back-office)
+    deleteMedia: Suppression du fichier {{path}} (back-office)
+app_title: Back-office ACBT
+logo:
+  src: /acbt/uploads/logo/logo-acbt.png
+site_url: https://hugoflying.github.io/acbt
+media_folder: public/uploads
+public_folder: /uploads
+output:
+  omit_empty_optional_fields: false
+collections:
+- name: actualites
+  label: Actualités
+  icon: newspaper
+  label_singular: Actualité
+  folder: src/content/actualites
+  create: true
+  extension: md
+  format: frontmatter
+  slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+  sortable_fields:
+    fields:
+    - date
+    - titre
+    default:
+      field: date
+      direction: descending
+  summary: '{{titre}} · {{date | date(''DD/MM/YYYY'')}}'
+  preview_path: actualites/{{slug}}
+  identifier_field: titre
+  media_folder: /public/uploads/actualites
+  public_folder: /uploads/actualites
+  fields:
+  - name: titre
+    label: Titre
+    widget: string
+    required: true
+  - name: date
+    label: Date
+    widget: datetime
+    format: YYYY-MM-DD
+    time_format: false
+    required: true
+  - name: image
+    label: Photo principale
+    widget: image
+    required: false
+    hint: Affichée sur la carte de l’actualité et en haut de l’article. Sans photo, un visuel aux couleurs du club est utilisé.
+  - name: galerie
+    label: Galerie photos
+    widget: image
+    multiple: true
+    required: false
+  - name: publie
+    label: Publiée sur le site
+    widget: boolean
+    required: false
+    hint: Décochez pour garder un brouillon sans le montrer.
+    default: true
+  - name: body
+    label: Texte
+    widget: richtext
+    required: false
+- name: avions
+  label: Avions
+  description: Fiches, photos et prix de l'heure
+  icon: flight
+  label_singular: Avion
+  folder: src/content/avions
+  create: true
+  extension: yml
+  format: yaml
+  slug: '{{slug}}'
+  identifier_field: nom
+  sortable_fields:
+  - ordre
+  - nom
+  media_folder: /public/uploads/avions
+  public_folder: /uploads/avions
+  fields:
+  - name: nom
+    label: Nom affiché
+    widget: string
+    required: true
+  - name: immatriculation
+    label: Immatriculation
+    widget: string
+    required: false
+  - name: type
+    label: Type exact
+    widget: string
+    required: true
+    hint: 'Exemple : Robin DR400-120'
+  - name: puissance
+    label: Puissance (ch)
+    widget: number
+    value_type: float
+    required: false
+  - name: places
+    label: Nombre de places
+    widget: number
+    value_type: float
+    required: false
+  - name: usage
+    label: Usage
+    widget: string
+    required: false
+    hint: 'Exemple : École et voyage'
+  - name: description
+    label: Description
+    widget: text
+    required: false
+  - name: photos
+    label: Photos (la première est la photo principale)
+    widget: image
+    multiple: true
+    required: false
+  - name: tarifs
+    label: Tarifs horaires
+    widget: list
+    fields:
+    - name: a_partir_du
+      label: Applicable à partir du
+      widget: datetime
+      format: YYYY-MM-DD
+      time_format: false
+      required: true
+    - name: prix_heure
+      label: Prix de l'heure en solo (€)
+      widget: number
+      value_type: float
+      required: true
+    - name: prix_instruction
+      label: Prix de l'heure en double commande
+      widget: number
+      value_type: float
+      required: false
+    - name: note
+      label: Note interne
+      widget: string
+      required: false
+    required: false
+    hint: Ajoutez une ligne avec une date future pour planifier un changement de tarif. Le site affiche automatiquement le bon tarif à chaque date.
+  - name: ordre
+    label: Ordre d'affichage
+    widget: number
+    value_type: float
+    required: false
+    default: 10
+  - name: actif
+    label: Avion affiché sur le site
+    widget: boolean
+    required: false
+    hint: Décochez pour retirer un avion sans le supprimer.
+    default: true
+- name: documents
+  label: Documents membres
+  description: PDF, liens et vidéos de l’espace membre
+  icon: folder_open
+  label_singular: Document
+  folder: src/content/documents
+  create: true
+  extension: yml
+  format: yaml
+  slug: '{{slug}}'
+  identifier_field: titre
+  media_folder: /public/uploads/membre
+  public_folder: /uploads/membre
+  fields:
+  - name: titre
+    label: Titre
+    widget: string
+    required: true
+  - name: categorie
+    label: Rubrique de l'espace membre
+    widget: select
+    options:
+    - Vie du club
+    - Documentation pilote
+    - Documentation avion
+    - Pour les élèves
+    - Examens
+    - Examen pratique
+    - Sécurité
+    - Préparation des vols
+    - Météo
+    - Formulaires
+    required: true
+  - name: avions
+    label: Avion(s) concerné(s) (seulement pour « Documentation avion »)
+    widget: select
+    options:
+    - F-GCAL
+    - F-BXEK
+    - F-BTBS
+    - F-BIXA
+    multiple: true
+    required: false
+  - name: rubrique
+    label: Type de document avion
+    widget: select
+    options:
+    - Manuel de vol
+    - Paramètres
+    - Check-list
+    - Centrage
+    - Guide radio rapide
+    - Radio VFR
+    - Transpondeur
+    - DME
+    - Balise de détresse
+    - Autre
+    required: false
+  - name: fichier
+    label: Fichier (PDF
+    widget: file
+    required: false
+    hint: Déposez le fichier ici, ou remplissez plutôt le lien ci-dessous.
+  - name: lien
+    label: Ou lien vers un site / une vidéo
+    widget: string
+    required: false
+  - name: description
+    label: Description
+    widget: string
+    required: false
+  - name: mis_a_jour
+    label: Date de mise à jour
+    widget: datetime
+    format: YYYY-MM-DD
+    time_format: false
+    required: false
+  - name: ordre
+    label: Ordre d'affichage (petit = en premier)
+    widget: number
+    value_type: float
+    required: false
+    default: 10
+singletons:
+- name: tarifs
+  label: Tarifs
+  icon: euro
+  file: src/data/tarifs.json
+  format: json
+  fields:
+  - name: annee
+    label: Année des tarifs
+    widget: string
+    required: false
+  - name: adhesion
+    label: Adhésion
+    widget: object
+    fields:
+    - name: colonnes
+      label: Formules d'adhésion
+      widget: list
+      fields:
+      - name: titre
+        label: Titre
+        widget: string
+        required: false
+      - name: public
+        label: Public
+        widget: string
+        required: false
+      - name: cotisation_acbt
+        label: Cotisation ACBT (€)
+        widget: number
+        value_type: float
+        required: false
+      - name: mise_en_avant
+        label: Mettre en avant
+        widget: boolean
+        required: false
+        default: false
+      required: false
+    - name: cotisation_ffa
+      label: Cotisation FFA (€)
+      widget: number
+      value_type: float
+      required: false
+    - name: infopilote
+      label: Infopilote facultatif (€)
+      widget: number
+      value_type: float
+      required: false
+    - name: note
+      label: Note
+      widget: text
+      required: false
+    required: false
+  - name: blocs
+    label: Blocs d'heures
+    widget: list
+    fields:
+    - name: heures
+      label: Heures achetées
+      widget: number
+      value_type: float
+      required: false
+    - name: offert
+      label: Offert
+      widget: string
+      required: false
+    required: false
+  - name: blocs_note
+    label: Note blocs d'heures
+    widget: string
+    required: false
+  - name: temporaire
+    label: Membre temporaire
+    widget: object
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: duree
+      label: Durée
+      widget: string
+      required: false
+    - name: prix
+      label: Prix (€)
+      widget: number
+      value_type: float
+      required: false
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    required: false
+  - name: formules
+    label: Vols découverte et initiation
+    widget: list
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: texte
+      label: Description
+      widget: text
+      required: false
+    - name: prix
+      label: Prix
+      widget: list
+      fields:
+      - name: libelle
+        label: Libellé
+        widget: string
+        required: false
+      - name: prix
+        label: Prix (€)
+        widget: number
+        value_type: float
+        required: false
+      required: false
+    required: false
+  - name: divers
+    label: Tarifs divers
+    widget: list
+    fields:
+    - name: libelle
+      label: Article
+      widget: string
+      required: false
+    - name: prix
+      label: Prix
+      widget: string
+      required: false
+    required: false
+  - name: objectif_pilote
+    label: Aides Objectif Pilote FFA (moins de 21 ans)
+    widget: object
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: intro
+      label: Introduction
+      widget: text
+      required: false
+    - name: lignes
+      label: Étapes et montants
+      widget: list
+      fields:
+      - name: etape
+        label: Étape
+        widget: string
+        required: false
+      - name: montant
+        label: Montant de l'aide (€)
+        widget: number
+        value_type: float
+        required: false
+      required: false
+    - name: note
+      label: Note
+      widget: string
+      required: false
+    required: false
+- name: pages
+  label: Pages du site
+  icon: web
+  file: src/data/pages.json
+  format: json
+  fields:
+  - name: accueil
+    label: Accueil
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+      hint: Écrivez {annees} pour afficher automatiquement l'âge du club.
+    - name: diaporama
+      label: Photos qui défilent en haut de l'accueil
+      widget: list
+      fields:
+      - name: image
+        label: Photo
+        widget: image
+        required: false
+      - name: legende
+        label: Légende
+        widget: string
+        required: false
+      required: false
+      hint: Choisissez de préférence des photos horizontales (format paysage).
+    - name: cartes
+      label: 'Les 3 cartes « Choisissez votre façon de voler » (dans l''ordre : Découvrir, Apprendre, Piloter au club)'
+      widget: list
+      fields:
+      - name: titre
+        label: Titre
+        widget: string
+        required: false
+      - name: texte
+        label: Texte
+        widget: string
+        required: false
+      - name: image
+        label: Photo
+        widget: image
+        required: false
+      required: false
+    required: false
+  - name: decouvrir
+    label: Découvrir le vol
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: formations
+    label: Apprendre (formations)
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: flotte
+    label: La flotte
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: tarifs
+    label: Tarifs
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: club
+    label: Le club
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: historique
+    label: Notre histoire
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: actualites
+    label: Actualités
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: contact
+    label: Contact
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+  - name: membre
+    label: Espace membre
+    widget: object
+    fields:
+    - name: titre
+      label: Grand titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte sous le titre
+      widget: text
+      required: false
+    - name: image
+      label: Photo d'en-tête
+      widget: image
+      required: false
+    required: false
+- name: decouvrir
+  label: Page Découvrir
+  icon: redeem
+  file: src/data/decouvrir.json
+  format: json
+  fields:
+  - name: intro
+    label: Introduction
+    widget: text
+    required: false
+  - name: bon_cadeau
+    label: Texte bon cadeau
+    widget: text
+    required: false
+  - name: deroulement_titre
+    label: Titre du déroulé
+    widget: string
+    required: false
+  - name: deroulement
+    label: Déroulé du vol (étapes numérotées)
+    widget: list
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    required: false
+  - name: questions
+    label: Questions fréquentes
+    widget: list
+    fields:
+    - name: question
+      label: Question
+      widget: string
+      required: false
+    - name: reponse
+      label: Réponse
+      widget: text
+      required: false
+    required: false
+- name: formations
+  label: Page Apprendre
+  icon: school
+  file: src/data/formations.json
+  format: json
+  fields:
+  - name: licences
+    label: Licences et brevets
+    widget: list
+    fields:
+    - name: nom
+      label: Sigle
+      widget: string
+      required: false
+    - name: titre
+      label: Nom complet
+      widget: string
+      required: false
+    - name: age
+      label: Âge
+      widget: string
+      required: false
+    - name: points
+      label: Points clés
+      widget: list
+      required: false
+    required: false
+  - name: note
+    label: Note sous les licences
+    widget: text
+    required: false
+  - name: privileges_titre
+    label: Titre du comparatif LAPL / PPL
+    widget: string
+    required: false
+  - name: privileges
+    label: Comparatif LAPL / PPL (une ligne par critère)
+    widget: list
+    fields:
+    - name: critere
+      label: Critère
+      widget: string
+      required: false
+    - name: lapl
+      label: Avec le LAPL
+      widget: text
+      required: false
+    - name: ppl
+      label: Avec le PPL
+      widget: text
+      required: false
+    required: false
+  - name: privileges_note
+    label: Note sous le comparatif
+    widget: text
+    required: false
+  - name: maintien_titre
+    label: Titre « Garder sa licence valide »
+    widget: string
+    required: false
+  - name: maintien_intro
+    label: Introduction
+    widget: text
+    required: false
+  - name: maintien
+    label: Règles de maintien (expérience récente, prorogation, renouvellement, médical)
+    widget: list
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: pour
+      label: Concerne
+      widget: string
+      required: false
+      hint: 'Exemple : LAPL et PPL'
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    required: false
+  - name: maintien_note
+    label: Note en bas
+    widget: text
+    required: false
+  - name: parcours_titre
+    label: Titre du parcours
+    widget: string
+    required: false
+  - name: parcours
+    label: Étapes du parcours de formation
+    widget: list
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    required: false
+  - name: questions
+    label: Questions fréquentes
+    widget: list
+    fields:
+    - name: question
+      label: Question
+      widget: string
+      required: false
+    - name: reponse
+      label: Réponse
+      widget: text
+      required: false
+    required: false
+- name: club
+  label: Infos du club
+  icon: info
+  file: src/data/club.json
+  format: json
+  fields:
+  - name: nom
+    label: Nom du club
+    widget: string
+    required: false
+  - name: sigle
+    label: Sigle
+    widget: string
+    required: false
+  - name: fondation
+    label: Date de fondation
+    widget: string
+    required: false
+  - name: slogan
+    label: Slogan
+    widget: string
+    required: false
+  - name: adresse
+    label: Adresse
+    widget: string
+    required: false
+  - name: telephone
+    label: Téléphone
+    widget: string
+    required: false
+  - name: email
+    label: E-mail
+    widget: string
+    required: false
+  - name: facebook
+    label: Page Facebook
+    widget: string
+    required: false
+  - name: aerogest
+    label: Lien Aerogest
+    widget: string
+    required: false
+  - name: horaires
+    label: Horaires
+    widget: string
+    required: false
+  - name: acces
+    label: Indications d'accès (une ligne par indication)
+    widget: list
+    required: false
+  - name: latitude
+    label: Latitude (plan)
+    widget: number
+    value_type: float
+    required: false
+  - name: longitude
+    label: Longitude (plan)
+    widget: number
+    value_type: float
+    required: false
+  - name: aides
+    label: Aides au financement
+    widget: list
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    required: false
+  - name: partenaires
+    label: Partenaires
+    widget: list
+    fields:
+    - name: nom
+      label: Nom
+      widget: string
+      required: false
+    - name: lien
+      label: Lien
+      widget: string
+      required: false
+    required: false
+  - name: legal
+    label: Informations légales (page Mentions légales)
+    widget: object
+    fields:
+    - name: statut
+      label: Statut
+      widget: string
+      required: false
+    - name: rna
+      label: Numéro RNA de l'association
+      widget: string
+      required: false
+      hint: Commence par W, visible sur le récépissé de la préfecture.
+    - name: siret
+      label: Numéro SIRET
+      widget: string
+      required: false
+    - name: directeur_publication
+      label: Directeur de la publication
+      widget: string
+      required: false
+      hint: 'En général le président du club : prénom et nom.'
+    - name: hebergeur_nom
+      label: Hébergeur du site
+      widget: string
+      required: false
+    - name: hebergeur_adresse
+      label: Adresse de l'hébergeur
+      widget: string
+      required: false
+    - name: credits_photos
+      label: Crédits photos
+      widget: string
+      required: false
+    required: false
+- name: historique
+  label: Page Notre histoire
+  icon: history_edu
+  file: src/data/historique.json
+  format: json
+  media_folder: /public/uploads/historique
+  public_folder: /uploads/historique
+  fields:
+  - name: intro
+    label: Introduction
+    widget: text
+    required: false
+  - name: etapes
+    label: Étapes
+    widget: list
+    fields:
+    - name: annee
+      label: Année ou période
+      widget: string
+      required: false
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    - name: photos
+      label: Photos
+      widget: image
+      multiple: true
+      required: false
+    required: false
+- name: outils
+  label: Outils membres
+  icon: build
+  file: src/data/outils.json
+  format: json
+  media_folder: /public/uploads/outils
+  public_folder: /uploads/outils
+  fields:
+  - name: categories
+    label: Catégories
+    widget: list
+    fields:
+    - name: titre
+      label: Titre de la catégorie
+      widget: string
+      required: false
+    - name: outils
+      label: Outils
+      widget: list
+      fields:
+      - name: nom
+        label: Nom
+        widget: string
+        required: false
+      - name: description
+        label: Description
+        widget: string
+        required: false
+      - name: lien
+        label: Lien
+        widget: string
+        required: false
+      - name: logo
+        label: Logo (facultatif
+        widget: image
+        required: false
+      required: false
+    required: false
+- name: membre
+  label: Textes espace membre
+  icon: lock
+  file: src/data/membre.json
+  format: json
+  fields:
+  - name: avertissement_avion
+    label: Avertissement documentation avion
+    widget: text
+    required: false
+  - name: liens_club
+    label: Liens « Vie du club »
+    widget: list
+    fields:
+    - name: libelle
+      label: Libellé
+      widget: string
+      required: false
+    - name: lien
+      label: Lien
+      widget: string
+      required: false
+    required: false
+  - name: parcours
+    label: Étapes du parcours élève
+    widget: list
+    fields:
+    - name: titre
+      label: Titre
+      widget: string
+      required: false
+    - name: texte
+      label: Texte
+      widget: text
+      required: false
+    - name: categorie_docs
+      label: Documents à afficher
+      widget: select
+      options:
+      - Pour les élèves
+      - Examens
+      - Examen pratique
+      required: false
+    - name: liens
+      label: Liens
+      widget: list
+      fields:
+      - name: libelle
+        label: Libellé
+        widget: string
+        required: false
+      - name: lien
+        label: Lien
+        widget: string
+        required: false
+      required: false
+    required: false
