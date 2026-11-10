@@ -34,7 +34,7 @@
       {
         "titre": "Piloter au club",
         "texte": "Déjà breveté ? Rejoignez le club et volez sur nos avions",
-        "image": "/uploads/avions/dr300-f-btbs-03.jpg"
+        "image": "/uploads/avions/20250407_160705.jpg"
       }
     ]
   },
@@ -73,8 +73,7 @@
   },
   "contact": {
     "titre": "Nous contacter",
-    "texte": "Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club.",
-    "image": ""
+    "texte": "Pour un baptême, une inscription ou une simple question, écrivez-nous ou passez au club."
   },
   "membre": {
     "titre": "Espace membre",
