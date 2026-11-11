@@ -3,12 +3,12 @@
 // mais il ne s'occupe que de l'espace membre : le reste du site fonctionne exactement comme avant.
 import type { APIRoute } from 'astro';
 import { url } from '../lib/utils';
-import { fichiersMembre } from '../lib/membre';
+import { fichiersMembre, versionAppli } from '../lib/membre';
 
 export const GET: APIRoute = async () => {
   const { liste } = await fichiersMembre();
   const conf = {
-    version: String(Date.now()),
+    version: versionAppli(liste),
     racine: url('/'),
     membre: url('/membre/'),
     connexion: url('/membre/connexion/'),
@@ -19,11 +19,14 @@ export const GET: APIRoute = async () => {
   const code = `const C = ${JSON.stringify(conf)};
 const APP = 'acbt-membre-app-' + C.version;
 const DOCS = 'acbt-membre-docs';
+// Adresse de chaque document → adresse avec son empreinte (?v=…)
+const VERSIONS = Object.fromEntries(C.fichiers.map((f) => [f.split('?')[0], f]));
 
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const cache = await caches.open(APP);
-    await cache.addAll(C.coquille);
+    // « reload » : on va chercher la version en ligne, jamais une copie ancienne du navigateur
+    await cache.addAll(C.coquille.map((u) => new Request(u, { cache: 'reload' })));
     // Styles et scripts de la page, pour qu'elle s'affiche correctement hors ligne
     const html = await (await cache.match(C.membre)).text();
     const assets = [...new Set([
@@ -75,10 +78,12 @@ self.addEventListener('fetch', (e) => {
   if (ici && u.pathname.startsWith(C.docs)) {
     e.respondWith((async () => {
       const cache = await caches.open(DOCS);
-      const garde = await cache.match(u.pathname);
+      const cle = VERSIONS[u.pathname] || u.pathname;
+      const garde = await cache.match(cle);
       if (garde) return garde;
-      const rep = await fetch(req);
-      if (rep.ok && rep.status === 200 && !req.headers.has('range')) cache.put(u.pathname, rep.clone());
+      if (req.headers.has('range')) return fetch(req);
+      const rep = await fetch(cle, { cache: 'reload', credentials: 'same-origin' }).catch(() => fetch(req));
+      if (rep.ok && rep.status === 200 && !rep.redirected) cache.put(cle, rep.clone());
       return rep;
     })());
     return;
