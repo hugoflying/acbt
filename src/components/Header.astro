@@ -1,24 +1,22 @@
 ---
 import { url } from '../lib/utils';
 const nav = [
-  { label: 'Accueil', href: '/', u: '' },
-  { label: 'Découvrir', href: '/decouvrir-le-vol', u: 'decouvrir' },
-  { label: 'Apprendre', href: '/formations', u: 'apprendre' },
-  { label: 'La flotte', href: '/club/flotte', u: 'voler' },
+  { label: 'Baptême de l\'air', href: '/decouvrir-le-vol', u: 'decouvrir' },
+  { label: 'Devenir pilote', href: '/formations', u: 'apprendre' },
   { label: 'Tarifs', href: '/club/tarifs', u: 'voler' },
   { label: 'Le club', href: '/club', u: 'club' },
   { label: 'Contact', href: '/contact', u: '' },
 ];
 const path = Astro.url.pathname.replace(/\/$/, '');
-// « Le club » regroupe aussi l'histoire et les actualités (la flotte et les tarifs ont leur propre onglet)
+// Menu volontairement court pour ne pas perdre un visiteur qui découvre l'aviation : l'accueil passe par le logo,
+// « Le club » regroupe aussi la flotte, l'histoire et les actualités (les tarifs gardent leur propre onglet).
 const actif = (href: string) =>
-  href === '/' ? path === url('/').replace(/\/$/, '') || path === '' :
-  href === '/club' ? [url('/club'), url('/club/historique'), url('/actualites')].some((p) => path === p || path.startsWith(p + '/')) : path.startsWith(url(href));
+  href === '/club' ? [url('/club'), url('/club/flotte'), url('/club/historique'), url('/actualites')].some((p) => path === p || path.startsWith(p + '/')) : path.startsWith(url(href));
 ---
 <header class="site-header">
   <div class="container bar">
     <a class="logo" href={url('/')}>
-      <img src={url('/uploads/logo/logo-acbt.png')} alt="" width="72" height="52" />
+      <img src={url('/uploads/logo/logo-acbt.png')} alt="" width="50" height="36" />
       <span><strong>ACBT</strong><small>Aéroclub de Beauvais-Tillé</small></span>
     </a>
     {Astro.slots.has('actions') && <div class="actions"><slot name="actions" /></div>}
@@ -40,12 +38,12 @@ const actif = (href: string) =>
   .site-header.cache { transform: translateY(-100%); }
   .site-header.defile { box-shadow: 0 8px 30px rgba(15,27,45,.08); }
   .progression { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
-  .bar { display: flex; align-items: center; justify-content: space-between; height: 76px; }
-  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
-  .logo img { height: 52px; width: auto; display: block; }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .logo img { height: 36px; width: auto; display: block; }
   .logo span { display: flex; flex-direction: column; line-height: 1.1; }
-  .logo strong { font-family: var(--font-title); font-size: 1.4rem; letter-spacing: .02em; }
-  .logo small { font-size: .72rem; color: var(--muted); letter-spacing: .03em; }
+  .logo strong { font-family: var(--font-title); font-size: 1.15rem; letter-spacing: .02em; }
+  .logo small { font-size: .7rem; color: var(--muted); letter-spacing: .03em; }
   nav ul { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
   nav a { --c: var(--ink); position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: var(--text); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: 999px; white-space: nowrap; transition: background-color .2s, color .2s; }
   nav a[data-u='decouvrir'] { --c: #e8703a; } nav a[data-u='apprendre'] { --c: #2f6fd6; } nav a[data-u='voler'] { --c: #1f8a70; }
@@ -58,20 +56,21 @@ const actif = (href: string) =>
   nav a[aria-current]::after, nav a[aria-current]:hover::after { transform: scaleX(1); }
   nav a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
   .chevron { display: none; }
-  nav a.member { background: var(--ink); color: #fff; padding: 10px 20px; margin-left: 10px; }
-  nav a.member:hover { background: #6b4fbb; color: #fff; }
+  /* Espace membre discret : c'est un outil pour les pilotes du club, pas l'action principale d'un visiteur */
+  nav a.member { border: 1.5px solid var(--line); color: var(--ink); padding: 7px 16px; margin-left: 10px; font-size: .88rem; }
+  nav a.member:hover { border-color: #6b4fbb; color: #6b4fbb; }
   .nav-toggle, .burger { display: none; }
   /* Boutons propres à une page (ex. « Déconnexion » dans l'espace membre) : à droite du menu sur ordinateur, avant le menu sur téléphone */
   .actions { order: 10; margin-left: 12px; display: flex; align-items: center; }
-  @media (max-width: 1180px) { .actions { order: 0; margin-left: auto; margin-right: 4px; } }
+  @media (max-width: 900px) { .actions { order: 0; margin-left: auto; margin-right: 4px; } }
   @media (max-width: 400px) { .bar:has(.actions) .logo small { display: none; } }
-  @media (max-width: 1180px) {
+  @media (max-width: 900px) {
     .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
     .burger span { width: 24px; height: 2px; background: var(--ink); transition: transform .25s, opacity .2s; }
     .nav-toggle:checked + .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-toggle:checked + .burger span:nth-child(2) { opacity: 0; }
     .nav-toggle:checked + .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    nav { position: absolute; top: 76px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 18px 40px rgba(15,27,45,.12); display: none; }
+    nav { position: absolute; top: 60px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 18px 40px rgba(15,27,45,.12); display: none; }
     nav ul { flex-direction: column; align-items: stretch; gap: 4px; padding: 12px 16px 20px; }
     /* Menu ouvert : la couleur de rubrique devient une barre à gauche, chevron à droite */
     nav a { padding: 14px 16px; font-size: 1.05rem; border-radius: 12px; }
@@ -81,7 +80,7 @@ const actif = (href: string) =>
     nav a[aria-current] { background: #fff; box-shadow: 0 1px 0 var(--line); }
     .chevron { display: block; margin-left: auto; width: 16px; height: 16px; color: var(--muted); transition: transform .2s, color .2s; }
     nav a:hover .chevron, nav a[aria-current] .chevron { transform: translateX(3px); color: var(--c); }
-    nav a.member { margin: 10px 0 0; justify-content: center; border-radius: 999px; }
+    nav a.member { margin: 10px 0 0; justify-content: center; border-radius: 999px; padding: 12px; }
     .nav-toggle:checked ~ nav { display: block; animation: menu-in .25s cubic-bezier(.2,.7,.2,1); }
   }
   @keyframes menu-in { from { opacity: 0; transform: translateY(-8px); } }

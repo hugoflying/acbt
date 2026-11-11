@@ -2,36 +2,48 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import { getCollection } from 'astro:content';
-import { asset, url } from '../../lib/utils';
+import { asset, url, tarifEnVigueur } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 import pages from '../../data/pages.json';
 ---
 <Base univers="voler" title="La flotte" description="Les avions de l'aéroclub de Beauvais-Tillé : Robin DR400, DR300 et Jodel D120.">
   <PageHead eyebrow="Notre flotte" image={pages.flotte.image} title={pages.flotte.titre.replace('{nombre}', String(avions.length))} lead={pages.flotte.texte} />
-  {avions.map((a, i) => (
-    <section class={`section ${i % 2 ? 'soft' : ''}`} id={a.id}>
-      <div class="container grid grid-2 avion">
-        <div>
-          {a.data.photos[0] && <div class="main-cadre"><img class="main" src={asset(a.data.photos[0])} alt={a.data.nom} loading={i ? 'lazy' : 'eager'} /></div>}
-          {a.data.photos.length > 1 && (
-            <div class="gallery" style="margin-top:10px">
-              {a.data.photos.slice(1).map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt="" loading="lazy" /></a>)}
+  <section class="section">
+    <div class="container flotte" data-stagger>
+      {avions.map((a, i) => {
+        const t = tarifEnVigueur(a.data.tarifs).actuel;
+        return (
+          <article class="avion" id={a.id}>
+            <div class="photo">
+              {a.data.photos[0] && <img class="main" src={asset(a.data.photos[0])} alt={a.data.nom} loading={i < 3 ? 'eager' : 'lazy'} />}
+              {a.data.immatriculation && <span class="immat">{a.data.immatriculation}</span>}
             </div>
-          )}
-        </div>
-        <div>
-          <span class="eyebrow">{a.data.usage}</span>
-          <h2 class="immat">{a.data.immatriculation || a.data.nom}</h2>
-          <dl>
-            <dt>Type</dt><dd>{a.data.type}</dd>
-            {a.data.puissance && <><dt>Moteur</dt><dd>{a.data.puissance} ch</dd></>}
-            {a.data.places && <><dt>Places</dt><dd>{a.data.places}</dd></>}
-          </dl>
-          {a.data.description && <p>{a.data.description}</p>}
-        </div>
-      </div>
-    </section>
-  ))}
+            {a.data.photos.length > 1 && (
+              <div class="vignettes">
+                {a.data.photos.slice(1, 4).map((p) => <a href={asset(p)} target="_blank" aria-label={`Photo de ${a.data.nom}`}><img src={asset(p)} alt="" loading="lazy" /></a>)}
+              </div>
+            )}
+            <div class="infos">
+              {a.data.usage && <span class="eyebrow">{a.data.usage}</span>}
+              <h2>{a.data.nom}</h2>
+              <ul class="puces">
+                {a.data.puissance && <li>{a.data.puissance} ch</li>}
+                {a.data.places && <li>{a.data.places} places</li>}
+                <li>{a.data.type}</li>
+              </ul>
+              {a.data.description && <p>{a.data.description}</p>}
+              {t && (
+                <div class="prix2">
+                  <div><span>Solo</span><b>{t.prix_heure}</b><small><span class="long">€ / heure</span><span class="court">€/h</span></small></div>
+                  {t.prix_instruction && <div class="inst"><span><span class="long">Double commande</span><span class="court">DC</span></span><b>{t.prix_instruction}</b><small><span class="long">€ / heure</span><span class="court">€/h</span></small></div>}
+                </div>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
   <section class="section">
     <div class="container" style="text-align:center">
       <h2 data-split>Envie de voler avec nous ?</h2>
@@ -40,12 +52,53 @@ import pages from '../../data/pages.json';
   </section>
 </Base>
 <style>
-  .avion { align-items: start; }
-  .main-cadre { border-radius: var(--radius); overflow: hidden; aspect-ratio: 3 / 2; }
-  .main { aspect-ratio: 3 / 2; object-fit: cover; width: 100%; height: 100%; }
-  .gallery { grid-template-columns: repeat(3, 1fr); }
-  dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 0 0 1em; }
-  dt { color: var(--muted); }
-  dd { margin: 0; font-weight: 600; }
-  .immat { display: table; margin-top: 10px; background: var(--ink); color: #fff; padding: 6px 18px 4px; border-radius: 10px; letter-spacing: .04em; box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
+  /* Une grille de cartes : 3 avions par ligne sur ordinateur, 2 sur tablette, 1 sur téléphone */
+  .flotte { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
+  @media (min-width: 1100px) { .flotte { grid-template-columns: repeat(3, 1fr); } }
+  .avion { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; scroll-margin-top: 80px; }
+  .photo { position: relative; aspect-ratio: 3 / 2; overflow: hidden; }
+  .main { width: 100%; height: 100%; object-fit: cover; }
+  .immat { position: absolute; left: 14px; bottom: 14px; background: var(--ink); color: #fff; font-family: var(--font-title); font-weight: 600; letter-spacing: .05em; padding: 4px 12px; border-radius: 8px; }
+  .vignettes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; }
+  .vignettes a { display: block; border-radius: 8px; overflow: hidden; }
+  .vignettes img { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; transition: transform .3s; }
+  .vignettes a:hover img { transform: scale(1.06); }
+  .infos { display: flex; flex-direction: column; padding: 16px 20px 20px; flex: 1; }
+  .infos .eyebrow { margin-bottom: .4em; color: var(--accent-fonce); }
+  .infos h2 { font-size: 1.35rem; margin: 0 0 10px; }
+  .puces { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 12px; padding: 0; }
+  .puces li { font-size: .8rem; padding: 3px 10px; border-radius: 999px; background: var(--paper); color: var(--text); }
+  .infos p { margin: 0 0 14px; color: var(--muted); font-size: .93rem; }
+  /* Mêmes cases « Solo » / « Double commande » que sur la page Tarifs */
+  .prix2 { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .prix2 > div { border-radius: 14px; padding: 12px 14px; background: var(--paper); display: flex; flex-direction: column; }
+  .prix2 .inst { background: var(--ink); color: #fff; }
+  .prix2 span { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; opacity: .75; }
+  .prix2 b { font-family: var(--font-title); font-size: 2.1rem; font-weight: 600; line-height: 1.1; }
+  .prix2 small { font-size: .78rem; opacity: .75; }
+  .court { display: none; }
+  .prix2 small span { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: inherit; opacity: 1; }
+  /* Téléphone : une carte avion entière tient dans l'écran, sans défiler */
+  @media (max-width: 599px) {
+    /* Un avion par écran : la carte prend toute la hauteur visible sous le bandeau, et le défilement s'arrête sur chaque avion */
+    :global(html) { scroll-snap-type: y proximity; }
+    .flotte { gap: 16px; }
+    .avion { height: calc(100svh - 60px - 24px); min-height: 440px; scroll-snap-align: start; scroll-margin-top: 72px; }
+    .photo { aspect-ratio: auto; flex: 1 1 auto; min-height: 150px; }
+    .immat { left: 10px; bottom: 10px; font-size: .9rem; padding: 3px 10px; }
+    .vignettes { gap: 3px; padding: 3px; }
+    .vignettes img { aspect-ratio: 16 / 9; }
+    .infos { padding: 10px 14px 14px; }
+    .infos .eyebrow { display: none; }
+    .infos h2 { font-size: 1.15rem; margin-bottom: 6px; }
+    .puces { margin-bottom: 8px; }
+    .puces li:last-child { display: none; }
+    .infos p { font-size: .86rem; line-height: 1.45; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .prix2 { gap: 8px; }
+    .prix2 > div { flex-direction: row; align-items: baseline; gap: 6px; padding: 8px 12px; border-radius: 12px; }
+    .prix2 b { font-size: 1.5rem; }
+    .court { display: inline; } .long { display: none; }
+    .prix2 > div > span { margin-right: auto; }
+    .prix2 small { white-space: nowrap; }
+  }
 </style>

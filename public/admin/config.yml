@@ -381,6 +381,12 @@ singletons:
       label: Prix
       widget: string
       required: false
+    - name: simulateur
+      label: Compté dans le simulateur de formation
+      widget: boolean
+      required: false
+      hint: Cochez pour les fournitures que tout élève achète (livrets, carnet de vol…). Le prix doit commencer par un nombre, ex. « 49 € ».
+      default: false
     required: false
   - name: objectif_pilote
     label: Aides Objectif Pilote FFA (moins de 21 ans)
@@ -407,6 +413,17 @@ singletons:
         widget: number
         value_type: float
         required: false
+      - name: simulateur
+        label: Utilisée par le simulateur comme
+        widget: select
+        options:
+        - lacher
+        - abl
+        - abl_bia
+        - theorique_bia
+        - licence
+        required: false
+        hint: Laissez vide pour les qualifications après la licence.
       required: false
     - name: note
       label: Note
@@ -447,7 +464,7 @@ singletons:
       required: false
       hint: Choisissez de préférence des photos horizontales (format paysage).
     - name: cartes
-      label: 'Les 3 cartes « Choisissez votre façon de voler » (dans l''ordre : Découvrir, Apprendre, Piloter au club)'
+      label: 'Les 3 choix sous la photo d''accueil (dans l''ordre : baptême, devenir pilote, déjà pilote). Le prix « dès … € » du baptême est ajouté automatiquement'
       widget: list
       fields:
       - name: titre
@@ -463,9 +480,36 @@ singletons:
         widget: image
         required: false
       required: false
+    - name: atouts_titre
+      label: Titre du bloc des chiffres clés
+      widget: string
+      required: false
+    - name: atouts
+      label: Les 3 chiffres clés
+      widget: list
+      fields:
+      - name: chiffre
+        label: Chiffre
+        widget: string
+        required: false
+        hint: Écrivez {avions} pour afficher automatiquement le nombre d'avions.
+      - name: texte
+        label: Texte
+        widget: string
+        required: false
+      - name: lien_texte
+        label: Texte du lien (facultatif)
+        widget: string
+        required: false
+      - name: lien
+        label: Adresse du lien (facultatif)
+        widget: string
+        required: false
+        hint: 'Exemple : /club/historique'
+      required: false
     required: false
   - name: decouvrir
-    label: Découvrir le vol
+    label: Baptême de l'air
     widget: object
     fields:
     - name: titre
@@ -615,6 +659,11 @@ singletons:
   file: src/data/decouvrir.json
   format: json
   fields:
+  - name: accroche
+    label: Phrase sous le titre (courte)
+    widget: text
+    required: false
+    hint: 'Une ou deux lignes au maximum : sur téléphone, les prix doivent rester visibles sans faire défiler.'
   - name: intro
     label: Introduction
     widget: text
@@ -696,12 +745,21 @@ singletons:
       label: Critère
       widget: string
       required: false
+    - name: lapl_court
+      label: LAPL en quelques mots
+      widget: string
+      required: false
+      hint: Affiché dans le tableau. 3 à 5 mots, ex. « Europe ».
+    - name: ppl_court
+      label: PPL en quelques mots
+      widget: string
+      required: false
     - name: lapl
-      label: Avec le LAPL
+      label: Avec le LAPL (détail affiché en touchant la ligne)
       widget: text
       required: false
     - name: ppl
-      label: Avec le PPL
+      label: Avec le PPL (détail affiché en touchant la ligne)
       widget: text
       required: false
     required: false
@@ -796,6 +854,104 @@ singletons:
       label: Réponse
       widget: text
       required: false
+    required: false
+- name: simulateur
+  label: Simulateur « Combien coûte ma formation ? »
+  icon: calculate
+  file: src/data/simulateur.json
+  format: json
+  fields:
+  - name: titre
+    label: Titre
+    widget: string
+    required: false
+  - name: intro
+    label: Introduction
+    widget: text
+    required: false
+  - name: licences
+    label: Licences proposées et heures de vol estimées
+    widget: list
+    fields:
+    - name: code
+      label: Code (LAPL
+      widget: string
+      required: false
+    - name: nom
+      label: Nom affiché
+      widget: string
+      required: false
+    - name: resume
+      label: En une phrase
+      widget: string
+      required: false
+    - name: heures_double
+      label: Heures avec instructeur (estimation courante)
+      widget: number
+      value_type: float
+      required: false
+    - name: heures_solo
+      label: Heures seul à bord (estimation courante)
+      widget: number
+      value_type: float
+      required: false
+    - name: heures_double_min
+      label: Heures avec instructeur (minimum réglementaire)
+      widget: number
+      value_type: float
+      required: false
+    - name: heures_solo_min
+      label: Heures seul à bord (minimum réglementaire)
+      widget: number
+      value_type: float
+      required: false
+    required: false
+    hint: Les prix de l'heure viennent de la fiche du premier avion école, l'adhésion, les blocs et les aides de la rubrique Tarifs. Heures « minimum » = minimum réglementaire ; heures sans « minimum »
+      = estimation courante, à ajuster par les instructeurs.
+  - name: rythmes
+    label: Rythmes proposés
+    widget: list
+    fields:
+    - name: libelle
+      label: Nom
+      widget: string
+      required: false
+    - name: detail
+      label: Détail
+      widget: string
+      required: false
+    - name: heures_par_mois
+      label: Heures de vol par mois
+      widget: number
+      value_type: float
+      required: false
+    required: false
+  - name: pass_sports
+    label: Pass'Sports Citoyen (Oise)
+    widget: object
+    fields:
+    - name: titre
+      label: Nom de l'aide
+      widget: string
+      required: false
+    - name: montant
+      label: Montant par an (€)
+      widget: number
+      value_type: float
+      required: false
+    - name: age_max
+      label: Âge maximum
+      widget: number
+      value_type: float
+      required: false
+    required: false
+  - name: non_compris
+    label: Ce qui n'est pas compris dans l'estimation
+    widget: list
+    required: false
+  - name: note
+    label: Avertissement sous l'estimation
+    widget: text
     required: false
 - name: club
   label: Infos du club

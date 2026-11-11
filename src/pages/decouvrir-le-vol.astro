@@ -1,38 +1,53 @@
 ---
+// Page Baptêmes : les prix doivent être lisibles dès l'ouverture, sans faire défiler, sur téléphone comme sur tablette.
+// Tout vient du back-office : formules et prix (Tarifs), textes (Page Découvrir), titre et photo (Pages du site).
 import Base from '../layouts/Base.astro';
-import PageHead from '../components/PageHead.astro';
 import Etapes from '../components/Etapes.astro';
 import Faq from '../components/Faq.astro';
 import d from '../data/decouvrir.json';
 import pages from '../data/pages.json';
 import club from '../data/club.json';
 import t from '../data/tarifs.json';
-import { url } from '../lib/utils';
+import { url, asset } from '../lib/utils';
+const n = (x: number) => x.toLocaleString('fr-FR');
+const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
 ---
-<Base univers="decouvrir" title="Découvrir le vol" description="Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé.">
-  <PageHead eyebrow="Découvrir" image={pages.decouvrir.image} title={pages.decouvrir.titre} lead={d.intro} />
-  <section class="section">
-    <div class="container grid grid-3" data-stagger>
-      {t.formules.map((f) => (
-        <div class="card"><div class="card-body">
-          <h3>{f.titre}</h3>
-          <p>{f.texte}</p>
-          <ul class="lignes">{f.prix.map((p) => <li><span>{p.libelle}</span><b>{p.prix.toLocaleString('fr-FR')} €</b></li>)}</ul>
-        </div></div>
-      ))}
-    </div>
-    <div class="container" style="margin-top:32px">
-      <div class="btns" style="margin-top:28px" data-stagger>
-        <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver un vol</a>
-        <a class="btn btn-outline" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
+<Base univers="decouvrir" title="Baptême de l'air" description={`Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé, dès ${n(Math.min(...t.formules.flatMap((f) => f.prix.map((p) => p.prix))))} €.`}>
+  <section class="offre">
+    <div class="container offre-grid">
+      <div class="intro" style={`--img: url('${asset(pages.decouvrir.image)}')`}>
+        <span class="eyebrow">Baptême de l'air à Beauvais</span>
+        <h1>{pages.decouvrir.titre.replace(/-/g, '\u2011')}</h1>
+        <p class="accroche">{d.accroche}</p>
+        <div class="btns cta-large">
+          <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver mon vol</a>
+          <a class="btn btn-clair" href={tel}>{club.telephone}</a>
+        </div>
+      </div>
+      <div class="prix" aria-label="Formules et prix">
+        {t.formules.map((f) => (
+          <article class:list={['formule', { multi: f.prix.length > 1 }]}>
+            <div class="f-tete">
+              <h2>{f.titre}</h2>
+              {f.prix.length === 1 && <p class="montant"><b>{n(f.prix[0].prix)} €</b><span>{f.prix[0].libelle}</span></p>}
+            </div>
+            <p class="f-texte">{f.texte}</p>
+            {f.prix.length > 1 && (
+              <ul class="tuiles">{f.prix.map((p) => <li><b>{n(p.prix)} €</b><span>{p.libelle}</span></li>)}</ul>
+            )}
+          </article>
+        ))}
+        <p class="cadeau-ligne"><span aria-hidden="true">🎁</span> Toutes les formules existent en <a href={url('/contact?objet=Bon cadeau')}>bon cadeau</a>.</p>
       </div>
     </div>
   </section>
+
   {d.deroulement.length > 0 && (
     <section class="section white">
       <div class="container">
         <span class="eyebrow">Le jour J</span>
         <h2 data-split>{d.deroulement_titre}</h2>
+        <p class="lead" data-reveal>{d.intro}</p>
         <Etapes etapes={d.deroulement} />
       </div>
     </section>
@@ -56,13 +71,81 @@ import { url } from '../lib/utils';
       </div>
     </section>
   )}
+  <div class="barre-mobile">
+    <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver</a>
+    <a class="btn btn-outline" href={tel} aria-label={`Appeler le ${club.telephone}`}>Appeler</a>
+  </div>
 </Base>
 <style>
+  .offre { padding: 20px 0 28px; background: var(--paper); }
+  .offre-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .offre { padding: 28px 0 36px; } .offre-grid { grid-template-columns: .9fr 1.1fr; align-items: stretch; gap: 24px; } }
+
+  .intro .eyebrow { margin-bottom: .5em; color: var(--accent-fonce); }
+  .intro h1 { font-size: clamp(1.7rem, 4vw, 2.9rem); margin-bottom: .3em; max-width: 16ch; text-wrap: balance; }
+  .accroche { color: var(--muted); font-size: 1rem; margin: 0; max-width: 46ch; }
+  .cta-large { display: none; }
+  /* Tablette et ordinateur : la photo du club en fond du bloc de présentation */
+  @media (min-width: 900px) {
+    .intro { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; border-radius: 22px; color: #fff; overflow: hidden; isolation: isolate;
+      background: linear-gradient(180deg, rgba(10,18,31,.05) 20%, rgba(10,18,31,.88) 100%), var(--img) center / cover no-repeat, var(--ink); min-height: 100%; }
+    .intro .eyebrow { color: #ffc59e; }
+    .intro h1 { color: #fff; }
+    .accroche { color: rgba(255,255,255,.88); }
+    .cta-large { display: flex; margin-top: 18px; }
+  }
+  .btn-clair { background: rgba(255,255,255,.14); color: #fff; border-color: rgba(255,255,255,.6); }
+  .btn-clair:hover { background: #fff; color: var(--ink); }
+
+  .prix { display: grid; gap: 10px; align-content: start; }
+  .formule { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; }
+  .f-tete { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
+  .multi .f-tete { align-items: center; }
+  .formule h2 { font-size: 1.15rem; margin: 0 0 2px; letter-spacing: -.01em; }
+  .formule p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.4; }
+  .montant { display: flex; align-items: baseline; gap: 8px; flex: none; text-align: right; }
+  .montant b, .tuiles b { font-family: var(--font-title); font-weight: 700; color: var(--accent-fonce); line-height: 1; }
+  .montant b { font-size: 1.75rem; }
+  .montant span { font-size: .78rem !important; color: var(--muted); white-space: nowrap; order: -1; }
+  .f-texte { margin-top: 4px !important; }
+  .tuiles { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tuiles li { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--accent) 8%, white); }
+  .tuiles b { font-size: 1.45rem; }
+  .tuiles span { font-size: .82rem; color: var(--text); line-height: 1.25; }
+  @media (min-width: 600px) { .tuiles { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 900px) { .formule { padding: 16px 20px; } .formule h2 { font-size: 1.3rem; } .formule p { font-size: .92rem; } .montant b { font-size: 2rem; } }
+  /* Petit téléphone : on va à l'essentiel pour que les trois formules tiennent à l'écran */
+  @media (max-width: 599px) {
+    .intro .eyebrow, .accroche { display: none; }
+    .intro h1 { font-size: 1.55rem; margin: 0; }
+    .offre { padding: 14px 0 20px; }
+    .offre-grid { gap: 12px; }
+    .prix { gap: 8px; }
+    .formule { padding: 12px 14px; border-radius: 16px; }
+    .montant b { font-size: 1.5rem; }
+    .tuiles { gap: 6px; margin-top: 8px; }
+    .tuiles li { flex-direction: row; align-items: baseline; gap: 8px; padding: 8px 10px; }
+    .tuiles b { font-size: 1.2rem; flex: none; }
+    .tuiles span { font-size: .78rem; }
+  }
+  /* Très petits téléphones (iPhone SE…) : prix au-dessus du libellé pour éviter les retours à la ligne */
+  @media (max-width: 359px) {
+    .tuiles li { flex-direction: column; gap: 2px; }
+    .montant span { display: none; }
+    .formule h2 { font-size: 1.05rem; }
+  }
+  .cadeau-ligne { margin: 2px 0 0; font-size: .9rem; color: var(--muted); }
+
   .cadeau { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; background: var(--ink); color: #fff; border-radius: 24px; padding: clamp(24px, 4vw, 44px); }
   .cadeau h2 { color: #fff; margin-bottom: 8px; }
   .cadeau .lead { color: rgba(255,255,255,.82); margin: 0; max-width: 52ch; }
   .cadeau .eyebrow { color: rgba(255,255,255,.7); }
-  .lignes { list-style: none; margin: auto 0 0; padding: 0; }
-  .lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
-  .lignes b { font-family: var(--font-title); font-size: 1.2rem; color: var(--ink); white-space: nowrap; }
+  .white .lead { margin-bottom: 24px; }
+
+  /* Téléphone : réserver ou appeler reste toujours à portée de pouce */
+  .barre-mobile { display: none; }
+  @media (max-width: 899px) {
+    .barre-mobile { position: sticky; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(246,242,234,.94); backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
+    .barre-mobile .btn { justify-content: center; padding: 12px 16px; }
+  }
 </style>

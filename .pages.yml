@@ -118,6 +118,7 @@ content:
         fields:
           - { name: libelle, label: Article, type: string }
           - { name: prix, label: Prix, type: string }
+          - { name: simulateur, label: Compté dans le simulateur de formation, type: boolean, description: "Cochez pour les fournitures que tout élève achète (livrets, carnet de vol…). Le prix doit commencer par un nombre, ex. « 49 € »." }
       - name: objectif_pilote
         label: Aides Objectif Pilote FFA (moins de 21 ans)
         type: object
@@ -131,6 +132,12 @@ content:
             fields:
               - { name: etape, label: Étape, type: string }
               - { name: montant, label: Montant de l'aide (€), type: number }
+              - name: simulateur
+                label: Utilisée par le simulateur comme
+                description: "Laissez vide pour les qualifications après la licence."
+                type: select
+                options:
+                  values: ['', lacher, abl, abl_bia, theorique_bia, licence]
           - { name: note, label: Note, type: string }
 
   - name: pages
@@ -154,15 +161,25 @@ content:
               - { name: image, label: Photo, type: image }
               - { name: legende, label: Légende, type: string }
           - name: cartes
-            label: "Les 3 cartes « Choisissez votre façon de voler » (dans l'ordre : Découvrir, Apprendre, Piloter au club)"
+            label: "Les 3 choix sous la photo d'accueil (dans l'ordre : baptême, devenir pilote, déjà pilote). Le prix « dès … € » du baptême est ajouté automatiquement"
             type: object
             list: true
             fields:
               - { name: titre, label: Titre, type: string }
               - { name: texte, label: Texte, type: string }
               - { name: image, label: Photo, type: image }
+          - { name: atouts_titre, label: Titre du bloc des chiffres clés, type: string }
+          - name: atouts
+            label: Les 3 chiffres clés
+            type: object
+            list: true
+            fields:
+              - { name: chiffre, label: Chiffre, type: string, description: "Écrivez {avions} pour afficher automatiquement le nombre d'avions." }
+              - { name: texte, label: Texte, type: string }
+              - { name: lien_texte, label: Texte du lien (facultatif), type: string }
+              - { name: lien, label: Adresse du lien (facultatif), type: string, description: "Exemple : /club/historique" }
       - name: decouvrir
-        label: Découvrir le vol
+        label: Baptême de l'air
         type: object
         fields:
           - { name: titre, label: Grand titre, type: string }
@@ -229,6 +246,7 @@ content:
     path: src/data/decouvrir.json
     format: json
     fields:
+      - { name: accroche, label: Phrase sous le titre (courte), type: text, description: "Une ou deux lignes au maximum : sur téléphone, les prix doivent rester visibles sans faire défiler." }
       - { name: intro, label: Introduction, type: text }
       - { name: bon_cadeau, label: Texte bon cadeau, type: text }
       - { name: deroulement_titre, label: Titre du déroulé, type: string }
@@ -270,8 +288,10 @@ content:
         list: true
         fields:
           - { name: critere, label: Critère, type: string }
-          - { name: lapl, label: Avec le LAPL, type: text }
-          - { name: ppl, label: Avec le PPL, type: text }
+          - { name: lapl_court, label: LAPL en quelques mots, type: string, description: "Affiché dans le tableau. 3 à 5 mots, ex. « Europe »." }
+          - { name: ppl_court, label: PPL en quelques mots, type: string }
+          - { name: lapl, label: Avec le LAPL (détail affiché en touchant la ligne), type: text }
+          - { name: ppl, label: Avec le PPL (détail affiché en touchant la ligne), type: text }
       - { name: privileges_note, label: Note sous le comparatif, type: text }
       - { name: maintien_titre, label: Titre « Garder sa licence valide », type: string }
       - { name: maintien_intro, label: Introduction, type: text }
@@ -306,6 +326,45 @@ content:
           - { name: question, label: Question, type: string }
           - { name: reponse, label: Réponse, type: text }
 
+
+  - name: simulateur
+    label: "🧮 Simulateur « Combien coûte ma formation ? »"
+    type: file
+    path: src/data/simulateur.json
+    format: json
+    fields:
+      - { name: titre, label: Titre, type: string }
+      - { name: intro, label: Introduction, type: text }
+      - name: licences
+        label: Licences proposées et heures de vol estimées
+        description: "Les prix de l'heure viennent de la fiche du premier avion école, l'adhésion, les blocs et les aides de la rubrique Tarifs. Heures « minimum » = minimum réglementaire ; heures sans « minimum » = estimation courante, à ajuster par les instructeurs."
+        type: object
+        list: true
+        fields:
+          - { name: code, label: Code (LAPL, PPL…), type: string }
+          - { name: nom, label: Nom affiché, type: string }
+          - { name: resume, label: En une phrase, type: string }
+          - { name: heures_double, label: Heures avec instructeur (estimation courante), type: number }
+          - { name: heures_solo, label: Heures seul à bord (estimation courante), type: number }
+          - { name: heures_double_min, label: Heures avec instructeur (minimum réglementaire), type: number }
+          - { name: heures_solo_min, label: Heures seul à bord (minimum réglementaire), type: number }
+      - name: rythmes
+        label: Rythmes proposés
+        type: object
+        list: true
+        fields:
+          - { name: libelle, label: Nom, type: string }
+          - { name: detail, label: Détail, type: string }
+          - { name: heures_par_mois, label: Heures de vol par mois, type: number }
+      - name: pass_sports
+        label: Pass'Sports Citoyen (Oise)
+        type: object
+        fields:
+          - { name: titre, label: Nom de l'aide, type: string }
+          - { name: montant, label: Montant par an (€), type: number }
+          - { name: age_max, label: Âge maximum, type: number }
+      - { name: non_compris, label: Ce qui n'est pas compris dans l'estimation, type: string, list: true }
+      - { name: note, label: Avertissement sous l'estimation, type: text }
   - name: club
     label: "📍 Infos du club : contact, horaires, accès, mentions légales"
     type: file

@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Etapes from '../components/Etapes.astro';
 import Faq from '../components/Faq.astro';
-import club from '../data/club.json';
+import Simulateur from '../components/Simulateur.astro';
+import simu from '../data/simulateur.json';
 import f from '../data/formations.json';
 import pages from '../data/pages.json';
 import { url } from '../lib/utils';
@@ -11,8 +12,29 @@ const formations = f.licences;
 const pg = pages.formations;
 ---
 <Base univers="apprendre" title="Se former" description="Formations BIA, LAPL et PPL à l'aéroclub de Beauvais-Tillé.">
-  <PageHead eyebrow="Apprendre" image={pg.image} title={pg.titre} lead={pg.texte} />
-  <section class="section">
+  <PageHead eyebrow="Devenir pilote" image={pg.image} title={pg.titre} lead={pg.texte} />
+  <section class="section simu-section">
+    <div class="container">
+      <span class="eyebrow">Votre budget</span>
+      <h2>{simu.titre}</h2>
+      <p class="lead">{simu.intro}</p>
+      <Simulateur />
+    </div>
+  </section>
+  {f.parcours.length > 0 && (
+    <section class="section white">
+      <div class="container">
+        <span class="eyebrow">Le parcours</span>
+        <h2 data-split>{f.parcours_titre}</h2>
+        <Etapes etapes={f.parcours} />
+      </div>
+    </section>
+  )}
+  <section class="section" id="licences">
+    <div class="container">
+      <span class="eyebrow">Les licences</span>
+      <h2 data-split>Quelle licence choisir ?</h2>
+    </div>
     <div class="container grid grid-3" data-stagger>
       {formations.map((f) => (
         <div class="card"><div class="card-body">
@@ -32,17 +54,23 @@ const pg = pages.formations;
       <div class="container">
         <span class="eyebrow">LAPL ou PPL</span>
         <h2 data-split>{f.privileges_titre}</h2>
-        <div class="compare" data-reveal>
-          <div class="ligne entete" aria-hidden="true"><span></span><b>LAPL</b><b>PPL</b></div>
+        <div class="vs" data-reveal>
+          <div class="vs-tete" aria-hidden="true"><span></span><b>LAPL</b><b class="ppl">PPL</b></div>
           {f.privileges.map((p) => (
-            <div class="ligne">
-              <span class="critere">{p.critere}</span>
-              <div><span class="tag">LAPL</span><p>{p.lapl}</p></div>
-              <div><span class="tag">PPL</span><p>{p.ppl}</p></div>
-            </div>
+            <details class="vs-ligne">
+              <summary>
+                <span class="vs-critere">{p.critere}</span>
+                <span class="vs-val"><span class="sr">LAPL : </span>{p.lapl_court || p.lapl}</span>
+                <span class="vs-val ppl"><span class="sr">PPL : </span>{p.ppl_court || p.ppl}</span>
+              </summary>
+              <div class="vs-detail">
+                <p><b>LAPL</b> {p.lapl}</p>
+                <p><b>PPL</b> {p.ppl}</p>
+              </div>
+            </details>
           ))}
         </div>
-        <p class="meta" style="margin-top:18px;max-width:80ch" data-reveal>{f.privileges_note}</p>
+        <p class="meta" style="margin-top:14px;max-width:80ch">Touchez une ligne pour le détail. {f.privileges_note}</p>
       </div>
     </section>
   )}
@@ -76,28 +104,6 @@ const pg = pages.formations;
       </div>
     </section>
   )}
-  {f.parcours.length > 0 && (
-    <section class="section white">
-      <div class="container">
-        <span class="eyebrow">Le parcours</span>
-        <h2 data-split>{f.parcours_titre}</h2>
-        <Etapes etapes={f.parcours} />
-      </div>
-    </section>
-  )}
-  <section class="section soft">
-    <div class="container">
-      <span class="eyebrow">Aides au financement</span>
-      <h2 data-split>Voler jeune coûte moins cher</h2>
-      <div class="grid grid-3" data-stagger>
-        {club.aides.map((a) => <div class="card"><div class="card-body"><h3>{a.titre}</h3><p>{a.texte}</p></div></div>)}
-      </div>
-      <div class="btns" style="margin-top:32px" data-stagger>
-        <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>S'inscrire ou poser une question</a>
-        <a class="btn btn-outline" href={url('/club/tarifs')}>Voir les tarifs</a>
-      </div>
-    </div>
-  </section>
   {f.questions.length > 0 && (
     <section class="section">
       <div class="container">
@@ -109,6 +115,40 @@ const pg = pages.formations;
   )}
 </Base>
 <style>
+  .vs { max-width: 900px; border-top: 1px solid var(--line); }
+  .vs-tete, .vs-ligne summary { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; align-items: baseline; }
+  .vs-tete { padding: 10px 28px 10px 0; font-family: var(--font-title); font-size: 1.1rem; color: var(--ink); }
+  .vs-tete .ppl, .vs-val.ppl { color: var(--accent-fonce); }
+  .vs-ligne { border-bottom: 1px solid var(--line); }
+  .vs-ligne summary { list-style: none; cursor: pointer; padding: 12px 28px 12px 0; position: relative; }
+  .vs-ligne summary::-webkit-details-marker { display: none; }
+  .vs-ligne summary::after { content: '+'; position: absolute; right: 4px; top: 10px; color: var(--muted); font-size: 1.1rem; transition: transform .2s; }
+  .vs-ligne[open] summary::after { transform: rotate(45deg); }
+  .vs-critere { color: var(--muted); font-size: .9rem; }
+  .vs-val { font-weight: 600; color: var(--ink); font-size: .95rem; line-height: 1.35; }
+  .vs-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 0 0 14px; font-size: .9rem; color: var(--muted); }
+  .vs-detail p { margin: 0; } .vs-detail b { display: block; color: var(--ink); font-size: .8rem; letter-spacing: .06em; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  @media (max-width: 600px) {
+    .vs-tete, .vs-ligne summary { grid-template-columns: 1fr 1fr; gap: 2px 12px; }
+    .vs-tete span:first-child { display: none; }
+    .vs-critere { grid-column: 1 / -1; font-size: .8rem; }
+    .vs-detail { grid-template-columns: 1fr; gap: 10px; }
+  }
+  .simu-section { padding-top: clamp(28px, 4vw, 48px); }
+  .simu-section .lead { margin-bottom: 24px; }
+  /* Téléphone : on arrive plus vite au simulateur */
+  @media (max-width: 599px) { :global(.page-head .lead) { display: none; } .simu-section .lead { font-size: 1rem; margin-bottom: 18px; } .simu-section h2 { font-size: 1.6rem; } }
+  .replie { border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+  .replie > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; }
+  .replie > summary::-webkit-details-marker { display: none; }
+  .replie > summary .eyebrow { display: block; margin-bottom: 2px; }
+  .replie > summary strong { font-family: var(--font-title); font-size: clamp(1.25rem, 2.6vw, 1.7rem); color: var(--ink); font-weight: 600; }
+  .replie .plus { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.3rem; transition: transform .2s; }
+  .replie[open] .plus { transform: rotate(45deg); }
+  .replie[open] { padding-bottom: 20px; }
+  .replie .compare, .replie > p { margin-inline: 20px; }
+  @media (max-width: 720px) { .replie .compare, .replie > p { margin-inline: 12px; } }
   .big { font-family: var(--font-title); font-size: 2.4rem; font-weight: 700; color: var(--sun); }
   ul { padding-left: 1.1em; margin: 0; }
   li { margin-bottom: 6px; }
