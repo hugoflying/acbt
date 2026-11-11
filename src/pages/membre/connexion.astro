@@ -68,8 +68,9 @@ const essai = !process.env.CF_PAGES;
 </script>
 
 <style>
-  .connexion { min-height: calc(100svh - 77px); display: grid; place-items: center; padding: 40px 16px 64px; background: radial-gradient(ellipse at top, color-mix(in srgb, var(--accent) 12%, var(--paper)), var(--paper) 70%); }
-  .boite { width: min(420px, 100%); background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 32px 28px; box-shadow: 0 24px 60px rgba(15,27,45,.10); text-align: center; }
+  .connexion { min-height: calc(100svh - 77px); display: flex; justify-content: center; align-items: center; padding: 40px 16px 64px; overflow-x: clip; background: radial-gradient(ellipse at top, color-mix(in srgb, var(--accent) 12%, var(--paper)), var(--paper) 70%); }
+  .boite { width: 100%; max-width: 420px; min-width: 0; background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 32px 28px; box-shadow: 0 24px 60px rgba(15,27,45,.10); text-align: center; }
+  @media (max-width: 420px) { .connexion { padding-top: 24px; } .boite { padding: 26px 18px; border-radius: 20px; } }
   .boite > img { border-radius: 20px; border: 1px solid var(--line); margin: 0 auto 14px; display: block; }
   h1 { font-size: 1.8rem; margin: 0 0 4px; }
   .intro { color: var(--muted); margin: 0 0 26px; }
