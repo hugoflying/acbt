@@ -37,8 +37,30 @@ export async function seDeconnecter() {
   location.href = url('/membre/connexion/');
 }
 
+/**
+ * Installe le service worker et garde l'appli à jour toute seule :
+ * à chaque retour sur l'appli (et toutes les 30 min), on regarde si le site a changé ;
+ * si oui, la nouvelle version s'installe et la page se recharge, sans rien désinstaller.
+ */
 export function enregistrer() {
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register(url('/sw-membre.js'), { scope: url('/') }).catch(() => {});
+  if (!('serviceWorker' in navigator)) return;
+  const dejaActif = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register(url('/sw-membre.js'), { scope: url('/'), updateViaCache: 'none' }).then((reg) => {
+    const verifier = () => reg.update().catch(() => {});
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') verifier(); });
+    window.addEventListener('online', verifier);
+    setInterval(verifier, 30 * 60 * 1000);
+  }).catch(() => {});
+
+  let recharge = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!dejaActif || recharge) return; // première installation : la page est déjà à jour
+    const occupe = () => document.body.dataset.telechargement === 'oui' || document.activeElement?.matches('input, textarea');
+    const recharger = () => { if (recharge) return; recharge = true; location.reload(); };
+    if (document.visibilityState === 'hidden' || !occupe()) return recharger();
+    // La personne est en train de taper ou de télécharger : on attend qu'elle ait fini
+    const attendre = setInterval(() => { if (!occupe()) { clearInterval(attendre); recharger(); } }, 2000);
+  });
 }
 
 export const estInstallee = () => matchMedia('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true;
@@ -64,7 +86,7 @@ export async function horsLigne(zone: HTMLElement | null) {
   const etat = zone.querySelector<HTMLElement>('[data-etat]');
   const bouton = zone.querySelector<HTMLButtonElement>('button');
   const barre = zone.querySelector<HTMLProgressElement>('progress');
-  const cle = (f: string) => new URL(f, location.href).pathname;
+  const cle = (f: string) => { const u = new URL(f, location.href); return u.pathname + u.search; };
   const compter = async () => {
     const cache = await caches.open(DOCS);
     let n = 0;
@@ -80,6 +102,7 @@ export async function horsLigne(zone: HTMLElement | null) {
   afficher(await compter());
   bouton?.addEventListener('click', async () => {
     bouton.disabled = true;
+    document.body.dataset.telechargement = 'oui';
     try { await navigator.storage?.persist?.(); } catch { /* facultatif */ }
     const cache = await caches.open(DOCS);
     if (barre) { barre.hidden = false; barre.max = fichiers.length; barre.value = 0; }
@@ -87,7 +110,7 @@ export async function horsLigne(zone: HTMLElement | null) {
     for (const f of fichiers) {
       if (!(await cache.match(cle(f)))) {
         try {
-          const rep = await fetch(f, { credentials: 'same-origin' });
+          const rep = await fetch(f, { credentials: 'same-origin', cache: 'reload' });
           if (rep.ok && !rep.redirected) await cache.put(cle(f), rep); else echecs++;
         } catch { echecs++; }
       }
@@ -95,6 +118,7 @@ export async function horsLigne(zone: HTMLElement | null) {
     }
     if (barre) barre.hidden = true;
     bouton.disabled = false;
+    delete document.body.dataset.telechargement;
     afficher(await compter());
     if (echecs && etat) etat.textContent += ` ${echecs} n'ont pas pu être téléchargés : réessayez avec une meilleure connexion.`;
   });
