@@ -1,19 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
-import UniversCard from '../components/UniversCard.astro';
 import Metar from '../components/Metar.astro';
 import { getCollection } from 'astro:content';
 import club from '../data/club.json';
 import pages from '../data/pages.json';
+import t from '../data/tarifs.json';
 import { url, asset } from '../lib/utils';
 
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 const annees = new Date().getFullYear() - 1979;
 const pg = pages.accueil;
 const slides = pg.diaporama.map((d) => ({ img: d.image, legende: d.legende }));
-// Les trois façons de voler avec le club : textes et photos modifiables dans le back-office (Pages du site > Accueil).
-const cibles = [{ id: 'decouvrir', href: '/decouvrir-le-vol' }, { id: 'apprendre', href: '/formations' }, { id: 'voler', href: '/club/flotte' }];
-const facons = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titre, sousTitre: c.texte, image: c.image }));
+// Les trois choix sous la photo : textes et photos modifiables dans le back-office (Pages du site > Accueil).
+const des = Math.min(...t.formules.flatMap((f) => f.prix.map((p) => p.prix)));
+const cibles = [
+  { id: 'decouvrir', href: '/decouvrir-le-vol', badge: `dès ${des.toLocaleString('fr-FR')} €`, action: 'Voir les prix' },
+  { id: 'apprendre', href: '/formations#simulateur', badge: 'Simulateur', action: 'Calculer mon budget' },
+  { id: 'voler', href: '/club/flotte', badge: '', action: 'Voir les avions' },
+];
+const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titre, texte: c.texte, image: c.image }));
 ---
 <Base title="Accueil">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
@@ -40,51 +45,48 @@ const facons = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.tit
         <span class="eyebrow" data-reveal data-delay="0.1">Aéroport de Beauvais-Tillé</span>
         <h1 data-split="now">{pg.titre}</h1>
         <p class="lead" data-reveal data-delay="0.8">{pg.texte.replace('{annees}', String(annees))}</p>
-        <div class="btns" data-stagger data-delay="1">
-          <a class="btn btn-primary" href={url('/decouvrir-le-vol')}>Faire un baptême</a>
-          <a class="btn btn-ghost" href={url('/formations')}>Devenir pilote</a>
-        </div>
       </div>
-      <div class="hero-bas" data-reveal data-delay="1.3">
-        <div class="compteur"><b id="slide-n">01</b> / {String(slides.length).padStart(2, '0')} <span id="slide-l">{slides[0].legende}</span></div>
+    </div>
+  </section>
+
+  <section class="choix-section" aria-label="Que voulez-vous faire ?">
+    <div class="container">
+      <h2 class="question">Que voulez-vous faire ?</h2>
+      <div class="choix" data-stagger>
+        {choix.map((c, i) => (
+          <a class:list={['choix-carte', `c-${c.id}`, { secondaire: i === 2 }]} href={url(c.href)}>
+            <img src={asset(c.image)} alt="" loading={i < 2 ? 'eager' : 'lazy'} />
+            <div class="choix-texte">
+              {c.badge && <span class="badge">{c.badge}</span>}
+              <h3>{c.titre}</h3>
+              <p>{c.texte}</p>
+              <span class="action">{c.action} <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section confiance">
+    <div class="container">
+      <h2 data-split>{pg.atouts_titre}</h2>
+      <div class="points" data-stagger>
+        {pg.atouts.map((a) => {
+          const v = a.chiffre.replace('{avions}', String(avions.length));
+          const m = v.match(/^(\d+)\s*(%?)$/);
+          return (
+            <div>
+              <strong {...(m ? { 'data-count': m[1], 'data-suffix': m[2] ? ' %' : undefined, 'data-from': +m[1] > 1000 ? String(+m[1] - 80) : undefined } : {})}>{v}</strong>
+              <span>{a.texte}{a.lien && <> <a href={url(a.lien)}>{a.lien_texte || 'En savoir plus'}</a></>}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>
 
   <div class="bande-metar"><div class="container"><Metar sombre /></div></div>
-
-  <section class="section" id="univers">
-    <div class="container">
-      <div class="section-head">
-        <div><span class="label">Bienvenue au club</span><h2 data-split>Choisissez votre façon de voler</h2></div>
-        <p class="lead" style="max-width:40ch;margin:0" data-reveal data-delay="0.3">Première fois en avion, futur pilote ou déjà breveté : par où voulez-vous commencer ?</p>
-      </div>
-      <div class="facons" data-stagger>
-        {facons.map((u) => <UniversCard u={u} variante="bandeau" />)}
-      </div>
-    </div>
-  </section>
-
-  <div class="marquee" data-marquee aria-hidden="true">
-    <div class="piste"><span>Baptêmes <i>✦</i> <em>BIA</em> <i>✦</i> LAPL <i>✦</i> <em>PPL</em> <i>✦</i> Voyages <i>✦</i> <em>Depuis 1979</em> <i>✦</i></span></div>
-  </div>
-
-  <section class="section dark histoire">
-    <div class="container grid grid-2">
-      <div>
-        <span class="label">Depuis 1979</span>
-        <h2 data-split>Plus de quarante ans d'histoire au bord des pistes</h2>
-        <p data-reveal>Du Rallye et du Cessna 150 des débuts au club-house de la zone aéroplaisance, revivez l'histoire de l'ACBT en photos.</p>
-        <div class="chiffres" data-stagger>
-          <div><strong data-count="1979" data-from="1900">1979</strong><span>fondation</span></div>
-          <div><strong data-count={avions.length}>{avions.length}</strong><span>avions</span></div>
-          <div><strong data-count="100" data-suffix=" %">100 %</strong><span>bénévoles</span></div>
-        </div>
-        <a class="btn btn-ghost" href={url('/club/historique')}>Notre histoire</a>
-      </div>
-      <div class="histoire-img" data-clip><img src={asset('/uploads/historique/1979-debuts-du-club.jpg')} alt="Les débuts de l'aéroclub" loading="lazy" data-parallax="8" /></div>
-    </div>
-  </section>
 
   <section class="section">
     <div class="container contact-band">
@@ -146,7 +148,7 @@ const facons = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.tit
 </script>
 
 <style>
-  .hero { position: relative; min-height: min(92vh, 860px); display: flex; color: #fff; background: var(--ink); overflow: hidden; }
+  .hero { position: relative; min-height: min(58vh, 520px); display: flex; color: #fff; background: var(--ink); overflow: hidden; }
   .slides { position: absolute; inset: 0; }
   .slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 1.4s ease, transform 7s ease-out; }
   .slides img.on { opacity: 1; transform: scale(1); }
@@ -155,16 +157,20 @@ const facons = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.tit
   .trace { fill: none; stroke: rgba(255,255,255,.7); stroke-width: 2; stroke-dasharray: 2 12; stroke-linecap: round; }
   .avion-svg path { fill: #fff; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
   @media (max-width: 700px) { .vol { display: none; } }
-  .hero-inner { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(72px, 14vh, 160px) 0 32px; gap: 48px; }
+  .hero-inner { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(48px, 8vh, 96px) 0 clamp(64px, 9vh, 96px); }
+  .hero h1 { font-size: clamp(2.1rem, 5vw, 3.8rem); }
   .hero h1 { color: #fff; max-width: 13ch; }
   .hero .lead { color: rgba(255,255,255,.88); max-width: 46ch; }
   .hero-bas { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.25); padding-top: 20px; }
   /* Mobile : la photo passe au-dessus, le texte sur fond uni pour rester lisible. */
   @media (max-width: 700px) {
     .hero { flex-direction: column; min-height: 0; }
-    .slides { position: relative; height: 62vw; max-height: 340px; overflow: hidden; }
-    .voile { inset: 0 0 auto 0; height: min(62vw, 340px); background: linear-gradient(180deg, rgba(10,18,31,0) 55%, var(--ink) 100%); }
-    .hero-inner { padding: 8px 0 28px; gap: 28px; }
+    .slides { position: relative; height: 38vw; max-height: 240px; overflow: hidden; }
+    .voile { inset: 0 0 auto 0; height: min(38vw, 240px); background: linear-gradient(180deg, rgba(10,18,31,0) 55%, var(--ink) 100%); }
+    .hero-inner { padding: 0 0 22px; }
+    .hero .eyebrow { display: none; }
+    .hero h1 { font-size: 1.65rem; margin-bottom: .3em; max-width: 18ch; }
+    .hero .lead { font-size: .95rem; margin: 0; line-height: 1.5; }
     .hero .lead { color: rgba(255,255,255,.82); }
     .hero .btns .btn { flex: 1 1 auto; justify-content: center; }
   }
@@ -196,6 +202,43 @@ const facons = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.tit
   .facons :global(.carte) { min-height: 0; }
   .facons :global(.carte .img) { aspect-ratio: 3 / 2; flex: none; min-height: 0; }
   @media (max-width: 860px) { .facons { grid-template-columns: 1fr; } .facons :global(.carte) { min-height: 0; } }
+  /* Les deux grands choix (baptême / devenir pilote), à cheval sur la photo */
+  .choix-section { position: relative; z-index: 2; padding-bottom: clamp(32px, 5vw, 56px); }
+  .question { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .choix { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; margin-top: -48px; }
+  .choix-carte { --c: var(--sun); position: relative; display: grid; grid-template-columns: 42% 1fr; min-height: 190px; border-radius: 20px; overflow: hidden; background: #fff; border: 1px solid var(--line); text-decoration: none; color: inherit; box-shadow: 0 18px 40px rgba(15,27,45,.12); transition: transform .25s, box-shadow .25s; }
+  .choix-carte:hover { transform: translateY(-3px); box-shadow: 0 22px 50px rgba(15,27,45,.18); color: inherit; }
+  .c-apprendre { --c: #2f6fd6; } .c-voler { --c: #1f8a70; }
+  .choix-carte img { width: 100%; height: 100%; object-fit: cover; }
+  .choix-texte { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 18px 20px; border-top: 4px solid var(--c); }
+  .choix-texte h3 { font-size: clamp(1.2rem, 2.2vw, 1.55rem); margin: 0; }
+  .choix-texte p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.4; }
+  .badge { font-size: .75rem; font-weight: 700; letter-spacing: .04em; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--c) 14%, white); color: color-mix(in srgb, var(--c) 80%, black); }
+  .action { margin-top: auto; padding-top: 8px; font-weight: 600; color: var(--c); font-size: .95rem; }
+  .choix-carte.secondaire { grid-column: 1 / -1; grid-template-columns: 1fr; min-height: 0; box-shadow: none; background: transparent; }
+  .secondaire img { display: none; }
+  .secondaire .choix-texte { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 14px 20px; border-top: 0; border-left: 4px solid var(--c); }
+  .secondaire h3 { font-size: 1.1rem; }
+  .secondaire .action { margin: 0 0 0 auto; padding: 0; }
+  @media (max-width: 700px) {
+    .choix { grid-template-columns: 1fr; margin-top: 12px; gap: 10px; }
+    .choix-section { padding-bottom: 28px; }
+    .choix-carte { grid-template-columns: 34% 1fr; min-height: 0; box-shadow: 0 8px 22px rgba(15,27,45,.08); }
+    .choix-texte { padding: 12px 14px; border-top: 0; border-left: 4px solid var(--c); }
+    .choix-texte p { display: none; }
+    .choix-texte h3 { font-size: 1.15rem; }
+    .choix-carte img { min-height: 104px; }
+    .action { padding-top: 4px; font-size: .9rem; }
+    .secondaire .choix-texte { padding: 12px 14px; }
+    .secondaire p { display: none; }
+  }
+  .confiance { background: var(--white); }
+  .confiance h2 { margin-bottom: 24px; }
+  .points { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+  .points div { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid var(--line); }
+  .points strong { font-family: var(--font-title); font-size: 2.4rem; line-height: 1; color: var(--ink); }
+  .points span { color: var(--muted); font-size: .95rem; }
+  @media (max-width: 700px) { .points { grid-template-columns: 1fr; gap: 14px; } .points div { flex-direction: row; align-items: baseline; gap: 14px; } .points strong { font-size: 1.8rem; min-width: 3.2em; } }
   .bande-metar { background: #0a1424; border-top: 1px solid rgba(255,255,255,.08); padding: 12px 0; }
   .contact-band { display: block; }
   .contact-band .btns { margin-top: 20px; }

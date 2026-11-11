@@ -2,7 +2,7 @@
 # Usage : python3 scripts/pages-vers-sveltia.py .pages.yml > public/admin/config.yml
 import sys, yaml
 src = yaml.safe_load(open(sys.argv[1]))
-ICONS = {'actualites':'newspaper','avions':'flight','documents':'folder_open','tarifs':'euro','pages':'web','decouvrir':'redeem','formations':'school','club':'info','historique':'history_edu','outils':'build','membre':'lock'}
+ICONS = {'actualites':'newspaper','avions':'flight','documents':'folder_open','tarifs':'euro','pages':'web','decouvrir':'redeem','formations':'school','club':'info','historique':'history_edu','outils':'build','membre':'lock','simulateur':'calculate'}
 import re
 OVR = {'documents':('Documents membres','PDF, liens et vidéos de l’espace membre'),'outils':('Outils membres','Liens de préparation des vols'),'membre':('Textes espace membre','Avertissements, liens du club et parcours élève')}
 def lab(c):

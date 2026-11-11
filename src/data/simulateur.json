@@ -1,0 +1,52 @@
+{
+  "titre": "Combien coûte votre formation ?",
+  "intro": "Répondez à trois questions : on calcule une estimation avec les vrais tarifs du club et les aides auxquelles vous avez droit.",
+  "licences": [
+    {
+      "code": "LAPL",
+      "nom": "LAPL",
+      "resume": "Voler en Europe, jusqu'à 3 passagers",
+      "heures_double_min": 24,
+      "heures_solo_min": 6,
+      "heures_double": 35,
+      "heures_solo": 10
+    },
+    {
+      "code": "PPL",
+      "nom": "PPL",
+      "resume": "La licence complète, valable partout dans le monde",
+      "heures_double_min": 35,
+      "heures_solo_min": 10,
+      "heures_double": 45,
+      "heures_solo": 15
+    }
+  ],
+  "rythmes": [
+    {
+      "libelle": "Tranquille",
+      "detail": "environ 2 h de vol par mois",
+      "heures_par_mois": 2
+    },
+    {
+      "libelle": "Régulier",
+      "detail": "environ 1 h de vol par semaine",
+      "heures_par_mois": 4
+    },
+    {
+      "libelle": "Intensif",
+      "detail": "environ 2 h de vol par semaine",
+      "heures_par_mois": 8
+    }
+  ],
+  "pass_sports": {
+    "titre": "Pass'Sports Citoyen (Oise)",
+    "montant": 15,
+    "age_max": 17
+  },
+  "non_compris": [
+    "La visite médicale chez un médecin agréé",
+    "Les cours théoriques en ligne (e-learning)",
+    "Les frais d'examen"
+  ],
+  "note": "Estimation indicative et non contractuelle. Le nombre d'heures varie beaucoup d'un élève à l'autre : votre instructeur vous donnera une idée plus précise après quelques vols. Les aides sont attribuées par la FFA et le Département selon leurs conditions."
+}

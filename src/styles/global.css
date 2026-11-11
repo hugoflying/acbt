@@ -33,6 +33,7 @@ a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offs
 a:hover { color: var(--accent); }
 h1, h2, h3, h4 { font-family: var(--font-title); color: var(--ink); line-height: 1.08; margin: 0 0 .5em; font-weight: 600; letter-spacing: -.02em; }
 h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
+h1, h2 { text-wrap: balance; }
 h2 { font-size: clamp(1.8rem, 3.6vw, 2.8rem); }
 h3 { font-size: 1.3rem; }
 p { margin: 0 0 1em; }
@@ -77,11 +78,14 @@ a.card:hover, .card:has(a.stretched:hover) { transform: translateY(-4px); box-sh
 .btn-outline:hover { background: var(--ink); color: #fff; }
 .btns { display: flex; flex-wrap: wrap; gap: 12px; }
 
-.page-head { position: relative; background: var(--ink); color: #d7dde6; padding: clamp(72px, 12vw, 140px) 0 clamp(48px, 7vw, 80px); overflow: hidden; }
+.page-head { position: relative; background: var(--ink); color: #d7dde6; padding: clamp(36px, 6vw, 72px) 0 clamp(28px, 4vw, 48px); overflow: hidden; }
+.page-head h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); }
+.page-head .lead { font-size: 1.08rem; margin-bottom: 0; }
 .page-head.has-img { background: linear-gradient(90deg, rgba(10,18,31,.92) 0%, rgba(10,18,31,.55) 60%, rgba(10,18,31,.25) 100%), var(--img) center / cover no-repeat, var(--ink); }
-.page-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--accent); }
+.page-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--accent); }
 .page-head h1 { color: #fff; max-width: 16ch; }
 .page-head .lead { color: #c9d1dc; }
+.page-head .eyebrow { margin-bottom: .7em; }
 .page-head .eyebrow::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
 
 .prose { max-width: 72ch; }

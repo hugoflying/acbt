@@ -22,19 +22,40 @@
     ],
     "cartes": [
       {
-        "titre": "Découvrir",
-        "texte": "Baptêmes de l'air et vols d'initiation",
+        "titre": "Faire un baptême de l'air",
+        "texte": "Un vol pour le plaisir ou à offrir, avec un pilote du club",
         "image": "/uploads/avions/dr400-120-03.jpg"
       },
       {
-        "titre": "Apprendre",
-        "texte": "BIA, LAPL et PPL avec nos instructeurs",
+        "titre": "Devenir pilote",
+        "texte": "Estimez le coût de votre formation en trois questions",
         "image": "/uploads/actualites/2022/lache-elisa/01.jpg"
       },
       {
-        "titre": "Piloter au club",
-        "texte": "Déjà breveté ? Rejoignez le club et volez sur nos avions",
+        "titre": "Déjà pilote ?",
+        "texte": "Rejoignez le club et volez sur nos avions",
         "image": "/uploads/avions/IMG-20251113-WA0049.jpg"
+      }
+    ],
+    "atouts_titre": "Un club, pas une entreprise",
+    "atouts": [
+      {
+        "chiffre": "100 %",
+        "texte": "d'instructeurs bénévoles : les tarifs couvrent seulement les avions et le club.",
+        "lien_texte": "",
+        "lien": ""
+      },
+      {
+        "chiffre": "1979",
+        "texte": "l'année de création du club.",
+        "lien_texte": "Notre histoire",
+        "lien": "/club/historique"
+      },
+      {
+        "chiffre": "{avions}",
+        "texte": "avions pour apprendre et voyager.",
+        "lien_texte": "La flotte",
+        "lien": "/club/flotte"
       }
     ]
   },

@@ -1,0 +1,225 @@
+---
+// Simulateur « Je veux devenir pilote » : estimation du coût de formation avec les vrais tarifs du club.
+// Toutes les valeurs viennent du back-office :
+//   - prix de l'heure : fiche du premier avion école (Avions), tarif en vigueur à la publication du site
+//   - adhésion, blocs d'heures, fournitures et aides Objectif Pilote : rubrique Tarifs
+//   - heures de vol estimées, rythmes, Pass'Sports, textes : rubrique Simulateur
+import { getCollection } from 'astro:content';
+import t from '../data/tarifs.json';
+import s from '../data/simulateur.json';
+import { url, tarifEnVigueur } from '../lib/utils';
+
+const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
+const ecole = avions.map((a) => ({ a, t: tarifEnVigueur(a.data.tarifs).actuel })).find((x) => x.t?.prix_instruction) ?? { a: avions[0], t: tarifEnVigueur(avions[0].data.tarifs).actuel };
+const ad = t.adhesion;
+const moins21 = ad.colonnes.filter((c) => /moins/i.test(c.public));
+const premiere = moins21.find((c) => c.mise_en_avant) ?? moins21[0] ?? ad.colonnes[0];
+const jeune = moins21.find((c) => c !== premiere) ?? premiere;
+const adulte = ad.colonnes.find((c) => !/moins/i.test(c.public)) ?? ad.colonnes[ad.colonnes.length - 1];
+// Bloc d'heures le plus avantageux : « 1 heure offerte », « 20 minutes offertes »…
+const bonus = (txt: string) => { const m = txt.match(/(\d+)\s*(h|heure|min)/i); return m ? (m[2].toLowerCase().startsWith('min') ? +m[1] / 60 : +m[1]) : 0; };
+const bloc = t.blocs.map((b) => ({ ...b, bonus: bonus(b.offert) })).sort((a, b) => b.bonus / b.heures - a.bonus / a.heures)[0];
+const aide = (cle: string) => t.objectif_pilote?.lignes.find((l) => l.simulateur === cle)?.montant ?? 0;
+const donnees = {
+  solo: ecole.t?.prix_heure ?? 0,
+  double: ecole.t?.prix_instruction ?? ecole.t?.prix_heure ?? 0,
+  avion: ecole.a.data.nom,
+  licences: s.licences,
+  rythmes: s.rythmes,
+  adhesion: { premiere: premiere.cotisation_acbt + ad.cotisation_ffa, jeune: jeune.cotisation_acbt + ad.cotisation_ffa, adulte: adulte.cotisation_acbt + ad.cotisation_ffa },
+  bloc: bloc ? { heures: bloc.heures, bonus: bloc.bonus, texte: `${bloc.heures} h achetées, ${bloc.offert}` } : null,
+  fournitures: t.divers.filter((d) => d.simulateur).reduce((n, d) => n + (parseFloat(String(d.prix).replace(/\s/g, '').replace(',', '.')) || 0), 0),
+  aides: { lacher: aide('lacher'), abl: aide('abl'), abl_bia: aide('abl_bia'), theorique_bia: aide('theorique_bia'), licence: aide('licence') },
+  pass: s.pass_sports,
+};
+const nf = (x: number) => x.toLocaleString('fr-FR');
+---
+<div class="simu" id="simulateur">
+  <form class="questions" aria-label="Vos réponses">
+    <fieldset>
+      <legend><span class="n">1</span> Quel âge avez-vous ?</legend>
+      <div class="choix c3">
+        <label><input type="radio" name="age" value="m18" /><span><b>Moins de 18 ans</b></span></label>
+        <label><input type="radio" name="age" value="m21" /><span><b>18 à 20 ans</b></span></label>
+        <label><input type="radio" name="age" value="adulte" checked /><span><b>21 ans et plus</b></span></label>
+      </div>
+      <div class="options" data-si="jeune">
+        <label class="case"><input type="checkbox" name="bia" /> <span>J'ai ou je prépare le BIA <small>(brevet d'initiation aéronautique)</small></span></label>
+        <label class="case" data-si="m18"><input type="checkbox" name="oise" /> J'habite dans l'Oise</label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend><span class="n">2</span> Quelle licence visez-vous ?</legend>
+      <div class="choix c2">
+        {s.licences.map((l, i) => (
+          <label><input type="radio" name="licence" value={l.code} checked={i === 0} /><span><b>{l.nom}</b><small>{l.resume}</small></span></label>
+        ))}
+      </div>
+      <a class="aide-choix" href="#licences">Je ne sais pas laquelle choisir</a>
+    </fieldset>
+    <fieldset>
+      <legend><span class="n">3</span> À quel rythme ?</legend>
+      <div class="choix c3">
+        {s.rythmes.map((r, i) => (
+          <label><input type="radio" name="rythme" value={i} checked={i === 1} /><span><b>{r.libelle}</b><small>{r.detail}</small></span></label>
+        ))}
+      </div>
+      {bloc && <label class="case"><input type="checkbox" name="blocs" checked /> <span>J'achète mes heures par blocs de {bloc.heures} h <small>({bloc.offert})</small></span></label>}
+    </fieldset>
+  </form>
+
+  <section class="resultat" id="estimation" aria-live="polite" aria-label="Votre estimation">
+    <p class="r-label">Votre formation <span data-r="licence">LAPL</span> coûterait environ</p>
+    <p class="r-total"><b data-r="reste">—</b> €</p>
+    <p class="r-sous" data-r="sous"></p>
+    <ul class="r-lignes">
+      <li><span>Vol avec instructeur <small data-r="hd"></small></span><b data-r="double"></b></li>
+      <li><span>Vol seul à bord <small data-r="hs"></small></span><b data-r="solo"></b></li>
+      <li data-r="ligne-blocs"><span>Heures offertes avec les blocs</span><b class="moins" data-r="blocs"></b></li>
+      <li><span>Adhésion, licence et assurance FFA <small data-r="ans"></small></span><b data-r="adhesion"></b></li>
+      <li><span>Livrets, carnet de vol et manuel</span><b>{nf(donnees.fournitures)} €</b></li>
+      <li class="total"><span>Total avant aides</span><b data-r="brut"></b></li>
+      <li class="aides" data-r="ligne-aides"><span>Aides possibles <small data-r="aides-detail"></small></span><b class="moins" data-r="aides"></b></li>
+    </ul>
+    <p class="r-astuce" data-r="astuce" hidden></p>
+    <div class="btns">
+      <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>Je veux me lancer</a>
+      <a class="btn btn-outline" href={url('/decouvrir-le-vol')}>Essayer d'abord (vol d'initiation)</a>
+    </div>
+    <details class="r-plus">
+      <summary>Ce qui n'est pas compris et comment on calcule</summary>
+      <p>Non compris : {s.non_compris.join(', ').toLowerCase()}.</p>
+      <p>Calcul sur la base du {donnees.avion} : {nf(donnees.double)} € l'heure avec instructeur, {nf(donnees.solo)} € l'heure seul à bord (tarifs en vigueur). {s.note}</p>
+    </details>
+  </section>
+</div>
+<a class="mini" href="#estimation" hidden><span>Votre estimation</span><b><span data-r="mini">—</span> €</b><span class="voir">Voir le détail ↓</span></a>
+<script type="application/json" id="simu-donnees" set:html={JSON.stringify(donnees)} />
+
+<script>
+  const D = JSON.parse(document.getElementById('simu-donnees')!.textContent!);
+  const form = document.querySelector<HTMLFormElement>('.simu .questions')!;
+  const $ = (k: string) => document.querySelector<HTMLElement>(`.simu [data-r="${k}"]`)!;
+  const eur = (x: number) => Math.round(x).toLocaleString('fr-FR') + ' €';
+  const arrondi = (x: number) => Math.round(x / 50) * 50;
+
+  function calcul(L: any, f: FormData, min = false) {
+    const hd = min ? L.heures_double_min : L.heures_double;
+    const hs = min ? L.heures_solo_min : L.heures_solo;
+    const age = f.get('age');
+    const bia = f.has('bia') && age !== 'adulte';
+    const hpm = D.rythmes[+(f.get('rythme') ?? 1)]?.heures_par_mois || 4;
+    const mois = Math.max(1, Math.ceil((hd + hs) / hpm));
+    const ans = Math.max(1, Math.ceil(mois / 12));
+    const double = hd * D.double, solo = hs * D.solo;
+    const blocs = f.has('blocs') && D.bloc ? (double + solo) * (D.bloc.bonus / (D.bloc.heures + D.bloc.bonus)) : 0;
+    const adhesion = age === 'adulte' ? D.adhesion.adulte * ans : D.adhesion.premiere + D.adhesion.jeune * (ans - 1);
+    const brut = double + solo - blocs + adhesion + D.fournitures;
+    const detail: string[] = [];
+    let aides = 0;
+    if (age !== 'adulte') {
+      const op = D.aides.lacher + (bia ? D.aides.abl_bia + D.aides.theorique_bia : D.aides.abl) + D.aides.licence;
+      if (op) { aides += op; detail.push('Objectif Pilote FFA'); }
+    }
+    if (age === 'm18' && f.has('oise') && D.pass?.montant) { aides += D.pass.montant * ans; detail.push(D.pass.titre); }
+    return { hd, hs, mois, ans, double, solo, blocs, adhesion, brut, aides, reste: Math.max(0, brut - aides), detail };
+  }
+
+  function majour() {
+    const f = new FormData(form);
+    const age = String(f.get('age'));
+    form.querySelectorAll<HTMLElement>('[data-si]').forEach((el) => {
+      const ok = el.dataset.si === 'jeune' ? age !== 'adulte' : age === el.dataset.si;
+      el.hidden = !ok;
+    });
+    const L = D.licences.find((l: any) => l.code === f.get('licence')) ?? D.licences[0];
+    const r = calcul(L, f), m = calcul(L, f, true);
+    $('licence').textContent = L.nom;
+    $('reste').textContent = arrondi(r.reste).toLocaleString('fr-FR');
+    document.querySelector('[data-r="mini"]')!.textContent = $('reste').textContent;
+    const duree = r.mois < 12 ? `${r.mois} mois` : `${Math.floor(r.mois / 12)} an${r.mois >= 24 ? 's' : ''}${r.mois % 12 ? ` et ${r.mois % 12} mois` : ''}`;
+    $('sous').textContent = `${r.hd + r.hs} h de vol en ${duree} environ. Au minimum réglementaire (${m.hd + m.hs} h) : ${eur(arrondi(m.reste))}.`;
+    $('hd').textContent = `${r.hd} h × ${D.double} €`;
+    $('hs').textContent = `${r.hs} h × ${D.solo} €`;
+    $('double').textContent = eur(r.double);
+    $('solo').textContent = eur(r.solo);
+    $('ligne-blocs').hidden = !r.blocs;
+    $('blocs').textContent = '− ' + eur(r.blocs);
+    $('ans').textContent = `${r.ans} an${r.ans > 1 ? 's' : ''}`;
+    $('adhesion').textContent = eur(r.adhesion);
+    $('brut').textContent = eur(r.brut);
+    $('ligne-aides').hidden = !r.aides;
+    $('aides').textContent = '− ' + eur(r.aides);
+    $('aides-detail').textContent = r.detail.join(', ');
+    const astuce = $('astuce');
+    if (age !== 'adulte' && !f.has('bia')) {
+      const gain = D.aides.abl_bia + D.aides.theorique_bia - D.aides.abl;
+      astuce.hidden = gain <= 0;
+      astuce.textContent = `Astuce : avec le BIA, les aides Objectif Pilote augmentent d'environ ${eur(gain)}.`;
+    } else if (age === 'm18') {
+      astuce.hidden = false;
+      astuce.textContent = 'Bon à savoir : on peut commencer avant 16 ans, voler seul à bord dès 16 ans et passer la licence à 17 ans.';
+    } else astuce.hidden = true;
+  }
+  form.addEventListener('change', majour);
+  majour();
+  // Téléphone : tant que les questions sont à l'écran et le résultat plus bas, un rappel du total reste visible en bas.
+  const mini = document.querySelector<HTMLElement>('.mini')!;
+  const vus = new Map<Element, boolean>();
+  const io = new IntersectionObserver((entrees) => {
+    entrees.forEach((e) => vus.set(e.target, e.isIntersecting));
+    mini.hidden = !(vus.get(form) && !vus.get(document.getElementById('estimation')!));
+  });
+  io.observe(form); io.observe(document.getElementById('estimation')!);
+</script>
+
+<style>
+  .simu { display: grid; gap: 20px; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 900px) { .simu { grid-template-columns: 1.05fr .95fr; gap: 28px; } .resultat { position: sticky; top: 80px; } }
+  fieldset { border: 0; margin: 0 0 20px; padding: 0; min-width: 0; }
+  legend { display: flex; align-items: center; gap: 10px; font-family: var(--font-title); font-weight: 600; font-size: 1.15rem; color: var(--ink); margin-bottom: 10px; padding: 0; }
+  .n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .9rem; flex: none; }
+  .choix { display: grid; gap: 8px; }
+  .c2 { grid-template-columns: 1fr 1fr; }
+  .c3 { grid-template-columns: repeat(3, 1fr); }
+  .choix label { position: relative; cursor: pointer; }
+  .choix input { position: absolute; opacity: 0; pointer-events: none; }
+  .choix span { display: flex; flex-direction: column; gap: 2px; height: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; transition: border-color .15s, background .15s, box-shadow .15s; }
+  .choix b { font-size: .98rem; color: var(--ink); line-height: 1.25; }
+  .choix small { font-size: .8rem; color: var(--muted); line-height: 1.3; }
+  .choix label:hover span { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+  .choix input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, white); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+  .choix input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 520px) { .c3 { grid-template-columns: 1fr; } .c3 span { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 10px; } }
+  .options { display: grid; gap: 6px; margin-top: 10px; }
+  .case { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: .95rem; cursor: pointer; }
+  .options .case { margin-top: 0; }
+  .case input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+  .case small { color: var(--muted); }
+  [hidden] { display: none !important; }
+  .mini { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 16px; background: var(--ink); color: #cfd6e0; text-decoration: none; box-shadow: 0 12px 30px rgba(15,27,45,.3); font-size: .85rem; }
+  .mini b { font-family: var(--font-title); font-size: 1.4rem; color: #ffb48a; }
+  .mini .voir { margin-left: auto; color: #fff; }
+  @media (min-width: 900px) { .mini { display: none !important; } }
+  .aide-choix { display: inline-block; margin-top: 8px; font-size: .88rem; color: var(--accent); }
+
+  .resultat { background: var(--ink); color: #cfd6e0; border-radius: 22px; padding: clamp(20px, 3vw, 30px); }
+  .r-label { margin: 0; font-size: .95rem; }
+  .r-label span { color: #fff; font-weight: 600; }
+  .r-total { margin: 2px 0 4px; font-family: var(--font-title); font-weight: 700; font-size: clamp(2.6rem, 7vw, 3.6rem); line-height: 1; color: #fff; }
+  .r-total b { color: #ffb48a; }
+  .r-sous { margin: 0 0 16px; font-size: .88rem; color: #9fb0c6; }
+  .r-lignes { list-style: none; margin: 0 0 14px; padding: 0; font-size: .9rem; }
+  .r-lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.1); }
+  .r-lignes small { display: block; color: #8698b0; font-size: .78rem; }
+  .r-lignes b { color: #fff; white-space: nowrap; font-weight: 600; }
+  .r-lignes .total { border-top-color: rgba(255,255,255,.35); }
+  .r-lignes .moins { color: #7fd6bb; }
+  .r-lignes .aides span { color: #7fd6bb; }
+  .r-astuce { margin: 0 0 16px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.07); font-size: .88rem; color: #e6ecf3; }
+  .resultat .btns { margin-bottom: 14px; }
+  .resultat .btn-outline { border-color: rgba(255,255,255,.55); color: #fff; }
+  .resultat .btn-outline:hover { background: #fff; color: var(--ink); }
+  .r-plus summary { cursor: pointer; font-size: .85rem; color: #9fb0c6; }
+  .r-plus p { font-size: .82rem; color: #9fb0c6; margin: 8px 0 0; }
+</style>

@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Etapes from '../components/Etapes.astro';
 import Faq from '../components/Faq.astro';
-import club from '../data/club.json';
+import Simulateur from '../components/Simulateur.astro';
+import simu from '../data/simulateur.json';
 import f from '../data/formations.json';
 import pages from '../data/pages.json';
 import { url } from '../lib/utils';
@@ -11,8 +12,29 @@ const formations = f.licences;
 const pg = pages.formations;
 ---
 <Base univers="apprendre" title="Se former" description="Formations BIA, LAPL et PPL à l'aéroclub de Beauvais-Tillé.">
-  <PageHead eyebrow="Apprendre" image={pg.image} title={pg.titre} lead={pg.texte} />
-  <section class="section">
+  <PageHead eyebrow="Devenir pilote" image={pg.image} title={pg.titre} lead={pg.texte} />
+  <section class="section simu-section">
+    <div class="container">
+      <span class="eyebrow">Simulateur</span>
+      <h2>{simu.titre}</h2>
+      <p class="lead">{simu.intro}</p>
+      <Simulateur />
+    </div>
+  </section>
+  {f.parcours.length > 0 && (
+    <section class="section white">
+      <div class="container">
+        <span class="eyebrow">Le parcours</span>
+        <h2 data-split>{f.parcours_titre}</h2>
+        <Etapes etapes={f.parcours} />
+      </div>
+    </section>
+  )}
+  <section class="section" id="licences">
+    <div class="container">
+      <span class="eyebrow">Les licences</span>
+      <h2 data-split>Quelle licence choisir ?</h2>
+    </div>
     <div class="container grid grid-3" data-stagger>
       {formations.map((f) => (
         <div class="card"><div class="card-body">
@@ -30,9 +52,9 @@ const pg = pages.formations;
   {f.privileges.length > 0 && (
     <section class="section white" id="privileges">
       <div class="container">
-        <span class="eyebrow">LAPL ou PPL</span>
-        <h2 data-split>{f.privileges_titre}</h2>
-        <div class="compare" data-reveal>
+        <details class="replie">
+        <summary><span><span class="eyebrow">LAPL ou PPL</span><strong>{f.privileges_titre}</strong></span><span class="plus" aria-hidden="true">+</span></summary>
+        <div class="compare">
           <div class="ligne entete" aria-hidden="true"><span></span><b>LAPL</b><b>PPL</b></div>
           {f.privileges.map((p) => (
             <div class="ligne">
@@ -42,7 +64,8 @@ const pg = pages.formations;
             </div>
           ))}
         </div>
-        <p class="meta" style="margin-top:18px;max-width:80ch" data-reveal>{f.privileges_note}</p>
+        <p class="meta" style="margin-top:18px;max-width:80ch">{f.privileges_note}</p>
+        </details>
       </div>
     </section>
   )}
@@ -76,28 +99,6 @@ const pg = pages.formations;
       </div>
     </section>
   )}
-  {f.parcours.length > 0 && (
-    <section class="section white">
-      <div class="container">
-        <span class="eyebrow">Le parcours</span>
-        <h2 data-split>{f.parcours_titre}</h2>
-        <Etapes etapes={f.parcours} />
-      </div>
-    </section>
-  )}
-  <section class="section soft">
-    <div class="container">
-      <span class="eyebrow">Aides au financement</span>
-      <h2 data-split>Voler jeune coûte moins cher</h2>
-      <div class="grid grid-3" data-stagger>
-        {club.aides.map((a) => <div class="card"><div class="card-body"><h3>{a.titre}</h3><p>{a.texte}</p></div></div>)}
-      </div>
-      <div class="btns" style="margin-top:32px" data-stagger>
-        <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>S'inscrire ou poser une question</a>
-        <a class="btn btn-outline" href={url('/club/tarifs')}>Voir les tarifs</a>
-      </div>
-    </div>
-  </section>
   {f.questions.length > 0 && (
     <section class="section">
       <div class="container">
@@ -109,6 +110,20 @@ const pg = pages.formations;
   )}
 </Base>
 <style>
+  .simu-section { padding-top: clamp(28px, 4vw, 48px); }
+  .simu-section .lead { margin-bottom: 24px; }
+  /* Téléphone : on arrive plus vite au simulateur */
+  @media (max-width: 599px) { :global(.page-head .lead) { display: none; } .simu-section .lead { font-size: 1rem; margin-bottom: 18px; } .simu-section h2 { font-size: 1.6rem; } }
+  .replie { border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+  .replie > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; }
+  .replie > summary::-webkit-details-marker { display: none; }
+  .replie > summary .eyebrow { display: block; margin-bottom: 2px; }
+  .replie > summary strong { font-family: var(--font-title); font-size: clamp(1.25rem, 2.6vw, 1.7rem); color: var(--ink); font-weight: 600; }
+  .replie .plus { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.3rem; transition: transform .2s; }
+  .replie[open] .plus { transform: rotate(45deg); }
+  .replie[open] { padding-bottom: 20px; }
+  .replie .compare, .replie > p { margin-inline: 20px; }
+  @media (max-width: 720px) { .replie .compare, .replie > p { margin-inline: 12px; } }
   .big { font-family: var(--font-title); font-size: 2.4rem; font-weight: 700; color: var(--sun); }
   ul { padding-left: 1.1em; margin: 0; }
   li { margin-bottom: 6px; }

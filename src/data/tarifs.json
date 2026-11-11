@@ -89,27 +89,33 @@
   "divers": [
     {
       "libelle": "Livret de briefing",
-      "prix": "49 €"
+      "prix": "49 €",
+      "simulateur": true
     },
     {
       "libelle": "Livret de progression",
-      "prix": "15 €"
+      "prix": "15 €",
+      "simulateur": true
     },
     {
       "libelle": "Carnet de vol",
-      "prix": "19 €"
+      "prix": "19 €",
+      "simulateur": true
     },
     {
       "libelle": "Manuel du pilote (Cépaduès)",
-      "prix": "75 €"
+      "prix": "75 €",
+      "simulateur": true
     },
     {
       "libelle": "Abonnement Aerogligli",
-      "prix": "-10 % sur le e-learning"
+      "prix": "-10 % sur le e-learning",
+      "simulateur": false
     },
     {
       "libelle": "Casque, carte, porte-clés",
-      "prix": "Sur demande"
+      "prix": "Sur demande",
+      "simulateur": false
     }
   ],
   "objectif_pilote": {
@@ -118,55 +124,68 @@
     "lignes": [
       {
         "etape": "1er lâcher solo",
-        "montant": 350
+        "montant": 350,
+        "simulateur": "lacher"
       },
       {
         "etape": "ABL",
-        "montant": 350
+        "montant": 350,
+        "simulateur": "abl"
       },
       {
         "etape": "ABL + BIA",
-        "montant": 520
+        "montant": 520,
+        "simulateur": "abl_bia"
       },
       {
         "etape": "Théorique PPL ou LAPL + BIA",
-        "montant": 75
+        "montant": 75,
+        "simulateur": "theorique_bia"
       },
       {
         "etape": "Théorique PPL ou LAPL + licence Jeunes Ailes + BIA",
-        "montant": 100
+        "montant": 100,
+        "simulateur": ""
       },
       {
         "etape": "PPL ou LAPL complet (non cumulables)",
-        "montant": 700
+        "montant": 700,
+        "simulateur": "licence"
       },
       {
         "etape": "Qualification FCL 800 (voltige)",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       },
       {
         "etape": "Qualification montagne",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       },
       {
         "etape": "Qualification hydravion",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       },
       {
         "etape": "Qualification de site outre-mer",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       },
       {
         "etape": "Qualification IFR privé (BIR)",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       },
       {
         "etape": "Qualification vol de nuit",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       },
       {
         "etape": "Autorisation d'accès altiport",
-        "montant": 350
+        "montant": 350,
+        "simulateur": ""
       }
     ],
     "note": "Pour obtenir ces bourses, adressez-vous au club."
