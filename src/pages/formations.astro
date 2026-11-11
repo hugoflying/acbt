@@ -51,13 +51,24 @@ const pg = pages.formations;
       <div class="container">
         <span class="eyebrow">Une fois breveté</span>
         <h2 data-split>{f.maintien_titre}</h2>
-        <p class="lead" style="max-width:62ch" data-reveal>{f.maintien_intro}</p>
+        <p class="lead lead-large" data-reveal>{f.maintien_intro}</p>
         <div class="maintien" data-stagger>
           {f.maintien.map((m) => (
             <div class="card"><div class="card-body">
               <span class="pour">{m.pour}</span>
               <h3>{m.titre}</h3>
-              <p>{m.texte}</p>
+              {m.chiffre && (
+                <p class="chiffre"><strong>{m.chiffre}</strong>{m.chiffre_legende && <span>{m.chiffre_legende}</span>}</p>
+              )}
+              {m.conditions?.length ? (
+                <>
+                  {m.conditions_intro && <p class="cond-intro">{m.conditions_intro}</p>}
+                  <ul class="conditions">{m.conditions.map((c) => <li>{c}</li>)}</ul>
+                </>
+              ) : <p>{m.texte}</p>}
+              {m.sinon && (
+                <p class="sinon"><b>{m.sinon_label || 'Sinon'} :</b> {m.sinon}</p>
+              )}
             </div></div>
           ))}
         </div>
@@ -102,8 +113,20 @@ const pg = pages.formations;
   ul { padding-left: 1.1em; margin: 0; }
   li { margin-bottom: 6px; }
   .maintien { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-  .maintien h3 { font-size: 1.15rem; margin: 6px 0 8px; }
-  .maintien p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .maintien h3 { font-size: 1.15rem; margin: 6px 0 12px; }
+  .maintien p { margin: 0; color: #3f4652; font-size: .97rem; }
+  .chiffre { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; padding: 10px 14px; margin: 0 0 14px !important; border-radius: 12px; background: var(--paper); }
+  .chiffre strong { font-family: var(--font-title); font-size: 1.6rem; line-height: 1.1; color: var(--accent); }
+  .chiffre span { font-size: .85rem; color: #4d5460; }
+  .cond-intro { font-weight: 600; color: var(--ink) !important; margin-bottom: 6px !important; }
+  .conditions { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; color: #2c333e; font-size: .97rem; line-height: 1.45; }
+  .conditions li { position: relative; padding-left: 26px; }
+  .conditions li::before { content: ''; position: absolute; left: 0; top: .2em; width: 17px; height: 17px; border-radius: 50%; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat; }
+  .sinon { margin-top: auto !important; padding-top: 14px; font-size: .9rem !important; }
+  .sinon::before { content: ''; display: block; border-top: 1px dashed var(--line); margin-bottom: 12px; }
+  .sinon b { color: var(--ink); }
+  .lead-large { max-width: 62ch; }
+  @media (min-width: 1000px) { .lead-large { max-width: 78ch; } }
   .pour { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent, var(--sun)); }
   .compare { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; }
   .ligne { display: grid; grid-template-columns: minmax(160px, .8fr) 1fr 1fr; }
