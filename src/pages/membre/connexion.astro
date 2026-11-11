@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import MembreTete from '../../components/MembreTete.astro';
+import { url } from '../../lib/utils';
+// Sur Cloudflare, le vrai mot de passe est vérifié : on retire la mention « version d'essai ».
+const essai = !process.env.CF_PAGES;
+---
+<Base univers="membres" title="Connexion à l'espace membre" description="Connexion à l'espace réservé aux membres de l'aéroclub de Beauvais-Tillé." noindex>
+  <MembreTete slot="head" />
+  <section class="connexion">
+    <form class="boite" id="form" novalidate>
+      <img src={url('/icones/membre-192.png')} alt="" width="88" height="88" />
+      <h1>Espace membre</h1>
+      <p class="intro">Outils et documents des pilotes de l'ACBT.</p>
+      <label for="mdp">Mot de passe du club</label>
+      <div class="champ">
+        <input id="mdp" name="mdp" type="password" autocomplete="current-password" required />
+        <button type="button" class="voir" id="voir" aria-label="Afficher le mot de passe">Voir</button>
+      </div>
+      <p class="erreur" id="erreur" role="alert" hidden></p>
+      <button class="btn btn-primary envoyer" type="submit" id="envoyer">Se connecter</button>
+      <p class="aide">Le mot de passe est donné par le bureau du club. Vous restez connecté sur cet appareil.</p>
+      {essai && <p class="notice maquette">Version d'essai : le vrai mot de passe sera activé au passage sur Cloudflare. Pour l'instant, n'importe quel mot suffit.</p>}
+
+      <div class="installer">
+        <button type="button" class="btn btn-outline" id="installer" hidden>📲 Installer l'appli sur ce téléphone</button>
+        <p class="aide-ios" id="aide-ios" hidden>Sur iPhone : touchez le bouton <b>Partager</b> (le carré avec une flèche) en bas de Safari, puis <b>Sur l'écran d'accueil</b>.</p>
+      </div>
+    </form>
+  </section>
+</Base>
+
+<script>
+  import { seConnecter, estConnecte, enregistrer, boutonInstaller } from '../../scripts/membre-app';
+  import { url } from '../../lib/utils';
+
+  const retour = () => {
+    const r = new URLSearchParams(location.search).get('retour') || '';
+    return r.startsWith(url('/membre/')) ? r : url('/membre/');
+  };
+  enregistrer();
+  boutonInstaller(document.getElementById('installer') as HTMLButtonElement, document.getElementById('aide-ios'));
+  if (estConnecte()) location.replace(retour());
+
+  const form = document.getElementById('form') as HTMLFormElement;
+  const mdp = document.getElementById('mdp') as HTMLInputElement;
+  const erreur = document.getElementById('erreur')!;
+  const envoyer = document.getElementById('envoyer') as HTMLButtonElement;
+  document.getElementById('voir')!.addEventListener('click', (e) => {
+    const montrer = mdp.type === 'password';
+    mdp.type = montrer ? 'text' : 'password';
+    (e.currentTarget as HTMLElement).textContent = montrer ? 'Cacher' : 'Voir';
+  });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    erreur.hidden = true;
+    if (!mdp.value.trim()) { erreur.textContent = 'Saisissez le mot de passe du club.'; erreur.hidden = false; mdp.focus(); return; }
+    envoyer.disabled = true;
+    envoyer.textContent = 'Connexion…';
+    const r = await seConnecter(mdp.value);
+    if (r === 'ok' || r === 'maquette') { location.replace(retour()); return; }
+    erreur.textContent = r === 'refuse' ? 'Mot de passe incorrect. Vérifiez auprès du bureau du club.' : 'Connexion impossible pour le moment. Réessayez dans un instant.';
+    erreur.hidden = false;
+    envoyer.disabled = false;
+    envoyer.textContent = 'Se connecter';
+    mdp.select();
+  });
+</script>
+
+<style>
+  .connexion { min-height: calc(100svh - 77px); display: grid; place-items: center; padding: 40px 16px 64px; background: radial-gradient(ellipse at top, color-mix(in srgb, var(--accent) 12%, var(--paper)), var(--paper) 70%); }
+  .boite { width: min(420px, 100%); background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 32px 28px; box-shadow: 0 24px 60px rgba(15,27,45,.10); text-align: center; }
+  .boite > img { border-radius: 20px; border: 1px solid var(--line); margin: 0 auto 14px; display: block; }
+  h1 { font-size: 1.8rem; margin: 0 0 4px; }
+  .intro { color: var(--muted); margin: 0 0 26px; }
+  label { display: block; text-align: left; font-weight: 600; font-size: .92rem; margin-bottom: 6px; }
+  .champ { display: flex; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
+  .champ:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .champ input { flex: 1; min-width: 0; border: 0; padding: 13px 14px; font: inherit; font-size: 1.05rem; outline: none; background: transparent; }
+  .voir { border: 0; background: transparent; color: var(--accent); font: inherit; font-weight: 600; font-size: .88rem; padding: 0 14px; cursor: pointer; }
+  .erreur { color: #b42318; background: #fef3f2; border: 1px solid #fecdca; border-radius: 10px; padding: 9px 12px; margin: 12px 0 0; font-size: .92rem; text-align: left; }
+  .envoyer { width: 100%; justify-content: center; margin-top: 18px; }
+  .envoyer:disabled { opacity: .7; cursor: wait; }
+  .aide { font-size: .85rem; color: var(--muted); margin: 14px 0 0; }
+  .maquette { font-size: .85rem; margin: 16px 0 0; text-align: left; }
+  .installer { margin-top: 20px; }
+  .installer .btn { width: 100%; justify-content: center; }
+  .aide-ios { font-size: .9rem; text-align: left; background: var(--paper); border-radius: 12px; padding: 12px 14px; margin: 10px 0 0; }
+  [hidden] { display: none !important; }
+</style>
