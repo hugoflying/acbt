@@ -21,6 +21,7 @@ const actif = (href: string) =>
       <img src={url('/uploads/logo/logo-acbt.png')} alt="" width="72" height="52" />
       <span><strong>ACBT</strong><small>Aéroclub de Beauvais-Tillé</small></span>
     </a>
+    {Astro.slots.has('actions') && <div class="actions"><slot name="actions" /></div>}
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Ouvrir le menu" />
     <label for="nav-toggle" class="burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <nav aria-label="Navigation principale">
@@ -60,6 +61,10 @@ const actif = (href: string) =>
   nav a.member { background: var(--ink); color: #fff; padding: 10px 20px; margin-left: 10px; }
   nav a.member:hover { background: #6b4fbb; color: #fff; }
   .nav-toggle, .burger { display: none; }
+  /* Boutons propres à une page (ex. « Déconnexion » dans l'espace membre) : à droite du menu sur ordinateur, avant le menu sur téléphone */
+  .actions { order: 10; margin-left: 12px; display: flex; align-items: center; }
+  @media (max-width: 1180px) { .actions { order: 0; margin-left: auto; margin-right: 4px; } }
+  @media (max-width: 400px) { .bar:has(.actions) .logo small { display: none; } }
   @media (max-width: 1180px) {
     .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
     .burger span { width: 24px; height: 2px; background: var(--ink); transition: transform .25s, opacity .2s; }
