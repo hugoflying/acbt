@@ -45,7 +45,7 @@ const partage = new URL(asset(image || '/partage.jpg'), Astro.site).href;
     </script>
   </head>
   <body data-univers={univers}>
-    <Header />
+    <Header><slot name="entete" slot="actions" /></Header>
     <main><slot /></main>
     <Footer />
     <script>import '../scripts/motion';</script>
