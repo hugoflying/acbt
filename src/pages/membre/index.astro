@@ -128,20 +128,26 @@ const connexion = url('/membre/connexion/');
     <div class="container">
       <div class="section-head"><div><span class="label">Nos avions</span><h2>Documentation avion</h2></div></div>
       <p class="alerte"><b>!</b><span>{membre.avertissement_avion}</span></p>
-      <div class="fiches">
+      <div class="selecteur" id="selecteur" role="group" aria-label="Choisir un avion">
+        <button type="button" data-avion="" aria-pressed="true">Tous</button>
+        {fiches.flatMap((g) => g.avions.map((x) => (
+          <button type="button" data-avion={x.im} aria-pressed="false">{x.photo && <img src={asset(x.photo)} alt="" loading="lazy" />}<span><b>{x.im}</b><small>{g.titre}</small></span></button>
+        )))}
+      </div>
+      <div class="fiches" id="fiches">
         {fiches.map((g) => (
-          <article class="fiche" id={`doc-${g.avions[0].id}`} data-bloc>
+          <article class="fiche" id={`doc-${g.avions[0].id}`} data-ims={g.ims.join(' ')} data-bloc>
             <header>
-              <div class="photos">{g.avions.map((x) => x.photo && <img src={asset(x.photo)} alt="" loading="lazy" />)}</div>
-              <div><h3>{g.titre}</h3><div class="chips">{g.ims.map((i) => <span>{i}</span>)}</div></div>
+              <div class="photos">{g.avions.map((x) => x.photo && <img src={asset(x.photo)} alt="" loading="lazy" data-im={x.im} />)}</div>
+              <div><h3>{g.titre}</h3><div class="chips">{g.ims.map((i) => <span data-im={i}>{i}</span>)}</div></div>
             </header>
             <div class="propres" style={`--n:${g.avions.length}`} data-bloc>
               {g.propres.map((x) => (
-                <div id={`doc-${x.id}`} data-bloc><h5>{x.im}</h5>{x.docs.map((d) => <DocLien doc={d} court={court(d.titre)} />)}</div>
+                <div id={`doc-${x.id}`} data-im={x.im} data-bloc><h5>{x.im}</h5>{x.docs.map((d) => <DocLien doc={d} court={court(d.titre)} />)}</div>
               ))}
             </div>
-            {g.communs.length > 0 && <h5 class="sep">{g.avions.length > 1 ? `Communs aux ${g.avions.length} avions` : 'Équipements et check-list'}</h5>}
-            <div class="liste" data-bloc>{g.communs.map((d) => <DocLien doc={d} court={court(d.titre)} />)}</div>
+            {g.communs.length > 0 && <h5 class="sep" data-un="Équipements et check-list">{g.avions.length > 1 ? `Communs aux ${g.avions.length} avions` : 'Équipements et check-list'}</h5>}
+            <div class="liste" data-bloc>{g.communs.map((d) => <div data-ims={d.avions.join(' ')}><DocLien doc={d} court={court(d.titre)} /></div>)}</div>
           </article>
         ))}
       </div>
@@ -200,6 +206,26 @@ const connexion = url('/membre/connexion/');
   document.getElementById('deconnexion')?.addEventListener('click', () => {
     if (confirm('Se déconnecter de l\'espace membre sur cet appareil ? Les documents gardés hors ligne seront effacés.')) seDeconnecter();
   });
+
+  // Sélecteur d'avion : n'affiche que les documents de l'avion choisi, et s'en souvient sur cet appareil
+  const fichesEl = document.getElementById('fiches');
+  const boutonsAvion = [...document.querySelectorAll<HTMLButtonElement>('#selecteur [data-avion]')];
+  const choisirAvion = (im: string) => {
+    if (im && !boutonsAvion.some((b) => b.dataset.avion === im)) im = '';
+    boutonsAvion.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.avion === im)));
+    fichesEl?.classList.toggle('un', !!im);
+    fichesEl?.querySelectorAll<HTMLElement>('[data-ims], [data-im]').forEach((el) => {
+      const liste = (el.dataset.ims ?? el.dataset.im ?? '').split(' ');
+      el.classList.toggle('autre-avion', !!im && !liste.includes(im));
+    });
+    fichesEl?.querySelectorAll<HTMLElement>('.sep').forEach((h) => {
+      h.dataset.tous ??= h.textContent || '';
+      h.textContent = im ? h.dataset.un || '' : h.dataset.tous;
+    });
+    try { im ? localStorage.setItem('acbt-avion', im) : localStorage.removeItem('acbt-avion'); } catch { /* navigation privée */ }
+  };
+  boutonsAvion.forEach((b) => b.addEventListener('click', () => choisirAvion(b.dataset.avion || '')));
+  try { const avant = localStorage.getItem('acbt-avion'); if (avant) choisirAvion(avant); } catch { /* rien */ }
 
   const q = document.getElementById('q') as HTMLInputElement | null;
   const aucun = document.getElementById('aucun');
@@ -267,6 +293,22 @@ const connexion = url('/membre/connexion/');
 
   .alerte { display: flex; gap: 14px; align-items: flex-start; background: #fff4e5; border: 1px solid #f2c98a; color: #6b4200; border-radius: 14px; padding: 14px 18px; margin-bottom: 28px; font-size: .95rem; }
   .alerte b { flex: none; width: 26px; height: 26px; border-radius: 50%; background: #d9480f; color: #fff; display: grid; place-items: center; font-size: .9rem; }
+  .selecteur { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .selecteur button { display: inline-flex; align-items: center; gap: 9px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: inherit; cursor: pointer; transition: border-color .15s, background .15s, color .15s; }
+  .selecteur button:first-child { padding: 6px 16px; min-height: 46px; font-weight: 600; font-size: .92rem; }
+  .selecteur button:hover { border-color: var(--accent); }
+  .selecteur button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .selecteur img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex: none; }
+  .selecteur span { display: grid; line-height: 1.15; text-align: left; }
+  .selecteur b { font-size: .9rem; letter-spacing: .03em; }
+  .selecteur small { font-size: .72rem; opacity: .75; }
+  @media (max-width: 560px) {
+    .selecteur { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding: 0 16px 4px; scrollbar-width: none; }
+    .selecteur button { flex: none; }
+  }
+  .autre-avion { display: none !important; }
+  .fiches.un { grid-template-columns: minmax(0, 640px); }
+  .fiches.un .propres { grid-template-columns: 1fr; }
   .fiches { display: grid; gap: 20px; grid-template-columns: 1.4fr 1fr 1fr; align-items: start; }
   @media (max-width: 1000px) { .fiches { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 680px) { .fiches { grid-template-columns: 1fr; } }
