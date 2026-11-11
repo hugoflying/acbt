@@ -36,46 +36,64 @@
   "privileges": [
     {
       "critere": "Avions",
+      "lapl_court": "Monomoteurs jusqu'à 2 t",
+      "ppl_court": "Tous, selon qualifications",
       "lapl": "Monomoteurs à pistons et motoplaneurs, jusqu'à 2 000 kg",
       "ppl": "Tous les avions pour lesquels vous avez la qualification, sans limite de masse : monomoteur, puis multimoteur…"
     },
     {
       "critere": "Personnes à bord",
+      "lapl_court": "4 maximum",
+      "ppl_court": "Selon l'avion",
       "lapl": "4 au maximum, pilote compris (3 passagers)",
       "ppl": "Autant de passagers que l'avion le permet"
     },
     {
       "critere": "Emmener des passagers",
+      "lapl_court": "Après 10 h de vol",
+      "ppl_court": "Dès la licence",
       "lapl": "Après 10 h de vol comme commandant de bord une fois la licence obtenue",
       "ppl": "Dès l'obtention de la licence"
     },
     {
       "critere": "Argent et partage des frais",
+      "lapl_court": "Partage des frais",
+      "ppl_court": "Partage des frais",
       "lapl": "Vols privés uniquement : impossible d'être payé pour piloter. Vous pouvez partager les frais du vol (avion, taxes, carburant) à parts égales avec vos passagers, pilote compris, sans faire le moindre bénéfice.",
       "ppl": "Même règle : partage des frais à parts égales, pilote compris, sans bénéfice. Être rémunéré pour piloter demande une licence professionnelle (CPL), sauf cas particuliers comme devenir instructeur."
     },
     {
       "critere": "Où voler",
+      "lapl_court": "Europe",
+      "ppl_court": "Monde entier",
       "lapl": "Dans les pays européens qui appliquent les règles de l'AESA (Union européenne, Suisse, Norvège, Islande, Liechtenstein)",
       "ppl": "Dans le monde entier (licence reconnue par l'OACI), en respectant les règles du pays survolé"
     },
     {
       "critere": "Qualifications possibles ensuite",
+      "lapl_court": "Limitées",
+      "ppl_court": "Nuit, IFR, multimoteur…",
       "lapl": "Pas de vol aux instruments ni de multimoteur",
       "ppl": "Vol de nuit, vol aux instruments, multimoteur, voltige, montagne…"
     },
     {
       "critere": "Certificat médical",
+      "lapl_court": "LAPL, plus simple",
+      "ppl_court": "Classe 2",
       "lapl": "Certificat médical LAPL, moins exigeant",
       "ppl": "Certificat médical de classe 2"
     },
     {
       "critere": "Garder sa licence active",
+      "lapl_court": "Expérience sur 24 mois",
+      "ppl_court": "À proroger tous les 2 ans",
       "lapl": "Expérience récente sur les 24 derniers mois, sans date d'échéance (détail ci-dessous)",
       "ppl": "Qualification monomoteur (SEP terrestre) valable 2 ans, à proroger (détail ci-dessous)"
     },
     {
       "critere": "Et après ?",
+      "lapl_court": "Peut évoluer vers le PPL",
+      "ppl_court": "Base des licences pro",
       "lapl": "Peut être complété plus tard pour obtenir le PPL, les heures déjà faites comptent",
       "ppl": "Base de toutes les licences suivantes, y compris professionnelles"
     }

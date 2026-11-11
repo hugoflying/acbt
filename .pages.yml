@@ -288,8 +288,10 @@ content:
         list: true
         fields:
           - { name: critere, label: Critère, type: string }
-          - { name: lapl, label: Avec le LAPL, type: text }
-          - { name: ppl, label: Avec le PPL, type: text }
+          - { name: lapl_court, label: LAPL en quelques mots, type: string, description: "Affiché dans le tableau. 3 à 5 mots, ex. « Europe »." }
+          - { name: ppl_court, label: PPL en quelques mots, type: string }
+          - { name: lapl, label: Avec le LAPL (détail affiché en touchant la ligne), type: text }
+          - { name: ppl, label: Avec le PPL (détail affiché en touchant la ligne), type: text }
       - { name: privileges_note, label: Note sous le comparatif, type: text }
       - { name: maintien_titre, label: Titre « Garder sa licence valide », type: string }
       - { name: maintien_intro, label: Introduction, type: text }

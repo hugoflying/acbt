@@ -745,12 +745,21 @@ singletons:
       label: Critère
       widget: string
       required: false
+    - name: lapl_court
+      label: LAPL en quelques mots
+      widget: string
+      required: false
+      hint: Affiché dans le tableau. 3 à 5 mots, ex. « Europe ».
+    - name: ppl_court
+      label: PPL en quelques mots
+      widget: string
+      required: false
     - name: lapl
-      label: Avec le LAPL
+      label: Avec le LAPL (détail affiché en touchant la ligne)
       widget: text
       required: false
     - name: ppl
-      label: Avec le PPL
+      label: Avec le PPL (détail affiché en touchant la ligne)
       widget: text
       required: false
     required: false
