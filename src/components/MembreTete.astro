@@ -1,0 +1,17 @@
+---
+// À placer dans <head> des pages de l'espace membre : en fait une appli installable (icône, nom, couleurs).
+import { url } from '../lib/utils';
+---
+<link rel="manifest" href={url('/membre/manifest.webmanifest')} />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="ACBT Pilotes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<link rel="apple-touch-icon" href={url('/icones/membre-192.png')} />
+<style is:global>
+  /* Une fois installée, l'appli n'affiche que l'espace membre : pas de menu ni de pied de page du site public */
+  @media (display-mode: standalone) {
+    .site-header nav, .site-header .burger, .site-footer { display: none !important; }
+    .site-header .logo { pointer-events: none; }
+  }
+</style>

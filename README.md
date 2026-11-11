@@ -36,8 +36,13 @@ Décocher « Avion affiché sur le site » pour le masquer en gardant sa fiche, 
 - Animations : GSAP + Lenis dans `src/scripts/motion.ts`, pilotées par des attributs HTML
   (`data-split`, `data-reveal`, `data-stagger`, `data-count`, `data-parallax`, `data-clip`, `data-marquee`).
   Coupées automatiquement si le visiteur a demandé à réduire les animations.
-- Espace membre : `/membre` est public dans la maquette. En production, le protéger avec
-  Cloudflare Access (règle sur le chemin `/membre*`, connexion par code e-mail).
+- Espace membre : c'est une appli installable (PWA) avec écran de connexion `/membre/connexion/`,
+  icône ACBT et documents consultables hors ligne (service worker `src/pages/sw-membre.js.ts`).
+  Dans la maquette GitHub Pages, n'importe quel mot de passe est accepté.
+  Sur Cloudflare Pages, les fonctions du dossier `functions/` s'activent seules : il suffit de créer
+  la variable secrète `MOT_DE_PASSE_MEMBRES` (Réglages > Variables et secrets) avec le mot de passe
+  du club. Elles protègent `/membre/` et `/uploads/membre/` (cookie de session d'un an) ; changer le
+  mot de passe déconnecte tout le monde. Sans cette variable, l'espace membre reste fermé.
 
 ## Reste à faire
 
