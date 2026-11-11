@@ -282,7 +282,13 @@ content:
         fields:
           - { name: titre, label: Titre, type: string }
           - { name: pour, label: Concerne, type: string, description: 'Exemple : LAPL et PPL' }
-          - { name: texte, label: Texte, type: text }
+          - { name: chiffre, label: Chiffre clé, type: string, description: 'Mis en grand en haut de la carte. Exemple : 90 jours' }
+          - { name: chiffre_legende, label: Précision sous le chiffre, type: string, description: 'Exemple : glissants' }
+          - { name: conditions_intro, label: Phrase avant la liste, type: string, description: "Exemple : Dans les 12 mois avant l'échéance :" }
+          - { name: conditions, label: Conditions (une par ligne), type: string, list: true }
+          - { name: sinon_label, label: Mot devant la solution de rattrapage, type: string, description: 'Laisser vide pour « Sinon ». Exemples : Ou bien, Attention' }
+          - { name: sinon, label: Solution de rattrapage (ligne du bas), type: text }
+          - { name: texte, label: Texte (utilisé seulement s'il n'y a pas de conditions), type: text }
       - { name: maintien_note, label: Note en bas, type: text }
       - { name: parcours_titre, label: Titre du parcours, type: string }
       - name: parcours

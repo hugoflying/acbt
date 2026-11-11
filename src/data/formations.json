@@ -87,27 +87,70 @@
     {
       "titre": "Expérience récente pour emmener des passagers",
       "pour": "LAPL et PPL",
-      "texte": "3 décollages et 3 atterrissages aux commandes dans les 90 jours précédents, sur la même classe d'avion. Pour emmener des passagers de nuit, au moins un des trois doit avoir été fait de nuit. Sinon, un vol seul à bord ou avec un instructeur suffit à se remettre à jour."
+      "texte": "3 décollages et 3 atterrissages aux commandes dans les 90 jours précédents, sur la même classe d'avion. Pour emmener des passagers de nuit, au moins un des trois doit avoir été fait de nuit. Sinon, un vol seul à bord ou avec un instructeur suffit à se remettre à jour.",
+      "chiffre": "90 jours",
+      "chiffre_legende": "glissants",
+      "conditions_intro": "Sur la même classe d'avion :",
+      "conditions": [
+        "3 décollages et 3 atterrissages aux commandes",
+        "De nuit : au moins un des trois fait de nuit"
+      ],
+      "sinon": "Un vol seul à bord ou avec un instructeur suffit à se remettre à jour."
     },
     {
       "titre": "Maintenir son LAPL",
       "pour": "LAPL",
-      "texte": "Le LAPL n'a pas de date d'échéance. Pour voler, il faut avoir fait sur les 24 derniers mois au moins 12 h comme commandant de bord, 12 décollages et atterrissages, et 1 h de vol de remise à niveau avec un instructeur. Sinon, un contrôle de compétences avec un examinateur remet la licence à jour."
+      "texte": "Le LAPL n'a pas de date d'échéance. Pour voler, il faut avoir fait sur les 24 derniers mois au moins 12 h comme commandant de bord, 12 décollages et atterrissages, et 1 h de vol de remise à niveau avec un instructeur. Sinon, un contrôle de compétences avec un examinateur remet la licence à jour.",
+      "chiffre": "24 mois",
+      "chiffre_legende": "glissants",
+      "conditions_intro": "Pas de date d'échéance. Sur les 24 derniers mois :",
+      "conditions": [
+        "12 h comme commandant de bord",
+        "12 décollages et atterrissages",
+        "1 h de remise à niveau avec un instructeur"
+      ],
+      "sinon": "Un contrôle de compétences avec un examinateur remet la licence à jour."
     },
     {
       "titre": "Prorogation de la SEP terrestre",
       "pour": "PPL",
-      "texte": "La qualification de classe SEP terrestre est valable 24 mois. On la proroge avant son échéance, soit par l'expérience : dans les 12 mois qui précèdent l'échéance, 12 h de vol dont 6 h comme commandant de bord, 12 décollages et atterrissages et 1 h de vol avec un instructeur ; soit par un contrôle de compétences avec un examinateur dans les 3 mois qui précèdent l'échéance."
+      "texte": "La qualification de classe SEP terrestre est valable 24 mois. On la proroge avant son échéance, soit par l'expérience : dans les 12 mois qui précèdent l'échéance, 12 h de vol dont 6 h comme commandant de bord, 12 décollages et atterrissages et 1 h de vol avec un instructeur ; soit par un contrôle de compétences avec un examinateur dans les 3 mois qui précèdent l'échéance.",
+      "chiffre": "24 mois",
+      "chiffre_legende": "de validité",
+      "conditions_intro": "Dans les 12 mois avant l'échéance :",
+      "conditions": [
+        "12 h de vol, dont 6 h comme commandant de bord",
+        "12 décollages et atterrissages",
+        "1 h de vol avec un instructeur"
+      ],
+      "sinon_label": "Ou bien",
+      "sinon": "Un contrôle de compétences avec un examinateur, dans les 3 mois avant l'échéance."
     },
     {
       "titre": "Renouvellement après expiration",
       "pour": "PPL",
-      "texte": "Si la date d'échéance est dépassée, la qualification doit être renouvelée : formation de remise à niveau avec un instructeur, dont la durée dépend du temps écoulé et de votre niveau, puis contrôle de compétences avec un examinateur."
+      "texte": "Si la date d'échéance est dépassée, la qualification doit être renouvelée : formation de remise à niveau avec un instructeur, dont la durée dépend du temps écoulé et de votre niveau, puis contrôle de compétences avec un examinateur.",
+      "chiffre": "Échéance dépassée",
+      "chiffre_legende": "",
+      "conditions_intro": "La qualification doit être renouvelée :",
+      "conditions": [
+        "Remise à niveau avec un instructeur (durée selon le temps écoulé et votre niveau)",
+        "Puis contrôle de compétences avec un examinateur"
+      ]
     },
     {
       "titre": "Certificat médical",
       "pour": "LAPL et PPL",
-      "texte": "Classe 2 pour le PPL : valable 5 ans avant 40 ans, 2 ans de 40 à 50 ans, puis 1 an. Certificat LAPL : 5 ans avant 40 ans, puis 2 ans. Sans certificat valide, on ne peut pas voler comme commandant de bord."
+      "texte": "Classe 2 pour le PPL : valable 5 ans avant 40 ans, 2 ans de 40 à 50 ans, puis 1 an. Certificat LAPL : 5 ans avant 40 ans, puis 2 ans. Sans certificat valide, on ne peut pas voler comme commandant de bord.",
+      "chiffre": "1 à 5 ans",
+      "chiffre_legende": "selon votre âge",
+      "conditions_intro": "",
+      "conditions": [
+        "PPL (classe 2) : 5 ans avant 40 ans, 2 ans de 40 à 50 ans, puis 1 an",
+        "LAPL : 5 ans avant 40 ans, puis 2 ans"
+      ],
+      "sinon_label": "Attention",
+      "sinon": "Sans certificat valide, pas de vol comme commandant de bord."
     }
   ],
   "maintien_note": "Pensez à faire signer votre carnet de vol par l'instructeur après chaque vol de remise à niveau. En cas de doute sur une échéance, demandez à un instructeur du club : il vérifie avec vous votre carnet et vos dates.",
