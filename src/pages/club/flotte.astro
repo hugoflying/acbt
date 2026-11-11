@@ -80,8 +80,11 @@ import pages from '../../data/pages.json';
   .prix2 small span { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: inherit; opacity: 1; }
   /* Téléphone : une carte avion entière tient dans l'écran, sans défiler */
   @media (max-width: 599px) {
-    .flotte { gap: 14px; }
-    .photo { aspect-ratio: 16 / 10; }
+    /* Un avion par écran : la carte prend toute la hauteur visible sous le bandeau, et le défilement s'arrête sur chaque avion */
+    :global(html) { scroll-snap-type: y proximity; }
+    .flotte { gap: 16px; }
+    .avion { height: calc(100svh - 60px - 24px); min-height: 440px; scroll-snap-align: start; scroll-margin-top: 72px; }
+    .photo { aspect-ratio: auto; flex: 1 1 auto; min-height: 150px; }
     .immat { left: 10px; bottom: 10px; font-size: .9rem; padding: 3px 10px; }
     .vignettes { gap: 3px; padding: 3px; }
     .vignettes img { aspect-ratio: 16 / 9; }
