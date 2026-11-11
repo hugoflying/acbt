@@ -730,8 +730,36 @@ singletons:
       widget: string
       required: false
       hint: 'Exemple : LAPL et PPL'
+    - name: chiffre
+      label: Chiffre clé
+      widget: string
+      required: false
+      hint: 'Mis en grand en haut de la carte. Exemple : 90 jours'
+    - name: chiffre_legende
+      label: Précision sous le chiffre
+      widget: string
+      required: false
+      hint: 'Exemple : glissants'
+    - name: conditions_intro
+      label: Phrase avant la liste
+      widget: string
+      required: false
+      hint: 'Exemple : Dans les 12 mois avant l''échéance :'
+    - name: conditions
+      label: Conditions (une par ligne)
+      widget: list
+      required: false
+    - name: sinon_label
+      label: Mot devant la solution de rattrapage
+      widget: string
+      required: false
+      hint: 'Laisser vide pour « Sinon ». Exemples : Ou bien, Attention'
+    - name: sinon
+      label: Solution de rattrapage (ligne du bas)
+      widget: text
+      required: false
     - name: texte
-      label: Texte
+      label: Texte (utilisé seulement s'il n'y a pas de conditions)
       widget: text
       required: false
     required: false
