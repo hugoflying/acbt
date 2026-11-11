@@ -33,6 +33,8 @@ const donnees = {
   pass: s.pass_sports,
 };
 const nf = (x: number) => x.toLocaleString('fr-FR');
+// Premier vol aux commandes proposé avant de s'engager : la formule de la page Baptêmes à un seul prix (vol d'initiation)
+const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
 ---
 <div class="simu" id="simulateur">
   <form class="questions" aria-label="Vos réponses">
@@ -68,14 +70,14 @@ const nf = (x: number) => x.toLocaleString('fr-FR');
     </fieldset>
   </form>
 
-  <section class="resultat" id="estimation" aria-live="polite" aria-label="Votre estimation">
-    <p class="r-label">Votre formation <span data-r="licence">LAPL</span> coûterait environ</p>
-    <p class="r-total"><b data-r="reste">—</b> €</p>
+  <section class="resultat" id="estimation" aria-label="Votre estimation">
+    <div aria-live="polite"><p class="r-label">Votre licence <span data-r="licence">LAPL</span>, aides déduites, environ</p>
+    <p class="r-total"><b data-r="reste">—</b> €</p></div>
     <p class="r-sous" data-r="sous"></p>
     <ul class="r-lignes">
       <li><span>Vol avec instructeur <small data-r="hd"></small></span><b data-r="double"></b></li>
       <li><span>Vol seul à bord <small data-r="hs"></small></span><b data-r="solo"></b></li>
-      <li data-r="ligne-blocs"><span>Heures offertes avec les blocs</span><b class="moins" data-r="blocs"></b></li>
+      <li data-r="ligne-blocs"><span>Heures offertes en achetant par blocs</span><b class="moins" data-r="blocs"></b></li>
       <li><span>Adhésion, licence et assurance FFA <small data-r="ans"></small></span><b data-r="adhesion"></b></li>
       <li><span>Livrets, carnet de vol et manuel</span><b>{nf(donnees.fournitures)} €</b></li>
       <li class="total"><span>Total avant aides</span><b data-r="brut"></b></li>
@@ -83,8 +85,8 @@ const nf = (x: number) => x.toLocaleString('fr-FR');
     </ul>
     <p class="r-astuce" data-r="astuce" hidden></p>
     <div class="btns">
-      <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>Je veux me lancer</a>
-      <a class="btn btn-outline" href={url('/decouvrir-le-vol')}>Essayer d'abord (vol d'initiation)</a>
+      <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>Contacter le club pour démarrer</a>
+      {initiation && <a class="btn btn-outline" href={url('/decouvrir-le-vol')}>Essayer d'abord : vol d'initiation à {nf(initiation.prix)} €</a>}
     </div>
     <details class="r-plus">
       <summary>Ce qui n'est pas compris et comment on calcule</summary>
@@ -184,7 +186,7 @@ const nf = (x: number) => x.toLocaleString('fr-FR');
   .c3 { grid-template-columns: repeat(3, 1fr); }
   .choix label { position: relative; cursor: pointer; }
   .choix input { position: absolute; opacity: 0; pointer-events: none; }
-  .choix span { display: flex; flex-direction: column; gap: 2px; height: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; transition: border-color .15s, background .15s, box-shadow .15s; }
+  .choix span { display: flex; flex-direction: column; gap: 2px; height: 100%; min-height: 48px; padding: 12px 14px; border: 1.5px solid #c4baa8; border-radius: 14px; background: #fff; transition: border-color .15s, background .15s, box-shadow .15s; }
   .choix b { font-size: .98rem; color: var(--ink); line-height: 1.25; }
   .choix small { font-size: .8rem; color: var(--muted); line-height: 1.3; }
   .choix label:hover span { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
@@ -201,7 +203,7 @@ const nf = (x: number) => x.toLocaleString('fr-FR');
   .mini b { font-family: var(--font-title); font-size: 1.4rem; color: #ffb48a; }
   .mini .voir { margin-left: auto; color: #fff; }
   @media (min-width: 900px) { .mini { display: none !important; } }
-  .aide-choix { display: inline-block; margin-top: 8px; font-size: .88rem; color: var(--accent); }
+  .aide-choix { display: inline-block; margin-top: 4px; padding: 8px 0; font-size: .9rem; color: var(--accent-fonce); }
 
   .resultat { background: var(--ink); color: #cfd6e0; border-radius: 22px; padding: clamp(20px, 3vw, 30px); }
   .r-label { margin: 0; font-size: .95rem; }

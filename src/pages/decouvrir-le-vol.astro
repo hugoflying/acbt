@@ -17,7 +17,7 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
     <div class="container offre-grid">
       <div class="intro" style={`--img: url('${asset(pages.decouvrir.image)}')`}>
         <span class="eyebrow">Baptême de l'air à Beauvais</span>
-        <h1>{pages.decouvrir.titre}</h1>
+        <h1>{pages.decouvrir.titre.replace(/-/g, '\u2011')}</h1>
         <p class="accroche">{d.accroche}</p>
         <div class="btns cta-large">
           <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver mon vol</a>
@@ -81,7 +81,7 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
   .offre-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
   @media (min-width: 900px) { .offre { padding: 28px 0 36px; } .offre-grid { grid-template-columns: .9fr 1.1fr; align-items: stretch; gap: 24px; } }
 
-  .intro .eyebrow { margin-bottom: .5em; color: var(--accent); }
+  .intro .eyebrow { margin-bottom: .5em; color: var(--accent-fonce); }
   .intro h1 { font-size: clamp(1.7rem, 4vw, 2.9rem); margin-bottom: .3em; max-width: 16ch; text-wrap: balance; }
   .accroche { color: var(--muted); font-size: 1rem; margin: 0; max-width: 46ch; }
   .cta-large { display: none; }
@@ -104,7 +104,7 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
   .formule h2 { font-size: 1.15rem; margin: 0 0 2px; letter-spacing: -.01em; }
   .formule p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.4; }
   .montant { display: flex; align-items: baseline; gap: 8px; flex: none; text-align: right; }
-  .montant b, .tuiles b { font-family: var(--font-title); font-weight: 700; color: var(--accent); line-height: 1; }
+  .montant b, .tuiles b { font-family: var(--font-title); font-weight: 700; color: var(--accent-fonce); line-height: 1; }
   .montant b { font-size: 1.75rem; }
   .montant span { font-size: .78rem !important; color: var(--muted); white-space: nowrap; order: -1; }
   .f-texte { margin-top: 4px !important; }

@@ -15,7 +15,7 @@ const slides = pg.diaporama.map((d) => ({ img: d.image, legende: d.legende }));
 const des = Math.min(...t.formules.flatMap((f) => f.prix.map((p) => p.prix)));
 const cibles = [
   { id: 'decouvrir', href: '/decouvrir-le-vol', badge: `dès ${des.toLocaleString('fr-FR')} €`, action: 'Voir les prix' },
-  { id: 'apprendre', href: '/formations#simulateur', badge: 'Simulateur', action: 'Calculer mon budget' },
+  { id: 'apprendre', href: '/formations#simulateur', badge: 'Budget en 1 minute', action: 'Calculer mon budget' },
   { id: 'voler', href: '/club/flotte', badge: '', action: 'Voir les avions' },
 ];
 const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titre, texte: c.texte, image: c.image }));
@@ -214,7 +214,7 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   .choix-texte h3 { font-size: clamp(1.2rem, 2.2vw, 1.55rem); margin: 0; }
   .choix-texte p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.4; }
   .badge { font-size: .75rem; font-weight: 700; letter-spacing: .04em; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--c) 14%, white); color: color-mix(in srgb, var(--c) 80%, black); }
-  .action { margin-top: auto; padding-top: 8px; font-weight: 600; color: var(--c); font-size: .95rem; }
+  .action { margin-top: auto; padding-top: 8px; font-weight: 600; color: color-mix(in srgb, var(--c) 78%, black); font-size: .95rem; }
   .choix-carte.secondaire { grid-column: 1 / -1; grid-template-columns: 1fr; min-height: 0; box-shadow: none; background: transparent; }
   .secondaire img { display: none; }
   .secondaire .choix-texte { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 14px 20px; border-top: 0; border-left: 4px solid var(--c); }
