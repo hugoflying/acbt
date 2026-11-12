@@ -140,8 +140,8 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
   .bc-texte { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; font-size: .92rem; }
   .bc-texte b { font-family: var(--font-title); font-weight: 600; font-size: 1.02rem; }
   .bc-detail { color: rgba(255,255,255,.75); }
-  .bc-action { margin-left: auto; flex: none; padding: 6px 14px; border-radius: 999px; background: var(--accent-fonce); font-weight: 600; font-size: .86rem; white-space: nowrap; }
-  .bandeau-cadeau:hover .bc-action { background: var(--accent); }
+  .bc-action { margin-left: auto; flex: none; padding: 6px 14px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.55); font-weight: 600; font-size: .86rem; white-space: nowrap; transition: background-color .2s, color .2s; }
+  .bandeau-cadeau:hover .bc-action { background: #fff; color: var(--ink); }
   .bc-court { display: none; }
   @media (max-width: 899px) { .bc-detail { display: none; } }
   @media (max-width: 599px) {
