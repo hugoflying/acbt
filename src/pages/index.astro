@@ -126,8 +126,6 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
     </div>
   </section>
 
-  <div class="bande-metar"><div class="container"><Metar sombre /></div></div>
-
   <section class="section">
     <div class="container contact-band">
       <div>
@@ -139,6 +137,11 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
           <a class="btn btn-outline" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
         </div>
       </div>
+      <aside class="terrain" data-reveal="right" aria-label="Météo du terrain">
+        <span class="eyebrow">Sur le terrain en ce moment</span>
+        <Metar />
+        <p>Le METAR est le bulletin météo de l'aérodrome de Beauvais-Tillé, mis à jour toutes les demi-heures pour les pilotes.</p>
+      </aside>
     </div>
   </section>
 </Base>
@@ -258,8 +261,12 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   .points strong { font-family: var(--font-title); font-size: 2.4rem; line-height: 1; color: var(--ink); }
   .points span { color: var(--muted); font-size: .95rem; }
   @media (max-width: 700px) { .points { grid-template-columns: 1fr; gap: 14px; } .points div { flex-direction: row; align-items: baseline; gap: 14px; } .points strong { font-size: 1.8rem; min-width: 3.2em; } }
-  .bande-metar { background: #0a1424; border-top: 1px solid rgba(255,255,255,.08); padding: 12px 0; }
-  .contact-band { display: block; }
+  /* La météo du terrain accompagne « Venir au club » : c'est là qu'elle a du sens pour un visiteur comme pour un pilote */
+  .contact-band { display: grid; gap: clamp(24px, 4vw, 56px); grid-template-columns: 1.2fr .8fr; align-items: center; }
+  .terrain { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 20px 22px; }
+  .terrain .eyebrow { margin-bottom: .9em; }
+  .terrain p { margin: 12px 0 0; font-size: .85rem; color: var(--muted); line-height: 1.45; }
+  @media (max-width: 899px) { .contact-band { grid-template-columns: 1fr; } }
   .contact-band .btns { margin-top: 20px; }
 
   /* Mises en avant : baptême puis formation, photo d'un côté et l'essentiel de l'autre */
