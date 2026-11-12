@@ -35,6 +35,7 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
       {slides.map((s, i) => <img {...photo(s.img, '100vw')} fetchpriority={i ? undefined : 'high'} alt={s.legende} class:list={{ on: i === 0 }} loading={i ? 'lazy' : 'eager'} />)}
     </div>
     <div class="voile"></div>
+    <div class="hero-metar"><div class="container"><Metar sombre /></div></div>
     <svg class="vol" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
         <mask id="trace-mask" maskUnits="userSpaceOnUse"><path id="trace-plein" d="M -60 560 C 220 560, 430 470, 580 330 S 840 70, 1100 30" fill="none" stroke="#fff" stroke-width="6" /></mask>
@@ -137,11 +138,6 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
           <a class="btn btn-outline" href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
         </div>
       </div>
-      <aside class="terrain" data-reveal="right" aria-label="Météo du terrain">
-        <span class="eyebrow">Sur le terrain en ce moment</span>
-        <Metar />
-        <p>Le METAR est le bulletin météo de l'aérodrome de Beauvais-Tillé, mis à jour toutes les demi-heures pour les pilotes.</p>
-      </aside>
     </div>
   </section>
 </Base>
@@ -261,12 +257,16 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   .points strong { font-family: var(--font-title); font-size: 2.4rem; line-height: 1; color: var(--ink); }
   .points span { color: var(--muted); font-size: .95rem; }
   @media (max-width: 700px) { .points { grid-template-columns: 1fr; gap: 14px; } .points div { flex-direction: row; align-items: baseline; gap: 14px; } .points strong { font-size: 1.8rem; min-width: 3.2em; } }
-  /* La météo du terrain accompagne « Venir au club » : c'est là qu'elle a du sens pour un visiteur comme pour un pilote */
-  .contact-band { display: grid; gap: clamp(24px, 4vw, 56px); grid-template-columns: 1.2fr .8fr; align-items: center; }
-  .terrain { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 20px 22px; }
-  .terrain .eyebrow { margin-bottom: .9em; }
-  .terrain p { margin: 12px 0 0; font-size: .85rem; color: var(--muted); line-height: 1.45; }
-  @media (max-width: 899px) { .contact-band { grid-template-columns: 1fr; } }
+  .contact-band { display: block; }
+  /* Météo du terrain : fine bande posée en haut de la photo d'accueil */
+  .hero-metar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; padding: 8px 0; background: rgba(10,18,31,.55); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.12); }
+  @media (max-width: 700px) {
+    .hero-metar { padding: 6px 0; }
+    .hero-metar :global(.metar) { gap: 8px; flex-wrap: nowrap; align-items: flex-start; }
+    .hero-metar :global(.raw) { font-size: .7rem; line-height: 1.35; }
+    .hero-metar :global(.station), .hero-metar :global(.etat b) { display: none; }
+    .hero-metar :global(.etat) { margin-top: 4px; }
+  }
   .contact-band .btns { margin-top: 20px; }
 
   /* Mises en avant : baptême puis formation, photo d'un côté et l'essentiel de l'autre */
