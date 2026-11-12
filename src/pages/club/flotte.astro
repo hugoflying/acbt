@@ -1,4 +1,5 @@
 ---
+import { photo, photoUrl } from '../../lib/photo';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import { getCollection } from 'astro:content';
@@ -15,12 +16,12 @@ import pages from '../../data/pages.json';
         return (
           <article class="avion" id={a.id}>
             <div class="photo">
-              {a.data.photos[0] && <img class="main" src={asset(a.data.photos[0])} alt={a.data.nom} loading={i < 3 ? 'eager' : 'lazy'} />}
+              {a.data.photos[0] && <img class="main" {...photo(a.data.photos[0], '(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw')} alt={a.data.nom} loading={i < 3 ? 'eager' : 'lazy'} />}
               {a.data.immatriculation && <span class="immat">{a.data.immatriculation}</span>}
             </div>
             {a.data.photos.length > 1 && (
               <div class="vignettes">
-                {a.data.photos.slice(1, 4).map((p) => <a href={asset(p)} target="_blank" aria-label={`Photo de ${a.data.nom}`}><img src={asset(p)} alt="" loading="lazy" /></a>)}
+                {a.data.photos.slice(1, 4).map((p) => <a href={asset(p)} target="_blank" aria-label={`Photo de ${a.data.nom}`}><img {...photo(p, '160px')} alt="" loading="lazy" /></a>)}
               </div>
             )}
             <div class="infos">

@@ -1,4 +1,5 @@
 ---
+import { photo, photoUrl } from '../lib/photo';
 // Bloc « heures de vol » de la page Tarifs : une carte par groupe d'avions aux tarifs identiques.
 // Le prix affiché est celui en vigueur au moment de la publication (le site se republie chaque nuit).
 import type { CollectionEntry } from 'astro:content';
@@ -21,7 +22,7 @@ const modeles = (g: typeof lignes) => [...new Set(g.map((l) => l.a.data.type.rep
     {groupes.map((g) => (
       <article class="groupe">
         <div class="mosaique" data-n={Math.min(g.length, 3)}>
-          {g.slice(0, 3).map((l) => l.a.data.photos[0] && <img src={asset(l.a.data.photos[0])} alt={l.a.data.nom} loading="lazy" />)}
+          {g.slice(0, 3).map((l) => l.a.data.photos[0] && <img {...photo(l.a.data.photos[0], '(min-width: 900px) 25vw, 60vw')} alt={l.a.data.nom} loading="lazy" />)}
         </div>
         <div class="infos">
           <h3>{modeles(g)}</h3>

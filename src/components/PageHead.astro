@@ -1,9 +1,10 @@
 ---
+import { photo, photoUrl } from '../lib/photo';
 import { asset } from '../lib/utils';
 interface Props { eyebrow?: string; title: string; lead?: string; image?: string }
 const { eyebrow, title, lead, image } = Astro.props;
 ---
-<section class:list={['page-head', { 'has-img': image }]} style={image ? `--img: url('${asset(image)}')` : undefined}>
+<section class:list={['page-head', { 'has-img': image }]} style={image ? `--img: url('${photoUrl(image)}')` : undefined}>
   <div class="container">
     {eyebrow && <span class="eyebrow" data-reveal data-delay="0.1">{eyebrow}</span>}
     <h1 data-split="now">{title}</h1>

@@ -480,6 +480,40 @@ singletons:
         widget: image
         required: false
       required: false
+    - name: bapteme
+      label: Bloc « Baptême de l'air » (les prix viennent de la rubrique Tarifs)
+      widget: object
+      fields:
+      - name: titre
+        label: Titre
+        widget: string
+        required: false
+      - name: texte
+        label: Texte
+        widget: text
+        required: false
+      - name: image
+        label: Photo
+        widget: image
+        required: false
+      required: false
+    - name: formation
+      label: Bloc « Devenir pilote » (les étapes viennent de la page Devenir pilote)
+      widget: object
+      fields:
+      - name: titre
+        label: Titre
+        widget: string
+        required: false
+      - name: texte
+        label: Texte
+        widget: text
+        required: false
+      - name: image
+        label: Photo
+        widget: image
+        required: false
+      required: false
     - name: atouts_titre
       label: Titre du bloc des chiffres clés
       widget: string

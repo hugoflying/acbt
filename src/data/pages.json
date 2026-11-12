@@ -37,6 +37,16 @@
         "image": "/uploads/avions/IMG-20251113-WA0049.jpg"
       }
     ],
+    "bapteme": {
+      "titre": "Voir Beauvais d'en haut",
+      "texte": "En passager avec un pilote du club, ou aux commandes avec un instructeur. À vivre ou à offrir en bon cadeau.",
+      "image": "/uploads/avions/dr400-petit-prince-02.jpg"
+    },
+    "formation": {
+      "titre": "Et si vous deveniez pilote ?",
+      "texte": "À votre rythme, avec des instructeurs bénévoles. Commencez par un vol d'initiation, puis estimez votre budget en une minute.",
+      "image": "/uploads/actualites/2022/lache-elisa/01.jpg"
+    },
     "atouts_titre": "Un club, pas une entreprise",
     "atouts": [
       {

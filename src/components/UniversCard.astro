@@ -1,11 +1,12 @@
 ---
+import { photo, photoUrl } from '../lib/photo';
 // Carte d'entrée de l'accueil. Trois styles possibles : 'photo' (plein cadre), 'bandeau' (titre sur bande de couleur), 'epure' (photo + texte dessous).
 import { url, asset } from '../lib/utils';
 interface Props { u: { id: string; titre: string; sousTitre: string; href: string; image: string }; big?: boolean; variante?: 'photo' | 'bandeau' | 'epure' }
 const { u, big = false, variante = 'photo' } = Astro.props;
 ---
 <a class:list={['carte', variante, `u-${u.id}`, { big }]} href={url(u.href)}>
-  <div class="img"><div class="par" data-parallax="3"><img src={asset(u.image)} alt="" loading="lazy" /></div></div>
+  <div class="img"><div class="par" data-parallax="3"><img {...photo(u.image, '(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw')} alt="" loading="lazy" /></div></div>
   <div class="texte">
     <h3>{u.titre}</h3>
     <p>{u.sousTitre}</p>

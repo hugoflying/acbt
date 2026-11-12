@@ -119,6 +119,8 @@ function reveals() {
 
   // Longues listes : apparition par vagues, au fil du défilement
   document.querySelectorAll<HTMLElement>('[data-batch]').forEach((parent) => {
+    // Les listes masquées (années d'actualités non choisies) ne sont pas animées : inutile de préparer des centaines de cartes
+    if (!parent.offsetParent) return;
     const enfants = [...parent.children] as HTMLElement[];
     gsap.set(enfants, { autoAlpha: 0, y: 50 });
     ScrollTrigger.batch(enfants, {

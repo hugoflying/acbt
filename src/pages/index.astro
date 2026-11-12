@@ -1,10 +1,12 @@
 ---
+import { photo, photoUrl } from '../lib/photo';
 import Base from '../layouts/Base.astro';
 import Metar from '../components/Metar.astro';
 import { getCollection } from 'astro:content';
 import club from '../data/club.json';
 import pages from '../data/pages.json';
 import t from '../data/tarifs.json';
+import f from '../data/formations.json';
 import { url, asset } from '../lib/utils';
 
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
@@ -30,7 +32,7 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   })} />
   <section class="hero" aria-label="Présentation">
     <div class="slides">
-      {slides.map((s, i) => <img src={asset(s.img)} alt={s.legende} class:list={{ on: i === 0 }} loading={i ? 'lazy' : 'eager'} />)}
+      {slides.map((s, i) => <img {...photo(s.img, '100vw')} fetchpriority={i ? undefined : 'high'} alt={s.legende} class:list={{ on: i === 0 }} loading={i ? 'lazy' : 'eager'} />)}
     </div>
     <div class="voile"></div>
     <svg class="vol" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -55,7 +57,7 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
       <div class="choix" data-stagger>
         {choix.map((c, i) => (
           <a class:list={['choix-carte', `c-${c.id}`, { secondaire: i === 2 }]} href={url(c.href)}>
-            <img src={asset(c.image)} alt="" loading={i < 2 ? 'eager' : 'lazy'} />
+            <img {...photo(c.image, '(min-width: 900px) 20vw, 35vw')} alt="" loading={i < 2 ? 'eager' : 'lazy'} />
             <div class="choix-texte">
               {c.badge && <span class="badge">{c.badge}</span>}
               <h3>{c.titre}</h3>
@@ -64,6 +66,44 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white vedette">
+    <div class="container duo">
+      <div class="duo-img" data-reveal="left"><img {...photo(pg.bapteme.image, '(min-width: 900px) 45vw, 100vw')} alt="" loading="lazy" /></div>
+      <div class="duo-txt">
+        <span class="eyebrow">Baptême de l'air</span>
+        <h2 data-split>{pg.bapteme.titre}</h2>
+        <p class="lead" data-reveal>{pg.bapteme.texte}</p>
+        <ul class="formules" data-stagger>
+          {t.formules.map((x) => (
+            <li><span><b>{x.titre}</b><small>{x.texte}</small></span><strong>{x.prix.length > 1 && <i>dès</i>}{Math.min(...x.prix.map((p) => p.prix)).toLocaleString('fr-FR')} €</strong></li>
+          ))}
+        </ul>
+        <div class="btns">
+          <a class="btn btn-primary" href={url('/contact?objet=Baptême')}>Réserver mon vol</a>
+          <a class="btn btn-outline" href={url('/contact?objet=Bon cadeau')}>Offrir un bon cadeau</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section vedette pilote">
+    <div class="container duo inverse">
+      <div class="duo-img" data-reveal="right"><img {...photo(pg.formation.image, '(min-width: 900px) 45vw, 100vw')} alt="" loading="lazy" /></div>
+      <div class="duo-txt">
+        <span class="eyebrow">Formation de pilote</span>
+        <h2 data-split>{pg.formation.titre}</h2>
+        <p class="lead" data-reveal>{pg.formation.texte}</p>
+        <ol class="etapes-courtes" data-stagger>
+          {f.parcours.slice(0, 4).map((e, i) => <li><span>{i + 1}</span>{e.titre}</li>)}
+        </ol>
+        <div class="btns">
+          <a class="btn btn-primary" href={url('/formations#simulateur')}>Calculer mon budget</a>
+          <a class="btn btn-outline" href={url('/formations')}>Comment ça se passe</a>
+        </div>
       </div>
     </div>
   </section>
@@ -161,7 +201,6 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   .hero h1 { font-size: clamp(2.1rem, 5vw, 3.8rem); }
   .hero h1 { color: #fff; max-width: 13ch; }
   .hero .lead { color: rgba(255,255,255,.88); max-width: 46ch; }
-  .hero-bas { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.25); padding-top: 20px; }
   /* Mobile : la photo passe au-dessus, le texte sur fond uni pour rester lisible. */
   @media (max-width: 700px) {
     .hero { flex-direction: column; min-height: 0; }
@@ -174,30 +213,10 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
     .hero .lead { color: rgba(255,255,255,.82); }
     .hero .btns .btn { flex: 1 1 auto; justify-content: center; }
   }
-  .compteur { font-size: .85rem; letter-spacing: .1em; color: rgba(255,255,255,.75); }
-  .compteur b { font-family: var(--font-title); font-size: 1.6rem; color: #fff; letter-spacing: 0; }
-  .compteur span { margin-left: 14px; text-transform: none; letter-spacing: 0; }
-  .une { display: block; max-width: 380px; padding: 16px 20px; border-radius: 16px; background: rgba(255,255,255,.12); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.22); color: #fff; text-decoration: none; transition: background .2s; }
-  .une:hover { background: rgba(255,255,255,.22); color: #fff; }
-  .une-label { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: #ffc59e; margin-bottom: 4px; }
-  .une strong { font-family: var(--font-title); font-size: 1.1rem; font-weight: 600; }
 
 
-  .flotte { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  .avion { text-decoration: none; color: inherit; }
-  .avion img { aspect-ratio: 4 / 5; object-fit: cover; width: 100%; border-radius: 18px; transition: transform .4s; }
-  .avion:hover img { transform: translateY(-4px); }
-  .avion div { padding: 14px 4px 0; display: flex; flex-direction: column; }
-  .avion strong { font-family: var(--font-title); font-size: 1.2rem; font-weight: 600; }
-  .avion span { color: var(--muted); font-size: .88rem; }
 
 
-  .histoire .grid { align-items: center; }
-  .histoire-img { border-radius: 20px; overflow: hidden; }
-  .histoire img { filter: sepia(.15); width: 100%; }
-  .chiffres { display: flex; gap: 36px; margin: 28px 0 32px; flex-wrap: wrap; }
-  .chiffres strong { display: block; font-family: var(--font-title); font-size: 2.4rem; color: #fff; line-height: 1; }
-  .chiffres span { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: #9fb0c6; }
   .facons { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
   .facons :global(.carte) { min-height: 0; }
   .facons :global(.carte .img) { aspect-ratio: 3 / 2; flex: none; min-height: 0; }
@@ -213,7 +232,7 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   .choix-texte { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 18px 20px; border-top: 4px solid var(--c); }
   .choix-texte h3 { font-size: clamp(1.2rem, 2.2vw, 1.55rem); margin: 0; }
   .choix-texte p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.4; }
-  .badge { font-size: .75rem; font-weight: 700; letter-spacing: .04em; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--c) 14%, white); color: color-mix(in srgb, var(--c) 80%, black); }
+  .badge { font-size: .75rem; font-weight: 700; letter-spacing: .04em; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--c) 14%, white); color: color-mix(in srgb, var(--c) 62%, black); }
   .action { margin-top: auto; padding-top: 8px; font-weight: 600; color: color-mix(in srgb, var(--c) 78%, black); font-size: .95rem; }
   .choix-carte.secondaire { grid-column: 1 / -1; grid-template-columns: 1fr; min-height: 0; box-shadow: none; background: transparent; }
   .secondaire img { display: none; }
@@ -242,4 +261,33 @@ const choix = pg.cartes.slice(0, 3).map((c, i) => ({ ...cibles[i], titre: c.titr
   .bande-metar { background: #0a1424; border-top: 1px solid rgba(255,255,255,.08); padding: 12px 0; }
   .contact-band { display: block; }
   .contact-band .btns { margin-top: 20px; }
+
+  /* Mises en avant : baptême puis formation, photo d'un côté et l'essentiel de l'autre */
+  .duo { display: grid; gap: clamp(24px, 4vw, 56px); grid-template-columns: 1fr 1fr; align-items: center; }
+  .duo.inverse .duo-img { order: 2; }
+  .duo-img { border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 3; }
+  .duo-img img { width: 100%; height: 100%; object-fit: cover; }
+  .vedette .eyebrow { color: var(--accent-fonce); }
+  .vedette .lead { margin: 0 0 20px; font-size: 1.08rem; }
+  .vedette.pilote { --accent: #2f6fd6; --accent-fonce: color-mix(in srgb, var(--accent) 78%, black); }
+  .formules { list-style: none; margin: 0 0 22px; padding: 0; border-top: 1px solid var(--line); }
+  .formules li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .formules span { display: flex; flex-direction: column; min-width: 0; }
+  .formules b { font-family: var(--font-title); font-weight: 600; font-size: 1.08rem; color: var(--ink); }
+  .formules small { color: var(--muted); font-size: .86rem; line-height: 1.35; }
+  .formules strong { flex: none; font-family: var(--font-title); font-size: 1.5rem; color: var(--accent-fonce); white-space: nowrap; }
+  .formules i { font-style: normal; font-family: var(--font-body); font-size: .78rem; font-weight: 500; color: var(--muted); margin-right: 6px; }
+  .etapes-courtes { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  .etapes-courtes li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #fff; border: 1px solid var(--line); font-weight: 600; color: var(--ink); font-size: .95rem; line-height: 1.25; }
+  .etapes-courtes span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 12%, white); color: var(--accent-fonce); font-family: var(--font-title); font-size: .9rem; }
+  @media (max-width: 899px) {
+    .duo { grid-template-columns: 1fr; }
+    .duo.inverse .duo-img { order: 0; }
+    .duo-img { aspect-ratio: 16 / 9; border-radius: 18px; }
+    .vedette .btns .btn { flex: 1 1 auto; justify-content: center; }
+  }
+  @media (max-width: 599px) {
+    .formules small { display: none; }
+    .etapes-courtes { grid-template-columns: 1fr; gap: 8px; }
+  }
 </style>

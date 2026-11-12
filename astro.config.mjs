@@ -26,4 +26,6 @@ export default defineConfig({
   base,
   trailingSlash: 'ignore',
   markdown: { rehypePlugins: [rehypeBase] },
+  // Les feuilles de style (quelques Ko) sont écrites dans la page : un aller-retour réseau de moins avant l'affichage.
+  build: { inlineStylesheets: 'always' },
 });
