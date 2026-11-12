@@ -74,6 +74,8 @@ const actif = (href: string) =>
   .actions { order: 10; margin-left: 12px; display: flex; align-items: center; }
   @media (max-width: 900px) { .actions { order: 0; margin-left: auto; margin-right: 4px; } }
   @media (max-width: 400px) { .bar:has(.actions) .logo small { display: none; } }
+  /* Page baptême sur téléphone : sans le bouton Réserver, le nom complet du club reprend sa place */
+  @media (max-width: 400px) { .bar:has(.reserver.doublon) .logo small { display: block; } }
   @media (max-width: 900px) {
     .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
     .burger span { width: 24px; height: 2px; background: var(--ink); transition: transform .25s, opacity .2s; }
