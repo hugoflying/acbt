@@ -54,7 +54,23 @@ const pg = pages.formations;
       <div class="container">
         <span class="eyebrow">LAPL ou PPL</span>
         <h2 data-split>{f.privileges_titre}</h2>
-        <div class="vs" data-reveal>
+        <div class="duo-lic" data-stagger>
+          {[{ code: 'LAPL', nom: 'Licence de pilote d\'avion léger', pour: f.pour_qui_lapl, k: 'lapl_court' }, { code: 'PPL', nom: 'Licence de pilote privé', pour: f.pour_qui_ppl, k: 'ppl_court' }].map((c) => (
+            <article class:list={['lic', { fonce: c.code === 'PPL' }]}>
+              <p class="lic-code">{c.code}</p>
+              <p class="lic-nom">{c.nom}</p>
+              {c.pour && <p class="lic-pour">{c.pour}</p>}
+              <ul class="lic-points">
+                {f.privileges.filter((p) => p.essentiel).map((p) => (
+                  <li><span class="ico" aria-hidden="true">{p.icone}</span><span><b>{p[c.k] || (c.code === 'PPL' ? p.ppl : p.lapl)}</b><small>{p.critere}</small></span></li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <details class="toutes">
+        <summary>Voir toutes les différences <span aria-hidden="true">+</span></summary>
+        <div class="vs">
           <div class="vs-tete" aria-hidden="true"><span></span><b>LAPL</b><b class="ppl">PPL</b></div>
           {f.privileges.map((p) => (
             <details class="vs-ligne">
@@ -71,6 +87,7 @@ const pg = pages.formations;
           ))}
         </div>
         <p class="meta" style="margin-top:14px;max-width:80ch">Touchez une ligne pour le détail. {f.privileges_note}</p>
+        </details>
       </div>
     </section>
   )}
@@ -115,6 +132,31 @@ const pg = pages.formations;
   )}
 </Base>
 <style>
+  .duo-lic { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 980px; }
+  @media (min-width: 721px) { .lic-pour { min-height: 5.6em; } }
+  @media (max-width: 720px) { .duo-lic { grid-template-columns: 1fr; gap: 14px; } }
+  .lic { border-radius: 24px; padding: clamp(20px, 3vw, 30px); background: var(--paper); border: 1px solid var(--line); }
+  .lic.fonce { background: var(--ink); color: #cfd6e0; border-color: var(--ink); }
+  .lic-code { margin: 0; font-family: var(--font-title); font-weight: 700; font-size: clamp(2.6rem, 6vw, 3.6rem); line-height: 1; color: var(--ink); letter-spacing: -.02em; }
+  .fonce .lic-code { color: #fff; }
+  .lic-nom { margin: 4px 0 12px; font-size: .9rem; color: var(--muted); }
+  .fonce .lic-nom { color: #9fb0c6; }
+  .lic-pour { margin: 0 0 18px; font-size: 1rem; line-height: 1.45; color: var(--text); padding: 12px 14px; border-radius: 14px; background: #fff; }
+  .fonce .lic-pour { background: rgba(255,255,255,.08); color: #fff; }
+  .lic-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .lic-points li { display: flex; gap: 12px; align-items: center; }
+  .ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #fff; font-size: 1.15rem; }
+  .fonce .ico { background: rgba(255,255,255,.1); }
+  .lic-points b { display: block; color: var(--ink); font-size: 1rem; line-height: 1.25; }
+  .fonce .lic-points b { color: #fff; }
+  .lic-points small { font-size: .78rem; color: var(--muted); }
+  .fonce .lic-points small { color: #9fb0c6; }
+  .toutes { margin-top: 18px; max-width: 980px; }
+  .toutes > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; border: 1.5px solid var(--ink); font-weight: 600; color: var(--ink); }
+  .toutes > summary::-webkit-details-marker { display: none; }
+  .toutes[open] > summary span { transform: rotate(45deg); }
+  .toutes > summary span { transition: transform .2s; }
+  .toutes .vs { margin-top: 16px; }
   .vs { max-width: 900px; border-top: 1px solid var(--line); }
   .vs-tete, .vs-ligne summary { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; align-items: baseline; }
   .vs-tete { padding: 10px 28px 10px 0; font-family: var(--font-title); font-size: 1.1rem; color: var(--ink); }

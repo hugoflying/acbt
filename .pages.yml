@@ -282,6 +282,8 @@ content:
           - { name: points, label: Points clés, type: string, list: true }
       - { name: note, label: Note sous les licences, type: text }
       - { name: privileges_titre, label: Titre du comparatif LAPL / PPL, type: string }
+      - { name: pour_qui_lapl, label: "LAPL : pour qui ? (phrase en haut de la carte)", type: text }
+      - { name: pour_qui_ppl, label: "PPL : pour qui ? (phrase en haut de la carte)", type: text }
       - name: privileges
         label: Comparatif LAPL / PPL (une ligne par critère)
         type: object
@@ -292,6 +294,8 @@ content:
           - { name: ppl_court, label: PPL en quelques mots, type: string }
           - { name: lapl, label: Avec le LAPL (détail affiché en touchant la ligne), type: text }
           - { name: ppl, label: Avec le PPL (détail affiché en touchant la ligne), type: text }
+          - { name: icone, label: Icône (un émoji), type: string }
+          - { name: essentiel, label: Affiché sur les cartes LAPL / PPL, type: boolean, description: "Les autres critères restent visibles dans « Voir toutes les différences »." }
       - { name: privileges_note, label: Note sous le comparatif, type: text }
       - { name: maintien_titre, label: Titre « Garder sa licence valide », type: string }
       - { name: maintien_intro, label: Introduction, type: text }
