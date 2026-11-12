@@ -46,8 +46,8 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
         <label><input type="radio" name="age" value="adulte" checked /><span><b>21 ans et plus</b></span></label>
       </div>
       <div class="options" data-si="jeune">
-        <label class="case"><input type="checkbox" name="bia" /> <span>J'ai ou je prépare le BIA <small>(brevet d'initiation aéronautique)</small></span></label>
-        <label class="case" data-si="m18"><input type="checkbox" name="oise" /> J'habite dans l'Oise</label>
+        <label class="case"><input type="checkbox" name="bia" /><i aria-hidden="true"></i><span>J'ai ou je prépare le BIA <small>(brevet d'initiation aéronautique)</small></span></label>
+        <label class="case" data-si="m18"><input type="checkbox" name="oise" /><i aria-hidden="true"></i><span>J'habite dans l'Oise</span></label>
       </div>
     </fieldset>
     <fieldset>
@@ -66,7 +66,7 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
           <label><input type="radio" name="rythme" value={i} checked={i === 1} /><span><b>{r.libelle}</b><small>{r.detail}</small></span></label>
         ))}
       </div>
-      {bloc && <label class="case"><input type="checkbox" name="blocs" checked /> <span>J'achète mes heures par blocs de {bloc.heures} h <small>({bloc.offert})</small></span></label>}
+      {bloc && <label class="case"><input type="checkbox" name="blocs" checked /><i aria-hidden="true"></i><span>J'achète mes heures par blocs de {bloc.heures} h <small>({bloc.offert})</small></span></label>}
     </fieldset>
   </form>
 
@@ -75,21 +75,23 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
     <p class="r-total"><b data-r="reste">—</b> €</p></div>
     <p class="r-sous" data-r="sous"></p>
     <ul class="r-lignes">
-      <li><span>Vol avec instructeur <small data-r="hd"></small></span><b data-r="double"></b></li>
-      <li><span>Vol seul à bord <small data-r="hs"></small></span><b data-r="solo"></b></li>
-      <li data-r="ligne-blocs"><span>Heures offertes en achetant par blocs</span><b class="moins" data-r="blocs"></b></li>
-      <li><span>Adhésion, licence et assurance FFA <small data-r="ans"></small></span><b data-r="adhesion"></b></li>
-      <li><span>Livrets, carnet de vol et manuel</span><b>{nf(donnees.fournitures)} €</b></li>
       <li class="total"><span>Total avant aides</span><b data-r="brut"></b></li>
       <li class="aides" data-r="ligne-aides"><span>Aides possibles <small data-r="aides-detail"></small></span><b class="moins" data-r="aides"></b></li>
     </ul>
     <p class="r-astuce" data-r="astuce" hidden></p>
     <div class="btns">
       <a class="btn btn-primary" href={url('/contact?objet=Inscription')}>Contacter le club pour démarrer</a>
-      {initiation && <a class="btn btn-outline" href={url('/decouvrir-le-vol')}>Essayer d'abord : vol d'initiation à {nf(initiation.prix)} €</a>}
     </div>
+    {initiation && <a class="r-essai" href={url('/decouvrir-le-vol')}>Essayer d'abord : vol d'initiation à {nf(initiation.prix)} € <span aria-hidden="true">→</span></a>}
     <details class="r-plus">
-      <summary>Ce qui n'est pas compris et comment on calcule</summary>
+      <summary>Voir le détail du calcul</summary>
+      <ul class="r-lignes detail">
+        <li><span>Vol avec instructeur <small data-r="hd"></small></span><b data-r="double"></b></li>
+        <li><span>Vol seul à bord <small data-r="hs"></small></span><b data-r="solo"></b></li>
+        <li data-r="ligne-blocs"><span>Heures offertes en achetant par blocs</span><b class="moins" data-r="blocs"></b></li>
+        <li><span>Adhésion, licence et assurance FFA <small data-r="ans"></small></span><b data-r="adhesion"></b></li>
+        <li><span>Livrets, carnet de vol et manuel</span><b>{nf(donnees.fournitures)} €</b></li>
+      </ul>
       <p>Non compris : {s.non_compris.join(', ').toLowerCase()}.</p>
       <p>Calcul sur la base du {donnees.avion} : {nf(donnees.double)} € l'heure avec instructeur, {nf(donnees.solo)} € l'heure seul à bord (tarifs en vigueur). {s.note}</p>
     </details>
@@ -193,11 +195,18 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
   .choix input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, white); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
   .choix input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
   @media (max-width: 520px) { .c3 { grid-template-columns: 1fr; } .c3 span { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 10px; } }
-  .options { display: grid; gap: 6px; margin-top: 10px; }
-  .case { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: .95rem; cursor: pointer; }
+  .options { display: grid; gap: 10px; margin-top: 14px; }
+  /* Options oui / non : un interrupteur plutôt qu'une case à cocher */
+  .case { position: relative; display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: .95rem; color: var(--ink); cursor: pointer; width: fit-content; max-width: 100%; }
   .options .case { margin-top: 0; }
-  .case input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+  .case input { position: absolute; opacity: 0; pointer-events: none; }
+  .case i { position: relative; flex: none; width: 40px; height: 24px; border-radius: 999px; background: #cfc6b6; transition: background-color .2s; }
+  .case i::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(15,27,45,.25); transition: transform .2s cubic-bezier(.2,.7,.2,1); }
+  .case input:checked + i { background: var(--accent); }
+  .case input:checked + i::after { transform: translateX(16px); }
+  .case input:focus-visible + i { outline: 2px solid var(--accent); outline-offset: 2px; }
   .case small { color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .case i, .case i::after { transition: none; } }
   [hidden] { display: none !important; }
   .mini { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 16px; background: var(--ink); color: #cfd6e0; text-decoration: none; box-shadow: 0 12px 30px rgba(15,27,45,.3); font-size: .85rem; }
   .mini b { font-family: var(--font-title); font-size: 1.4rem; color: #ffb48a; }
@@ -208,20 +217,21 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
   .resultat { background: var(--ink); color: #cfd6e0; border-radius: 22px; padding: clamp(20px, 3vw, 30px); }
   .r-label { margin: 0; font-size: .95rem; }
   .r-label span { color: #fff; font-weight: 600; }
-  .r-total { margin: 2px 0 4px; font-family: var(--font-title); font-weight: 700; font-size: clamp(2.6rem, 7vw, 3.6rem); line-height: 1; color: #fff; }
+  .r-total { margin: 2px 0 4px; font-family: var(--font-title); font-weight: 700; font-size: clamp(2.4rem, 5vw, 3rem); line-height: 1; color: #fff; }
   .r-total b { color: #ffb48a; }
   .r-sous { margin: 0 0 16px; font-size: .88rem; color: #9fb0c6; }
   .r-lignes { list-style: none; margin: 0 0 14px; padding: 0; font-size: .9rem; }
   .r-lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.1); }
   .r-lignes small { display: block; color: #8698b0; font-size: .78rem; }
   .r-lignes b { color: #fff; white-space: nowrap; font-weight: 600; }
-  .r-lignes .total { border-top-color: rgba(255,255,255,.35); }
   .r-lignes .moins { color: #7fd6bb; }
   .r-lignes .aides span { color: #7fd6bb; }
   .r-astuce { margin: 0 0 16px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.07); font-size: .88rem; color: #e6ecf3; }
-  .resultat .btns { margin-bottom: 14px; }
-  .resultat .btn-outline { border-color: rgba(255,255,255,.55); color: #fff; }
-  .resultat .btn-outline:hover { background: #fff; color: var(--ink); }
+  .resultat .btns { margin-bottom: 10px; }
+  .r-essai { display: inline-block; margin-bottom: 14px; font-size: .9rem; color: #fff; text-decoration-color: rgba(255,255,255,.4); }
+  .r-essai:hover { color: #ffb48a; }
+  .r-lignes.detail { margin: 10px 0 0; }
+  .r-plus { border-top: 1px solid rgba(255,255,255,.1); padding-top: 12px; }
   .r-plus summary { cursor: pointer; font-size: .85rem; color: #9fb0c6; }
   .r-plus p { font-size: .82rem; color: #9fb0c6; margin: 8px 0 0; }
 </style>
