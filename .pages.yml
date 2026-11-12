@@ -294,7 +294,11 @@ content:
           - { name: ppl_court, label: PPL en quelques mots, type: string }
           - { name: lapl, label: Avec le LAPL (détail affiché en touchant la ligne), type: text }
           - { name: ppl, label: Avec le PPL (détail affiché en touchant la ligne), type: text }
-          - { name: icone, label: Icône (un émoji), type: string }
+          - name: icone
+            label: Icône
+            type: select
+            options:
+              values: [avion, personnes, passagers, monde, qualification, medical, argent, validite, suite]
           - { name: essentiel, label: Affiché sur les cartes LAPL / PPL, type: boolean, description: "Les autres critères restent visibles dans « Voir toutes les différences »." }
       - { name: privileges_note, label: Note sous le comparatif, type: text }
       - { name: maintien_titre, label: Titre « Garder sa licence valide », type: string }

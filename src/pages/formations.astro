@@ -4,6 +4,7 @@ import PageHead from '../components/PageHead.astro';
 import Etapes from '../components/Etapes.astro';
 import Faq from '../components/Faq.astro';
 import Simulateur from '../components/Simulateur.astro';
+import Icone from '../components/Icone.astro';
 import simu from '../data/simulateur.json';
 import f from '../data/formations.json';
 import pages from '../data/pages.json';
@@ -62,7 +63,7 @@ const pg = pages.formations;
               {c.pour && <p class="lic-pour">{c.pour}</p>}
               <ul class="lic-points">
                 {f.privileges.filter((p) => p.essentiel).map((p) => (
-                  <li><span class="ico" aria-hidden="true">{p.icone}</span><span><b>{p[c.k] || (c.code === 'PPL' ? p.ppl : p.lapl)}</b><small>{p.critere}</small></span></li>
+                  <li><span class="ico"><Icone nom={p.icone} /></span><span><b>{p[c.k] || (c.code === 'PPL' ? p.ppl : p.lapl)}</b><small>{p.critere}</small></span></li>
                 ))}
               </ul>
             </article>
@@ -145,8 +146,8 @@ const pg = pages.formations;
   .fonce .lic-pour { background: rgba(255,255,255,.08); color: #fff; }
   .lic-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
   .lic-points li { display: flex; gap: 12px; align-items: center; }
-  .ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #fff; font-size: 1.15rem; }
-  .fonce .ico { background: rgba(255,255,255,.1); }
+  .ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #fff; color: var(--accent-fonce); border: 1px solid var(--line); }
+  .fonce .ico { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); color: #9cc0ff; }
   .lic-points b { display: block; color: var(--ink); font-size: 1rem; line-height: 1.25; }
   .fonce .lic-points b { color: #fff; }
   .lic-points small { font-size: .78rem; color: var(--muted); }

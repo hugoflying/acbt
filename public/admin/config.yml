@@ -771,8 +771,18 @@ singletons:
       widget: text
       required: false
     - name: icone
-      label: Icône (un émoji)
-      widget: string
+      label: Icône
+      widget: select
+      options:
+      - avion
+      - personnes
+      - passagers
+      - monde
+      - qualification
+      - medical
+      - argent
+      - validite
+      - suite
       required: false
     - name: essentiel
       label: Affiché sur les cartes LAPL / PPL
