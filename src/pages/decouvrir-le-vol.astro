@@ -15,6 +15,14 @@ const n = (x: number) => x.toLocaleString('fr-FR');
 const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
 ---
 <Base univers="decouvrir" title="Baptême de l'air" description={`Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé, dès ${n(Math.min(...t.formules.flatMap((f) => f.prix.map((p) => p.prix))))} €.`}>
+  {/* Bon cadeau en fine bannière tout en haut : visible tout de suite, sans pousser les prix hors de l'écran */}
+  <a class="bandeau-cadeau" href={url('/contact?objet=Bon cadeau')}>
+    <span class="container">
+      <Icone nom="cadeau" />
+      <span class="bc-texte"><b>Offrez un baptême de l'air</b><span class="bc-detail">{d.bon_cadeau}</span></span>
+      <span class="bc-action"><span class="bc-long">Demander un bon cadeau</span><span class="bc-court">Bon cadeau</span> <span aria-hidden="true">→</span></span>
+    </span>
+  </a>
   <section class="offre">
     <div class="container offre-grid">
       <div class="intro" style={`--img: url('${photoUrl(pages.decouvrir.image)}')`}>
@@ -39,7 +47,6 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
             )}
           </article>
         ))}
-        <p class="cadeau-ligne"><Icone nom="cadeau" /><span>Toutes les formules existent en <a href={url('/contact?objet=Bon cadeau')}>bon cadeau</a>.</span></p>
       </div>
     </div>
   </section>
@@ -54,16 +61,6 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
       </div>
     </section>
   )}
-  <section class="section">
-    <div class="container cadeau" data-reveal>
-      <div>
-        <span class="eyebrow">Bon cadeau</span>
-        <h2>Offrez un baptême de l'air</h2>
-        <p class="lead">{d.bon_cadeau}</p>
-      </div>
-      <a class="btn btn-primary" href={url('/contact?objet=Bon cadeau')}>Demander un bon cadeau</a>
-    </div>
-  </section>
   {d.questions.length > 0 && (
     <section class="section soft">
       <div class="container">
@@ -120,7 +117,7 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
   @media (max-width: 599px) {
     .intro .eyebrow, .accroche { display: none; }
     .intro h1 { font-size: 1.55rem; margin: 0; }
-    .offre { padding: 14px 0 20px; }
+    .offre { padding: 8px 0 20px; }
     .offre-grid { gap: 12px; }
     .prix { gap: 8px; }
     .formule { padding: 12px 14px; border-radius: 16px; }
@@ -136,13 +133,25 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
     .montant span { display: none; }
     .formule h2 { font-size: 1.05rem; }
   }
-  .cadeau-ligne { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; font-size: .9rem; color: var(--muted); }
-  .cadeau-ligne :global(svg) { flex: none; width: 18px; height: 18px; color: var(--accent-fonce); }
-
-  .cadeau { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; background: var(--ink); color: #fff; border-radius: 24px; padding: clamp(24px, 4vw, 44px); }
-  .cadeau h2 { color: #fff; margin-bottom: 8px; }
-  .cadeau .lead { color: rgba(255,255,255,.82); margin: 0; max-width: 52ch; }
-  .cadeau .eyebrow { color: rgba(255,255,255,.7); }
+  .bandeau-cadeau { display: block; background: var(--ink); color: #fff; text-decoration: none; transition: background-color .2s; }
+  .bandeau-cadeau:hover { background: #17263d; color: #fff; }
+  .bandeau-cadeau .container { display: flex; align-items: center; gap: 12px; padding-top: 10px; padding-bottom: 10px; }
+  .bandeau-cadeau :global(svg) { flex: none; width: 20px; height: 20px; color: #ffb48a; }
+  .bc-texte { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; font-size: .92rem; }
+  .bc-texte b { font-family: var(--font-title); font-weight: 600; font-size: 1.02rem; }
+  .bc-detail { color: rgba(255,255,255,.75); }
+  .bc-action { margin-left: auto; flex: none; padding: 6px 14px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.55); font-weight: 600; font-size: .86rem; white-space: nowrap; transition: background-color .2s, color .2s; }
+  .bandeau-cadeau:hover .bc-action { background: #fff; color: var(--ink); }
+  .bc-court { display: none; }
+  @media (max-width: 899px) { .bc-detail { display: none; } }
+  @media (max-width: 599px) {
+    .bandeau-cadeau .container { padding-top: 5px; padding-bottom: 5px; gap: 8px; }
+    .bandeau-cadeau :global(svg) { width: 17px; height: 17px; }
+    .bc-texte b { font-size: .92rem; }
+    .bc-long { display: none; }
+    .bc-action { padding: 3px 10px; font-size: .78rem; }
+    .bc-court { display: inline; }
+  }
   .white .lead { margin-bottom: 24px; }
 
   /* Téléphone : réserver ou appeler reste toujours à portée de pouce */

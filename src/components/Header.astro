@@ -21,7 +21,7 @@ const actif = (href: string) =>
     </a>
     {Astro.slots.has('actions') && <div class="actions"><slot name="actions" /></div>}
     {/* Action principale d'un visiteur, toujours visible (sauf dans l'espace membre, qui a ses propres boutons) */}
-    {!path.startsWith(url('/membre')) && <a class="reserver" href={url('/contact?objet=Baptême')}>Réserver<span> un baptême</span></a>}
+    {!path.startsWith(url('/membre')) && <a class:list={['reserver', { doublon: path.startsWith(url('/decouvrir-le-vol')) }]} href={url('/contact?objet=Baptême')}>Réserver<span> un baptême</span></a>}
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Ouvrir le menu" />
     <label for="nav-toggle" class="burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <nav aria-label="Navigation principale">
@@ -67,11 +67,15 @@ const actif = (href: string) =>
   .reserver:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
   @media (max-width: 1180px) { .reserver span { display: none; } }
   @media (min-width: 901px) and (max-width: 1060px) { .logo small { display: none; } nav a { padding: 8px 10px; } }
+  /* Page baptême sur téléphone : la barre du bas propose déjà Réserver et Appeler */
+  @media (max-width: 899px) { .reserver.doublon { display: none; } }
   @media (max-width: 900px) { .reserver { order: 0; margin: 0 2px 0 auto; padding: 7px 14px; } }
   /* Boutons propres à une page (ex. « Déconnexion » dans l'espace membre) : à droite du menu sur ordinateur, avant le menu sur téléphone */
   .actions { order: 10; margin-left: 12px; display: flex; align-items: center; }
   @media (max-width: 900px) { .actions { order: 0; margin-left: auto; margin-right: 4px; } }
   @media (max-width: 400px) { .bar:has(.actions) .logo small { display: none; } }
+  /* Page baptême sur téléphone : sans le bouton Réserver, le nom complet du club reprend sa place */
+  @media (max-width: 400px) { .bar:has(.reserver.doublon) .logo small { display: block; } }
   @media (max-width: 900px) {
     .burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
     .burger span { width: 24px; height: 2px; background: var(--ink); transition: transform .25s, opacity .2s; }
