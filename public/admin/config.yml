@@ -737,6 +737,14 @@ singletons:
     label: Titre du comparatif LAPL / PPL
     widget: string
     required: false
+  - name: pour_qui_lapl
+    label: 'LAPL : pour qui ? (phrase en haut de la carte)'
+    widget: text
+    required: false
+  - name: pour_qui_ppl
+    label: 'PPL : pour qui ? (phrase en haut de la carte)'
+    widget: text
+    required: false
   - name: privileges
     label: Comparatif LAPL / PPL (une ligne par critère)
     widget: list
@@ -762,6 +770,26 @@ singletons:
       label: Avec le PPL (détail affiché en touchant la ligne)
       widget: text
       required: false
+    - name: icone
+      label: Icône
+      widget: select
+      options:
+      - avion
+      - personnes
+      - passagers
+      - monde
+      - qualification
+      - medical
+      - argent
+      - validite
+      - suite
+      required: false
+    - name: essentiel
+      label: Affiché sur les cartes LAPL / PPL
+      widget: boolean
+      required: false
+      hint: Les autres critères restent visibles dans « Voir toutes les différences ».
+      default: false
     required: false
   - name: privileges_note
     label: Note sous le comparatif
