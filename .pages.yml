@@ -168,6 +168,20 @@ content:
               - { name: titre, label: Titre, type: string }
               - { name: texte, label: Texte, type: string }
               - { name: image, label: Photo, type: image }
+          - name: bapteme
+            label: Bloc « Baptême de l'air » (les prix viennent de la rubrique Tarifs)
+            type: object
+            fields:
+              - { name: titre, label: Titre, type: string }
+              - { name: texte, label: Texte, type: text }
+              - { name: image, label: Photo, type: image }
+          - name: formation
+            label: Bloc « Devenir pilote » (les étapes viennent de la page Devenir pilote)
+            type: object
+            fields:
+              - { name: titre, label: Titre, type: string }
+              - { name: texte, label: Texte, type: text }
+              - { name: image, label: Photo, type: image }
           - { name: atouts_titre, label: Titre du bloc des chiffres clés, type: string }
           - name: atouts
             label: Les 3 chiffres clés

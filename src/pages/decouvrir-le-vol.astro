@@ -1,9 +1,11 @@
 ---
+import { photo, photoUrl } from '../lib/photo';
 // Page Baptêmes : les prix doivent être lisibles dès l'ouverture, sans faire défiler, sur téléphone comme sur tablette.
 // Tout vient du back-office : formules et prix (Tarifs), textes (Page Découvrir), titre et photo (Pages du site).
 import Base from '../layouts/Base.astro';
 import Etapes from '../components/Etapes.astro';
 import Faq from '../components/Faq.astro';
+import Icone from '../components/Icone.astro';
 import d from '../data/decouvrir.json';
 import pages from '../data/pages.json';
 import club from '../data/club.json';
@@ -15,7 +17,7 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
 <Base univers="decouvrir" title="Baptême de l'air" description={`Baptême de l'air, vol découverte et vol d'initiation à Beauvais-Tillé, dès ${n(Math.min(...t.formules.flatMap((f) => f.prix.map((p) => p.prix))))} €.`}>
   <section class="offre">
     <div class="container offre-grid">
-      <div class="intro" style={`--img: url('${asset(pages.decouvrir.image)}')`}>
+      <div class="intro" style={`--img: url('${photoUrl(pages.decouvrir.image)}')`}>
         <span class="eyebrow">Baptême de l'air à Beauvais</span>
         <h1>{pages.decouvrir.titre.replace(/-/g, '\u2011')}</h1>
         <p class="accroche">{d.accroche}</p>
@@ -37,7 +39,7 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
             )}
           </article>
         ))}
-        <p class="cadeau-ligne"><span aria-hidden="true">🎁</span> Toutes les formules existent en <a href={url('/contact?objet=Bon cadeau')}>bon cadeau</a>.</p>
+        <p class="cadeau-ligne"><Icone nom="cadeau" /><span>Toutes les formules existent en <a href={url('/contact?objet=Bon cadeau')}>bon cadeau</a>.</span></p>
       </div>
     </div>
   </section>
@@ -134,7 +136,8 @@ const tel = `tel:${club.telephone.replace(/\s/g, '')}`;
     .montant span { display: none; }
     .formule h2 { font-size: 1.05rem; }
   }
-  .cadeau-ligne { margin: 2px 0 0; font-size: .9rem; color: var(--muted); }
+  .cadeau-ligne { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; font-size: .9rem; color: var(--muted); }
+  .cadeau-ligne :global(svg) { flex: none; width: 18px; height: 18px; color: var(--accent-fonce); }
 
   .cadeau { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; background: var(--ink); color: #fff; border-radius: 24px; padding: clamp(24px, 4vw, 44px); }
   .cadeau h2 { color: #fff; margin-bottom: 8px; }

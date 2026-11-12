@@ -1,4 +1,5 @@
 ---
+import { photo, photoUrl } from '../../lib/photo';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import h from '../../data/historique.json';
@@ -14,10 +15,10 @@ import pages from '../../data/pages.json';
           <li data-reveal>
             <span class="annee">{e.annee}</span>
             <div class="contenu">
-              <h3>{e.titre}</h3>
+              <h2>{e.titre}</h2>
               <p>{e.texte}</p>
               {e.photos.length > 0 && (
-                <div class="gallery" data-stagger>{e.photos.map((p) => <a href={asset(p)} target="_blank"><img src={asset(p)} alt={`${e.titre}, ${e.annee}`} loading="lazy" /></a>)}</div>
+                <div class="gallery" data-stagger>{e.photos.map((p) => <a href={asset(p)} target="_blank"><img {...photo(p, '(min-width: 700px) 25vw, 50vw')} alt={`${e.titre}, ${e.annee}`} loading="lazy" /></a>)}</div>
               )}
             </div>
           </li>
@@ -27,6 +28,7 @@ import pages from '../../data/pages.json';
   </section>
 </Base>
 <style>
+  .contenu h2 { font-size: 1.3rem; }
   .frise { list-style: none; padding: 0; margin: 0; position: relative; }
   .frise::before { content: ''; position: absolute; left: 88px; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: color-mix(in srgb, var(--accent, var(--sun)) 35%, var(--line)); }
   .frise li { display: grid; grid-template-columns: 76px 1fr; gap: 36px; padding-bottom: 44px; position: relative; }

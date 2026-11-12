@@ -27,6 +27,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Les versions allégées des photos sont gardées d'une publication à l'autre : seules les nouvelles photos sont traitées.
+      - uses: actions/cache@v4
+        with:
+          path: public/opt
+          key: photos-${{ hashFiles('public/uploads/**', 'scripts/optimiser-images.mjs') }}
+          restore-keys: photos-
       - run: npm run build
         env:
           AVWX_TOKEN: ${{ secrets.AVWX_TOKEN }}

@@ -1,4 +1,5 @@
 ---
+import { photo, photoUrl } from '../../lib/photo';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import NewsCard from '../../components/NewsCard.astro';
@@ -42,7 +43,7 @@ import pages from '../../data/pages.json';
       </div>
       <div class="locaux" data-stagger>
         {locaux.map((l) => (
-          <figure><img src={asset(l.img)} alt={l.legende} loading="lazy" /><figcaption>{l.legende}</figcaption></figure>
+          <figure><img {...photo(l.img, '(min-width: 900px) 45vw, 100vw')} alt={l.legende} loading="lazy" /><figcaption>{l.legende}</figcaption></figure>
         ))}
       </div>
     </div>
@@ -59,7 +60,7 @@ import pages from '../../data/pages.json';
         {reperes.map((e) => (
           <li>
             <a href={url('/club/historique')}>
-              <div class="photo">{e.photos[0] && <img src={asset(e.photos[0])} alt="" loading="lazy" />}</div>
+              <div class="photo">{e.photos[0] && <img {...photo(e.photos[0], '(min-width: 900px) 20vw, 50vw')} alt="" loading="lazy" />}</div>
               <span class="annee">{e.annee}</span>
               <strong>{e.titre}</strong>
             </a>

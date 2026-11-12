@@ -20,6 +20,8 @@ const actif = (href: string) =>
       <span><strong>ACBT</strong><small>Aéroclub de Beauvais-Tillé</small></span>
     </a>
     {Astro.slots.has('actions') && <div class="actions"><slot name="actions" /></div>}
+    {/* Action principale d'un visiteur, toujours visible (sauf dans l'espace membre, qui a ses propres boutons) */}
+    {!path.startsWith(url('/membre')) && <a class="reserver" href={url('/contact?objet=Baptême')}>Réserver<span> un baptême</span></a>}
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Ouvrir le menu" />
     <label for="nav-toggle" class="burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <nav aria-label="Navigation principale">
@@ -60,6 +62,12 @@ const actif = (href: string) =>
   nav a.member { border: 1.5px solid var(--line); color: var(--ink); padding: 7px 16px; margin-left: 10px; font-size: .88rem; }
   nav a.member:hover { border-color: #6b4fbb; color: #6b4fbb; }
   .nav-toggle, .burger { display: none; }
+  .reserver { order: 10; margin-left: 10px; padding: 8px 16px; border-radius: 999px; background: color-mix(in srgb, var(--sun) 78%, black); color: #fff; font-weight: 600; font-size: .88rem; text-decoration: none; white-space: nowrap; transition: background-color .2s, transform .2s; }
+  .reserver:hover { background: var(--ink); color: #fff; transform: translateY(-1px); }
+  .reserver:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+  @media (max-width: 1180px) { .reserver span { display: none; } }
+  @media (min-width: 901px) and (max-width: 1060px) { .logo small { display: none; } nav a { padding: 8px 10px; } }
+  @media (max-width: 900px) { .reserver { order: 0; margin: 0 2px 0 auto; padding: 7px 14px; } }
   /* Boutons propres à une page (ex. « Déconnexion » dans l'espace membre) : à droite du menu sur ordinateur, avant le menu sur téléphone */
   .actions { order: 10; margin-left: 12px; display: flex; align-items: center; }
   @media (max-width: 900px) { .actions { order: 0; margin-left: auto; margin-right: 4px; } }

@@ -5,7 +5,7 @@
   --paper-2: #ede6d9;
   --white: #ffffff;
   --text: #1f2633;
-  --muted: #646b76;
+  --muted: #5b626d;
   --line: #ddd5c6;
   --sun: #e8703a;
   --sky: #2f6fd6;
@@ -13,8 +13,8 @@
   --accent: var(--sun);
   --radius: 18px;
   --max: 1200px;
-  --font-title: 'Outfit', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-title: 'Outfit Variable', 'Outfit', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
 }
 /* Version foncée de la couleur de rubrique, lisible en petit texte et sous du texte blanc (contraste AA).
    Définie sur body pour suivre la couleur de la rubrique. */
