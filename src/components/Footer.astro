@@ -24,6 +24,7 @@ const liens = [
     <div class="joindre">
       <a href={`tel:${club.telephone.replace(/\s/g, '')}`}>{club.telephone}</a>
       <a href={`mailto:${club.email}`}>{club.email}</a>
+      <a class="tel-seul" href={club.facebook} rel="noopener">Facebook</a>
     </div>
   </div>
   <nav class="container liens" aria-label="Plan du site">
@@ -35,7 +36,7 @@ const liens = [
     <p class="container partenaires">Nos partenaires : {club.partenaires.map((p, i) => <>{i > 0 && ' · '}<a href={p.lien} rel="noopener">{p.nom}</a></>)}</p>
   )}
   <div class="container legal">
-    <span>© {new Date().getFullYear()} {club.sigle || 'ACBT'} · association loi 1901 depuis 1979</span>
+    <span>© {new Date().getFullYear()} {club.sigle || 'ACBT'}<span class="long"> · association loi 1901 depuis 1979</span></span>
     <nav aria-label="Informations légales">
       <a href={url('/mentions-legales')}>Mentions légales</a>
       <a href={url('/mentions-legales#donnees')}>Données personnelles</a>
@@ -58,4 +59,16 @@ const liens = [
   .legal nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
   .legal a, .partenaires a { color: #9fb0c6; }
   .partenaires { margin: 14px auto 0; font-size: .8rem; }
+  .tel-seul { display: none; }
+  /* Téléphone : l'essentiel sur trois lignes. Les pages sont déjà dans le menu, l'adresse et les partenaires sur la page Le club. */
+  @media (max-width: 699px) {
+    .site-footer { padding: 16px 0 12px; font-size: .85rem; }
+    .logo-pied, .ident span, .liens, .partenaires, .long { display: none; }
+    .haut { gap: 4px 16px; }
+    .ident strong { font-size: .95rem; }
+    .joindre { gap: 2px 16px; font-weight: 500; }
+    .tel-seul { display: inline; }
+    .legal { margin-top: 10px; padding-top: 10px; border-top: 1px solid #1f2d42; gap: 2px 14px; font-size: .76rem; }
+    .legal nav { gap: 2px 14px; }
+  }
 </style>
