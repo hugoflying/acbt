@@ -3,7 +3,7 @@ import { photo, photoUrl } from '../../lib/photo';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import { getCollection } from 'astro:content';
-import { asset, url, tarifEnVigueur } from '../../lib/utils';
+import { asset, url } from '../../lib/utils';
 const avions = (await getCollection('avions', (a) => a.data.actif)).sort((a, b) => a.data.ordre - b.data.ordre);
 import pages from '../../data/pages.json';
 ---
@@ -12,7 +12,6 @@ import pages from '../../data/pages.json';
   <section class="section">
     <div class="container flotte" data-stagger>
       {avions.map((a, i) => {
-        const t = tarifEnVigueur(a.data.tarifs).actuel;
         return (
           <article class="avion" id={a.id}>
             <div class="photo">
@@ -33,12 +32,6 @@ import pages from '../../data/pages.json';
                 <li>{a.data.type}</li>
               </ul>
               {a.data.description && <p>{a.data.description}</p>}
-              {t && (
-                <div class="prix2">
-                  <div><span>Solo</span><b>{t.prix_heure}</b><small><span class="long">€ / heure</span><span class="court">€/h</span></small></div>
-                  {t.prix_instruction && <div class="inst"><span><span class="long">Double commande</span><span class="court">DC</span></span><b>{t.prix_instruction}</b><small><span class="long">€ / heure</span><span class="court">€/h</span></small></div>}
-                </div>
-              )}
             </div>
           </article>
         );
@@ -71,14 +64,6 @@ import pages from '../../data/pages.json';
   .puces li { font-size: .8rem; padding: 3px 10px; border-radius: 999px; background: var(--paper); color: var(--text); }
   .infos p { margin: 0 0 14px; color: var(--muted); font-size: .93rem; }
   /* Mêmes cases « Solo » / « Double commande » que sur la page Tarifs */
-  .prix2 { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .prix2 > div { border-radius: 14px; padding: 12px 14px; background: var(--paper); display: flex; flex-direction: column; }
-  .prix2 .inst { background: var(--ink); color: #fff; }
-  .prix2 span { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; opacity: .75; }
-  .prix2 b { font-family: var(--font-title); font-size: 2.1rem; font-weight: 600; line-height: 1.1; }
-  .prix2 small { font-size: .78rem; opacity: .75; }
-  .court { display: none; }
-  .prix2 small span { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: inherit; opacity: 1; }
   /* Téléphone : une carte avion entière tient dans l'écran, sans défiler */
   @media (max-width: 599px) {
     /* Un avion par écran : la carte prend toute la hauteur visible sous le bandeau, et le défilement s'arrête sur chaque avion */
@@ -89,17 +74,11 @@ import pages from '../../data/pages.json';
     .immat { left: 10px; bottom: 10px; font-size: .9rem; padding: 3px 10px; }
     .vignettes { gap: 3px; padding: 3px; }
     .vignettes img { aspect-ratio: 16 / 9; }
-    .infos { padding: 10px 14px 14px; }
+    .infos { padding: 10px 14px 14px; flex: none; }
     .infos .eyebrow { display: none; }
     .infos h2 { font-size: 1.15rem; margin-bottom: 6px; }
     .puces { margin-bottom: 8px; }
     .puces li:last-child { display: none; }
-    .infos p { font-size: .86rem; line-height: 1.45; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .prix2 { gap: 8px; }
-    .prix2 > div { flex-direction: row; align-items: baseline; gap: 6px; padding: 8px 12px; border-radius: 12px; }
-    .prix2 b { font-size: 1.5rem; }
-    .court { display: inline; } .long { display: none; }
-    .prix2 > div > span { margin-right: auto; }
-    .prix2 small { white-space: nowrap; }
+    .infos p { font-size: .86rem; line-height: 1.45; margin-bottom: 10px; }
   }
 </style>
