@@ -71,8 +71,9 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
   </form>
 
   <section class="resultat" id="estimation" aria-label="Votre estimation">
-    <div aria-live="polite"><p class="r-label">Votre licence <span data-r="licence">LAPL</span>, aides déduites, environ</p>
-    <p class="r-total"><b data-r="reste">—</b> €</p></div>
+    <div aria-live="polite"><p class="r-label">Votre licence <span data-r="licence">LAPL</span><span data-r="aides-label">, aides déduites</span>, environ</p>
+    <p class="r-total"><b data-r="mois-montant">—</b> €<small> / mois</small></p>
+    <p class="r-etale">pendant <span data-r="duree">—</span>, soit <b data-r="reste">—</b> € au total</p></div>
     <p class="r-sous" data-r="sous"></p>
     <ul class="r-lignes">
       <li class="total"><span>Total avant aides</span><b data-r="brut"></b></li>
@@ -97,7 +98,7 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
     </details>
   </section>
 </div>
-<a class="mini" href="#estimation" hidden><span>Votre estimation</span><b><span data-r="mini">—</span> €</b><span class="voir">Voir le détail ↓</span></a>
+<a class="mini" href="#estimation" hidden><span>Votre budget</span><b><span data-r="mini">—</span> €<small> / mois</small></b><span class="voir">Voir le détail ↓</span></a>
 <script type="application/json" id="simu-donnees" set:html={JSON.stringify(donnees)} />
 
 <script>
@@ -140,9 +141,14 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
     const r = calcul(L, f), m = calcul(L, f, true);
     $('licence').textContent = L.nom;
     $('reste').textContent = arrondi(r.reste).toLocaleString('fr-FR');
-    document.querySelector('[data-r="mini"]')!.textContent = $('reste').textContent;
+    // Montant mis en avant : la dépense par mois, plus parlante qu'un total sur plusieurs années.
+    const parMois = (Math.round(r.reste / r.mois / 5) * 5).toLocaleString('fr-FR');
+    $('mois-montant').textContent = parMois;
+    document.querySelector('[data-r="mini"]')!.textContent = parMois;
+    $('aides-label').hidden = !r.aides;
     const duree = r.mois < 12 ? `${r.mois} mois` : `${Math.floor(r.mois / 12)} an${r.mois >= 24 ? 's' : ''}${r.mois % 12 ? ` et ${r.mois % 12} mois` : ''}`;
-    $('sous').textContent = `${r.hd + r.hs} h de vol en ${duree} environ. Au minimum réglementaire (${m.hd + m.hs} h) : ${eur(arrondi(m.reste))}.`;
+    $('duree').textContent = duree;
+    $('sous').textContent = `Calcul sur ${r.hd + r.hs} h de vol. Au minimum réglementaire (${m.hd + m.hs} h) : ${eur(arrondi(m.reste))} au total.`;
     $('hd').textContent = `${r.hd} h × ${D.double} €`;
     $('hs').textContent = `${r.hs} h × ${D.solo} €`;
     $('double').textContent = eur(r.double);
@@ -165,14 +171,17 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
       astuce.textContent = 'Bon à savoir : on peut commencer avant 16 ans, voler seul à bord dès 16 ans et passer la licence à 17 ans.';
     } else astuce.hidden = true;
   }
-  form.addEventListener('change', majour);
-  majour();
-  // Téléphone : tant que les questions sont à l'écran et le résultat plus bas, un rappel du total reste visible en bas.
+  // Téléphone : le rappel en bas d'écran n'apparaît qu'après une première réponse du visiteur,
+  // tant que les questions sont à l'écran et le résultat plus bas.
   const mini = document.querySelector<HTMLElement>('.mini')!;
   const vus = new Map<Element, boolean>();
+  let repondu = false;
+  const majMini = () => { mini.hidden = !(repondu && vus.get(form) && !vus.get(document.getElementById('estimation')!)); };
+  form.addEventListener('change', () => { repondu = true; majour(); majMini(); });
+  majour();
   const io = new IntersectionObserver((entrees) => {
     entrees.forEach((e) => vus.set(e.target, e.isIntersecting));
-    mini.hidden = !(vus.get(form) && !vus.get(document.getElementById('estimation')!));
+    majMini();
   });
   io.observe(form); io.observe(document.getElementById('estimation')!);
 </script>
@@ -219,6 +228,10 @@ const initiation = t.formules.find((f) => f.prix.length === 1)?.prix[0];
   .r-label span { color: #fff; font-weight: 600; }
   .r-total { margin: 2px 0 4px; font-family: var(--font-title); font-weight: 700; font-size: clamp(2.4rem, 5vw, 3rem); line-height: 1; color: #fff; }
   .r-total b { color: #ffb48a; }
+  .r-total small, .mini small { font-size: .45em; font-weight: 500; color: #cfd6e0; }
+  .mini small { font-size: .6em; }
+  .r-etale { margin: 0 0 6px; font-size: .95rem; color: #e6ecf3; }
+  .r-etale b { color: #fff; }
   .r-sous { margin: 0 0 16px; font-size: .88rem; color: #9fb0c6; }
   .r-lignes { list-style: none; margin: 0 0 14px; padding: 0; font-size: .9rem; }
   .r-lignes li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.1); }
