@@ -47,7 +47,7 @@
       "texte": "À votre rythme, avec des instructeurs bénévoles. Commencez par un vol d'initiation, puis estimez votre budget en une minute.",
       "image": "/uploads/actualites/2022/lache-elisa/01.jpg"
     },
-    "atouts_titre": "Un club, pas une entreprise",
+    "atouts_titre": "Un club de passionnés",
     "atouts": [
       {
         "chiffre": "100 %",
@@ -85,7 +85,7 @@
   },
   "tarifs": {
     "titre": "Les tarifs du club",
-    "texte": "Une association, pas une entreprise : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.",
+    "texte": "Une association de passionnés : nos tarifs couvrent l'entretien des avions et le fonctionnement du club. Les instructeurs sont bénévoles.",
     "image": "/uploads/avions/dr400-120-02.jpg"
   },
   "club": {
